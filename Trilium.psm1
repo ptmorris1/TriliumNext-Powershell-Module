@@ -102,7 +102,7 @@ function Connect-TriliumAuth {
     process {
         try {
             if ($SkipCertCheck -eq 'Yes') {
-                    $PSDefaultParameterValues = @{'Invoke-RestMethod:SkipCertificateCheck' = $true
+                $PSDefaultParameterValues = @{'Invoke-RestMethod:SkipCertificateCheck' = $true
                 }
             }
             $baseURL = $baseURL + '/etapi'
@@ -218,7 +218,7 @@ function Get-TriliumInfo {
         }
     }
     begin {
-        if (!$global:TriliumCreds) { Write-Error -Message 'Need to run: Connect-TriliumAuth';exit }
+        if (!$global:TriliumCreds) { Write-Error -Message 'Need to run: Connect-TriliumAuth'; exit }
     }
     end {
         return
@@ -240,7 +240,7 @@ function Get-TriliumRootNote {
     This function requires that the authentication has been set using Connect-TriliumAuth.
     #>
     # Set headers and make request to get root note
-    process{
+    process {
         try {
             $TriliumHeaders = @{}
             $TriliumHeaders.Add('Authorization', "$($TriliumCreds.Authorization)")
@@ -250,7 +250,7 @@ function Get-TriliumRootNote {
         }
     }
     begin {
-        if (!$global:TriliumCreds) { Write-Error -Message 'Need to run: Connect-TriliumAuth';exit }
+        if (!$global:TriliumCreds) { Write-Error -Message 'Need to run: Connect-TriliumAuth'; exit }
     }
     end {
         return
@@ -337,11 +337,11 @@ function Find-TriliumNote {
     .NOTES
     This function requires that the authentication has been set using Connect-TriliumAuth.
     #>
-    [CmdletBinding(DefaultParameterSetName = 'default',SupportsShouldProcess=$true)]
+    [CmdletBinding(SupportsShouldProcess = $true)]
     param(
         # Search term
-        [Parameter(Mandatory = $true, ParameterSetName = 'Limit')]
         [Parameter(Mandatory = $true, ParameterSetName = 'default')]
+        [Parameter(Mandatory = $true, ParameterSetName = 'Limit')]
         [ValidateNotNullOrEmpty()]
         [string]$Search,
         # Optional label to filter search
@@ -362,12 +362,10 @@ function Find-TriliumNote {
         [ValidateNotNullOrEmpty()]
         [string]$AncestorNoteId,
         # Limit the number of search results
-        [Parameter(Mandatory = $false, ParameterSetName = 'Limit')]
-        [Parameter(Mandatory = $false, ParameterSetName = 'default')]
+        [Parameter(Mandatory = $true, ParameterSetName = 'Limit')]
         [ValidateNotNullOrEmpty()]
         [Int64]$Limit,
         [Parameter(Mandatory = $true, ParameterSetName = 'Limit')]
-        [Parameter(Mandatory = $false, ParameterSetName = 'default')]
         [ValidateSet('title', 'publicationDate', 'isProtected', 'isArchived', 'dateCreated', 'dateModified', 'utcDateCreated', 'utcDateModified', 'parentCount', 'childrenCount', 'attributeCount', 'labelCount', 'ownedLabelCount', 'relationCount', 'ownedRelationCount', 'relationCountIncludingLinks', 'ownedRelationCountIncludingLinks', 'targetRelationCount', 'targetRelationCountIncludingLinks', 'contentSize', 'contentAndAttachmentsSize', 'contentAndAttachmentsAndRevisionsSize', 'revisionCount')]
         [string]$OrderBy
     )
@@ -393,14 +391,14 @@ function Find-TriliumNote {
         $TriliumHeaders.Add('accept', 'application/json; charset=utf-8')
         $uri = "$($TriliumCreds.URL)/notes?search=$($Search)&fastSearch=$($FastSearch.ToString().ToLower())&includeArchivedNotes=$($IncludeArchivedNotes.ToString().ToLower())&ancestorNoteId=$AncestorNoteId&orderBy=$OrderBy&limit=$($Limit)&debug=$($DebugOn.ToString().ToLower())"
 
-        if ($PSCmdlet.ShouldProcess($uri, "Searching")){
+        if ($PSCmdlet.ShouldProcess($uri, 'Searching')) {
             # Make request to find notes
             Invoke-RestMethod -Uri $uri -Headers $TriliumHeaders -SkipHeaderValidation
         }
     }
 
     begin {
-        if (!$global:TriliumCreds) { Write-Error -Message 'Need to run: Connect-TriliumAuth';exit }
+        if (!$global:TriliumCreds) { Write-Error -Message 'Need to run: Connect-TriliumAuth'; exit }
     }
 
     end {
@@ -435,7 +433,7 @@ function Get-TriliumNoteDetail {
         # Note ID to get details for
         [Parameter(Mandatory = $True)][ValidateNotNullOrEmpty()][string]$NoteID
     )
-    process{
+    process {
         # Set headers and make request to get note details
         $TriliumHeaders = @{}
         $TriliumHeaders.Add('Authorization', "$($TriliumCreds.Authorization)")
@@ -443,7 +441,7 @@ function Get-TriliumNoteDetail {
         Invoke-RestMethod -Uri $uri -Headers $TriliumHeaders -SkipHeaderValidation
     }
     begin {
-        if (!$global:TriliumCreds) { Write-Error -Message 'Need to run: Connect-TriliumAuth';exit }
+        if (!$global:TriliumCreds) { Write-Error -Message 'Need to run: Connect-TriliumAuth'; exit }
 
     }
     end {
@@ -507,7 +505,7 @@ function Export-TriliumNote {
         }
     }
     begin {
-        if (!$global:TriliumCreds) { Write-Error -Message 'Need to run: Connect-TriliumAuth';exit }
+        if (!$global:TriliumCreds) { Write-Error -Message 'Need to run: Connect-TriliumAuth'; exit }
 
     }
     end {
@@ -582,7 +580,7 @@ function New-TriliumNote {
         }
     }
     begin {
-        if (!$global:TriliumCreds) { Write-Error -Message 'Need to run: Connect-TriliumAuth';exit }
+        if (!$global:TriliumCreds) { Write-Error -Message 'Need to run: Connect-TriliumAuth'; exit }
     }
     end {
         return
@@ -627,7 +625,7 @@ function Remove-TriliumNote {
         }
     }
     begin {
-        if (!$global:TriliumCreds) { Write-Error -Message 'Need to run: Connect-TriliumAuth';exit }
+        if (!$global:TriliumCreds) { Write-Error -Message 'Need to run: Connect-TriliumAuth'; exit }
     }
     end {
         return
@@ -677,7 +675,7 @@ function Get-TriliumNoteContent {
         }
     }
     begin {
-        if (!$global:TriliumCreds) { Write-Error -Message 'Need to run: Connect-TriliumAuth';exit }
+        if (!$global:TriliumCreds) { Write-Error -Message 'Need to run: Connect-TriliumAuth'; exit }
 
     }
     end {
@@ -742,7 +740,7 @@ function Set-TriliumNoteContent {
         }
     }
     begin {
-        if (!$global:TriliumCreds) { Write-Error -Message 'Need to run: Connect-TriliumAuth';exit }
+        if (!$global:TriliumCreds) { Write-Error -Message 'Need to run: Connect-TriliumAuth'; exit }
 
     }
     end {
@@ -805,7 +803,7 @@ function Import-TriliumNoteZip {
             try {
                 $uri = "$($TriliumCreds.URL)/notes/$NoteID/import"
                 $TriliumHeaders.Add('Content-Transfer-Encoding', 'binary')
-                if ($PSCmdlet.ShouldProcess($uri, "Importing")) {
+                if ($PSCmdlet.ShouldProcess($uri, 'Importing')) {
                     Invoke-RestMethod -Uri $uri -Headers $TriliumHeaders -Method Post -SkipHeaderValidation -Body $fileBytes -ContentType 'application/octet-stream'
                 }
             } catch {
@@ -816,7 +814,7 @@ function Import-TriliumNoteZip {
         }
     }
     begin {
-        if (!$global:TriliumCreds) { Write-Error -Message 'Need to run: Connect-TriliumAuth';exit }
+        if (!$global:TriliumCreds) { Write-Error -Message 'Need to run: Connect-TriliumAuth'; exit }
         # Validate that the ZipPath is a correct Windows path with .zip extension
         if ($ZipPath -notmatch '^[a-zA-Z]:\\(?:[^\\\/:*?"<>|\r\n]+\\)*[^\\\/:*?"<>|\r\n]+\.(zip)$') {
             throw 'Invalid path. Please provide a valid Windows path with a .zip extension. `nExample: C:\temp\import.zip'
@@ -875,7 +873,7 @@ function New-TriliumNoteRevision {
         }
     }
     begin {
-        if (!$global:TriliumCreds) { Write-Error -Message 'Need to run: Connect-TriliumAuth';exit }
+        if (!$global:TriliumCreds) { Write-Error -Message 'Need to run: Connect-TriliumAuth'; exit }
 
     }
     end {
@@ -967,7 +965,7 @@ function Copy-TriliumNote {
         }
     }
     begin {
-        if (!$global:TriliumCreds) { Write-Error -Message 'Need to run: Connect-TriliumAuth';exit }
+        if (!$global:TriliumCreds) { Write-Error -Message 'Need to run: Connect-TriliumAuth'; exit }
 
     }
     end {
@@ -1018,7 +1016,7 @@ function Get-TriliumBranch {
         }
     }
     begin {
-        if (!$global:TriliumCreds) { Write-Error -Message 'Need to run: Connect-TriliumAuth';exit }
+        if (!$global:TriliumCreds) { Write-Error -Message 'Need to run: Connect-TriliumAuth'; exit }
 
     }
     end {
@@ -1072,7 +1070,7 @@ function Remove-TriliumBranch {
         }
     }
     begin {
-        if (!$global:TriliumCreds) { Write-Error -Message 'Need to run: Connect-TriliumAuth';exit }
+        if (!$global:TriliumCreds) { Write-Error -Message 'Need to run: Connect-TriliumAuth'; exit }
 
     }
     end {
@@ -1126,7 +1124,7 @@ function New-TriliumBackup {
         }
     }
     begin {
-        if (!$global:TriliumCreds) { Write-Error -Message 'Need to run: Connect-TriliumAuth';exit }
+        if (!$global:TriliumCreds) { Write-Error -Message 'Need to run: Connect-TriliumAuth'; exit }
 
     }
     end {
@@ -1178,7 +1176,7 @@ function Get-TriliumAttribute {
     }
 
     begin {
-        if (!$global:TriliumCreds) { Write-Error -Message 'Need to run: Connect-TriliumAuth';exit }
+        if (!$global:TriliumCreds) { Write-Error -Message 'Need to run: Connect-TriliumAuth'; exit }
     }
 
     end {
@@ -1231,7 +1229,7 @@ function Remove-TriliumAttribute {
     }
 
     begin {
-        if (!$global:TriliumCreds) { Write-Error -Message 'Need to run: Connect-TriliumAuth';exit }
+        if (!$global:TriliumCreds) { Write-Error -Message 'Need to run: Connect-TriliumAuth'; exit }
     }
 
     end {
@@ -1284,7 +1282,7 @@ function Update-TriliumNoteOrder {
     }
 
     begin {
-        if (!$global:TriliumCreds) { Write-Error -Message 'Need to run: Connect-TriliumAuth';exit }
+        if (!$global:TriliumCreds) { Write-Error -Message 'Need to run: Connect-TriliumAuth'; exit }
     }
 
     end {
