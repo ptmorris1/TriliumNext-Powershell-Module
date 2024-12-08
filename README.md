@@ -5,26 +5,32 @@
 - [Installation](#installation)
 - [Authentication](#authentication)
 - [Commands](#commands)
-  - [Connect-TriliumAuth](#connect-triliumauth)
-  - [Disconnect-TriliumAuth](#disconnect-triliumauth)
-  - [Get-TriliumInfo](#get-triliuminfo)
-  - [Get-TriliumRootNote](#get-triliumrootnote)
-  - [Find-TriliumNote](#find-triliumnote)
-  - [Get-TriliumNoteDetails](#get-triliumnotedetails)
-  - [Export-TriliumNote](#export-triliumnote)
-  - [New-TriliumNote](#new-triliumnote)
-  - [Remove-TriliumNote](#remove-triliumnote)
-  - [Get-TriliumNoteContent](#get-triliumnotecontent)
-  - [Set-TriliumNoteContent](#set-triliumnotecontent)
-  - [Import-TriliumNoteZip](#import-triliumnotezip)
-  - [New-TriliumNoteRevision](#new-triliumnoterevision)
-  - [Copy-TriliumNote](#copy-triliumnote)
-  - [Get-TriliumBranch](#get-triliumbranch)
-  - [Remove-TriliumBranch](#remove-triliumbranch)
-  - [New-TriliumBackup](#new-triliumbackup)
-  - [Get-TriliumAttribute](#get-triliumattribute)
-  - [Remove-TriliumAttribute](#remove-triliumattribute)
-  - [Update-TriliumNoteOrder](#update-triliumnoteorder)
+- [Connect-TriliumAuth](#connect-triliumauth)
+    - [Examples](#examples)
+- [Disconnect-TriliumAuth](#disconnect-triliumauth)
+  - [Examples](#examples-1)
+- [Get-TriliumInfo](#get-triliuminfo)
+    - [Examples](#examples-2)
+- [Get-TriliumRootNote](#get-triliumrootnote)
+  - [Examples](#examples-3)
+- [Find-TriliumNote](#find-triliumnote)
+  - [Examples](#examples-4)
+  - [Parameters](#parameters)
+- [Get-TriliumNoteDetails](#get-triliumnotedetails)
+- [Export-TriliumNote](#export-triliumnote)
+- [New-TriliumNote](#new-triliumnote)
+- [Remove-TriliumNote](#remove-triliumnote)
+- [Get-TriliumNoteContent](#get-triliumnotecontent)
+- [Set-TriliumNoteContent](#set-triliumnotecontent)
+- [Import-TriliumNoteZip](#import-triliumnotezip)
+- [New-TriliumNoteRevision](#new-triliumnoterevision)
+- [Copy-TriliumNote](#copy-triliumnote)
+- [Get-TriliumBranch](#get-triliumbranch)
+- [Remove-TriliumBranch](#remove-triliumbranch)
+- [New-TriliumBackup](#new-triliumbackup)
+- [Get-TriliumAttribute](#get-triliumattribute)
+- [Remove-TriliumAttribute](#remove-triliumattribute)
+- [Update-TriliumNoteOrder](#update-triliumnoteorder)
 
 ## Overview
 
@@ -41,11 +47,9 @@ help Connect-TriliumAuth
 
 ## Installation
 
-To install the module, download the `Trilium.psm1` file and place it in your PowerShell modules directory.
-
 ```powershell
 # Example installation command
-Install-Module -Name TriliumNext -Scope CurrentUser
+Install-Module -Name Trilium -Scope CurrentUser
 ```
 
 ## Authentication

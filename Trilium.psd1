@@ -1,7 +1,7 @@
 @{
     ModuleVersion   = '0.1.0'
     Guid            = '5d0452a3-0c40-4681-b12c-070eccc905dc'
-    CompanyName     = ''
+    CompanyName     = 'Patrick Morris '
     Copyright       = '2024 Patrick Morris'
     Author          = 'Patrick Morris'
     AliasesToExport = '*'
