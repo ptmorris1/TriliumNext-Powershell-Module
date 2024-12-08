@@ -46,6 +46,7 @@ help Connect-TriliumAuth
 [ETAPI OpenAPI format](https://github.com/zadam/trilium/blob/master/src/etapi/etapi.openapi.yaml)
 
 ## Installation
+https://www.powershellgallery.com/packages/Trilium/
 
 ```powershell
 # Example installation command
