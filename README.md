@@ -132,6 +132,8 @@ Output
 
 ## Find-TriliumNote
 Finds a Trilium note based on search criteria.
+
+Advanced functions can be used.  See [documentation](https://github.com/zadam/trilium/wiki/Search)
 ### Examples
 ```powershell
 # Simple text based search, searches everything.
