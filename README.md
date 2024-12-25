@@ -2,15 +2,12 @@
 
 ## Table of Contents<!-- omit in toc -->
 - [Overview](#overview)
+- [ChangeLog](#changelog)
 - [Installation](#installation)
 - [Authentication](#authentication)
 - [Commands](#commands)
 - [Connect-TriliumAuth](#connect-triliumauth)
     - [Examples](#examples)
-      - [- Option 1](#--option-1)
-    - [- Option 2](#--option-2)
-    - [- Option 3](#--option-3)
-    - [- Option 4](#--option-4)
 - [Disconnect-TriliumAuth](#disconnect-triliumauth)
   - [Examples](#examples-1)
 - [Get-TriliumInfo](#get-triliuminfo)
@@ -49,6 +46,21 @@ help Connect-TriliumAuth
 [ETAPI Docs](https://github.com/zadam/trilium/wiki/ETAPI)\
 [ETAPI OpenAPI format](https://github.com/zadam/trilium/blob/master/src/etapi/etapi.openapi.yaml)
 
+## ChangeLog
+### Trilium 0.1.0<!-- omit in toc -->
+* Initial Release of Trilium, including:
+  * A command for almost every documented TriliumNext API.
+---
+### Trilium 0.2.0<!-- omit in toc -->
+* Fixed paramter sets in Find-TriliumNote
+  * orderBy and Limit must be used together.
+* Updated\added some documentation.
+---
+### Trilium 0.3.0<!-- omit in toc -->
+* Added check for / at the end of base URL.
+* updated Connect-TriliumAuth to use -SkipCertCheck switch.
+* Added -SkipCertCheck switch to ALL functions.
+
 ## Installation
 https://www.powershellgallery.com/packages/Trilium/
 
@@ -76,23 +88,23 @@ Sets the authentication to a Trilium instance for API calls.
 
 #### Examples
 
-##### - Option 1
+#### - Option 1<!-- omit in toc -->
 ```powershell
 # This command will ask for the ETAPITOKEN using a masked input for better security.
 Connect-TriliumAuth -BaseUrl 'https://trilium.MyDomain.com' -Auth ETAPITOKEN
 ```
 
-#### - Option 2
+#### - Option 2<!-- omit in toc -->
 ```powershell
-# This command will ask for the password using a masked input  for better security
+# This command will ask for the password using a masked input for better security
 Connect-TriliumAuth -BaseUrl 'https://trilium.domain.com' -Auth Password
 ```
-#### - Option 3
+#### - Option 3<!-- omit in toc -->
 ```powershell
 # This command will allow you to supply the ETAPITOKEN in plain text, no extra input.
 Connect-TriliumAuth -BaseUrl 'https://trilium.domain.com' -EtapiToken myEtapiTokenstring
 ```
-#### - Option 4
+#### - Option 4<!-- omit in toc -->
 ```powershell
 # This command will allow you to supply the password in plain text, no extra input.
 Connect-TriliumAuth -BaseUrl 'https://trilium.domain.com' -Password myPassword

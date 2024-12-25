@@ -87,8 +87,7 @@ function Connect-TriliumAuth {
         [Parameter(Mandatory = $false, ParameterSetName = 'Auth', Position = 2)]
         [Parameter(Mandatory = $false, ParameterSetName = 'PlainText', Position = 2)]
         [Parameter(Mandatory = $false, ParameterSetName = 'Token', Position = 2)]
-        [ValidateSet('Yes', 'No')]
-        [string]$SkipCertCheck = 'Yes',
+        [switch]$SkipCertCheck,
         [Parameter(Mandatory = $True, ParameterSetName = 'PlainText', Position = 1)]
         [string]$Password,
         [Parameter(Mandatory = $True, ParameterSetName = 'Token', Position = 1)]
@@ -101,9 +100,13 @@ function Connect-TriliumAuth {
 
     process {
         try {
-            if ($SkipCertCheck -eq 'Yes') {
+            if ($SkipCertCheck -eq $true) {
                 $PSDefaultParameterValues = @{'Invoke-RestMethod:SkipCertificateCheck' = $true
                 }
+            }
+            # Ensure baseURL doesn't have a trailing slash
+            if ($baseURL.EndsWith('/')) {
+                $baseURL = $baseURL.TrimEnd('/')
             }
             $baseURL = $baseURL + '/etapi'
             if ($PSCmdlet.ParameterSetName -eq 'Auth' -and $Auth -eq 'password') {
@@ -160,23 +163,43 @@ function Disconnect-TriliumAuth {
     .DESCRIPTION
     This function removes the authentication for TriliumNext. If using password authentication, it logs out. If using ETAPI token, it displays an error.
 
+    .PARAMETER SkipCertCheck
+    Option to skip certificate check.
+
+        Required?                    false
+        Position?                    Named
+        Default value                None
+        Accept pipeline input?       false
+        Accept wildcard characters?  false
+
     .EXAMPLE
     Disconnect-TriliumAuth
 
     .NOTES
     This function should be called when you want to clear the stored credentials. It will also log out if password authentication was used.
     #>
+    [CmdletBinding()]
+    param(
+        [switch]$SkipCertCheck
+    )
     # Check if using password authentication and log out, otherwise display error
     process {
-        if ($TriliumCreds.token -eq 'pass') {
-            $TriliumHeaders = @{}
-            $TriliumHeaders.Add('Authorization', "$($TriliumCreds.Authorization)")
-            Invoke-RestMethod -Uri "$($TriliumCreds.URL)/auth/logout" -Headers $TriliumHeaders -SkipHeaderValidation -Method Post
-            Remove-Variable TriliumCreds
-            Write-Output 'Removed ETAPI tokena and global variable'
-        } else {
-            Write-Output 'Using ETAPI key, will remove global variable'
-            Remove-Variable TriliumCreds
+        try {
+            if ($SkipCertCheck -eq $true) {
+                $PSDefaultParameterValues = @{'Invoke-RestMethod:SkipCertificateCheck' = $true }
+            }
+            if ($TriliumCreds.token -eq 'pass') {
+                $TriliumHeaders = @{}
+                $TriliumHeaders.Add('Authorization', "$($TriliumCreds.Authorization)")
+                Invoke-RestMethod -Uri "$($TriliumCreds.URL)/auth/logout" -Headers $TriliumHeaders -SkipHeaderValidation -Method Post
+                Remove-Variable TriliumCreds
+                Write-Output 'Removed ETAPI tokena and global variable'
+            } else {
+                Write-Output 'Using ETAPI key, will remove global variable'
+                Remove-Variable TriliumCreds
+            }
+        } catch {
+            $_.Exception.Response
         }
     }
 
@@ -197,15 +220,31 @@ function Get-TriliumInfo {
     .DESCRIPTION
     This function retrieves the application info for TriliumNext.
 
+    .PARAMETER SkipCertCheck
+    Option to skip certificate check.
+
+        Required?                    false
+        Position?                    Named
+        Default value                None
+        Accept pipeline input?       false
+        Accept wildcard characters?  false
+
     .EXAMPLE
     Get-TriliumInfo
 
     .NOTES
     This function requires that the authentication has been set using Connect-TriliumAuth.
     #>
+    [CmdletBinding()]
+    param(
+        [switch]$SkipCertCheck
+    )
     # Set headers and make request to get app info
     process {
         try {
+            if ($SkipCertCheck -eq $true) {
+                $PSDefaultParameterValues = @{'Invoke-RestMethod:SkipCertificateCheck' = $true }
+            }
             $TriliumHeaders = @{}
             $TriliumHeaders.Add('Authorization', "$($TriliumCreds.Authorization)")
             try {
@@ -233,15 +272,31 @@ function Get-TriliumRootNote {
     .DESCRIPTION
     This function retrieves the root note of TriliumNext.
 
+    .PARAMETER SkipCertCheck
+    Option to skip certificate check.
+
+        Required?                    false
+        Position?                    Named
+        Default value                None
+        Accept pipeline input?       false
+        Accept wildcard characters?  false
+
     .EXAMPLE
     Get-TriliumRootNote
 
     .NOTES
     This function requires that the authentication has been set using Connect-TriliumAuth.
     #>
+    [CmdletBinding()]
+    param(
+        [switch]$SkipCertCheck
+    )
     # Set headers and make request to get root note
     process {
         try {
+            if ($SkipCertCheck -eq $true) {
+                $PSDefaultParameterValues = @{'Invoke-RestMethod:SkipCertificateCheck' = $true }
+            }
             $TriliumHeaders = @{}
             $TriliumHeaders.Add('Authorization', "$($TriliumCreds.Authorization)")
             Invoke-RestMethod -Uri "$($TriliumCreds.URL)/notes/root" -Headers $TriliumHeaders -SkipHeaderValidation
@@ -328,6 +383,24 @@ function Find-TriliumNote {
         Accept pipeline input?       false
         Accept wildcard characters?  false
 
+    .PARAMETER OrderBy
+    The field to order the search results by.
+
+        Required?                    true
+        Position?                    7
+        Default value                None
+        Accept pipeline input?       false
+        Accept wildcard characters?  false
+
+    .PARAMETER SkipCertCheck
+    Option to skip certificate check.
+
+        Required?                    false
+        Position?                    Named
+        Default value                None
+        Accept pipeline input?       false
+        Accept wildcard characters?  false
+
     .EXAMPLE
     Find-TriliumNote -Search "meeting notes"
 
@@ -367,33 +440,41 @@ function Find-TriliumNote {
         [Int64]$Limit,
         [Parameter(Mandatory = $true, ParameterSetName = 'Limit')]
         [ValidateSet('title', 'publicationDate', 'isProtected', 'isArchived', 'dateCreated', 'dateModified', 'utcDateCreated', 'utcDateModified', 'parentCount', 'childrenCount', 'attributeCount', 'labelCount', 'ownedLabelCount', 'relationCount', 'ownedRelationCount', 'relationCountIncludingLinks', 'ownedRelationCountIncludingLinks', 'targetRelationCount', 'targetRelationCountIncludingLinks', 'contentSize', 'contentAndAttachmentsSize', 'contentAndAttachmentsAndRevisionsSize', 'revisionCount')]
-        [string]$OrderBy
+        [string]$OrderBy,
+        [switch]$SkipCertCheck
     )
 
     process {
-        # If no limit is specified, default to 10
-        if ($null -eq $Limit) { $Limit = 10 }
-        # Replace special characters in the search term for HTML encoding
-        $Search = $Search -replace ' ', '%20'
-        $Search = $Search -replace '"', '%22'
-        $Search = $Search -replace '#', '%23'
-        $Search = $Search -replace '<', '%3C'
-        $Search = $Search -replace '>', '%3E'
-        $Search = $Search -replace '&', '%26'
-        $Search = $Search -replace '\?', '%3F'
-        # If a label is specified, add it to the search term
-        if (!([string]::IsNullOrEmpty($Label))) { $search = $search + '%20%23' + $Label }
-        # If no note ID is specified, default to 'root'
-        if (([string]::IsNullOrEmpty($AncestorNoteId))) { $AncestorNoteId = 'root' }
-        # Set headers and construct URI for search request
-        $TriliumHeaders = @{}
-        $TriliumHeaders.Add('Authorization', "$($TriliumCreds.Authorization)")
-        $TriliumHeaders.Add('accept', 'application/json; charset=utf-8')
-        $uri = "$($TriliumCreds.URL)/notes?search=$($Search)&fastSearch=$($FastSearch.ToString().ToLower())&includeArchivedNotes=$($IncludeArchivedNotes.ToString().ToLower())&ancestorNoteId=$AncestorNoteId&orderBy=$OrderBy&limit=$($Limit)&debug=$($DebugOn.ToString().ToLower())"
+        try {
+            if ($SkipCertCheck -eq $true) {
+                $PSDefaultParameterValues = @{'Invoke-RestMethod:SkipCertificateCheck' = $true }
+            }
+            # If no limit is specified, default to 10
+            if ($null -eq $Limit) { $Limit = 10 }
+            # Replace special characters in the search term for HTML encoding
+            $Search = $Search -replace ' ', '%20'
+            $Search = $Search -replace '"', '%22'
+            $Search = $Search -replace '#', '%23'
+            $Search = $Search -replace '<', '%3C'
+            $Search = $Search -replace '>', '%3E'
+            $Search = $Search -replace '&', '%26'
+            $Search = $Search -replace '\?', '%3F'
+            # If a label is specified, add it to the search term
+            if (!([string]::IsNullOrEmpty($Label))) { $search = $search + '%20%23' + $Label }
+            # If no note ID is specified, default to 'root'
+            if (([string]::IsNullOrEmpty($AncestorNoteId))) { $AncestorNoteId = 'root' }
+            # Set headers and construct URI for search request
+            $TriliumHeaders = @{}
+            $TriliumHeaders.Add('Authorization', "$($TriliumCreds.Authorization)")
+            $TriliumHeaders.Add('accept', 'application/json; charset=utf-8')
+            $uri = "$($TriliumCreds.URL)/notes?search=$($Search)&fastSearch=$($FastSearch.ToString().ToLower())&includeArchivedNotes=$($IncludeArchivedNotes.ToString().ToLower())&ancestorNoteId=$AncestorNoteId&orderBy=$OrderBy&limit=$($Limit)&debug=$($DebugOn.ToString().ToLower())"
 
-        if ($PSCmdlet.ShouldProcess($uri, 'Searching')) {
-            # Make request to find notes
-            Invoke-RestMethod -Uri $uri -Headers $TriliumHeaders -SkipHeaderValidation
+            if ($PSCmdlet.ShouldProcess($uri, 'Searching')) {
+                # Make request to find notes
+                Invoke-RestMethod -Uri $uri -Headers $TriliumHeaders -SkipHeaderValidation
+            }
+        } catch {
+            $_.Exception.Response
         }
     }
 
@@ -423,22 +504,40 @@ function Get-TriliumNoteDetail {
         Accept pipeline input?       false
         Accept wildcard characters?  false
 
+    .PARAMETER SkipCertCheck
+    Option to skip certificate check.
+
+        Required?                    false
+        Position?                    Named
+        Default value                None
+        Accept pipeline input?       false
+        Accept wildcard characters?  false
+
     .EXAMPLE
     Get-TriliumNoteDetails -NoteID "12345"
 
     .NOTES
     This function requires that the authentication has been set using Connect-TriliumAuth.
     #>
+    [CmdletBinding()]
     param (
         # Note ID to get details for
-        [Parameter(Mandatory = $True)][ValidateNotNullOrEmpty()][string]$NoteID
+        [Parameter(Mandatory = $True)][ValidateNotNullOrEmpty()][string]$NoteID,
+        [switch]$SkipCertCheck
     )
     process {
-        # Set headers and make request to get note details
-        $TriliumHeaders = @{}
-        $TriliumHeaders.Add('Authorization', "$($TriliumCreds.Authorization)")
-        $uri = "$($TriliumCreds.URL)/notes/$NoteID"
-        Invoke-RestMethod -Uri $uri -Headers $TriliumHeaders -SkipHeaderValidation
+        try {
+            if ($SkipCertCheck -eq $true) {
+                $PSDefaultParameterValues = @{'Invoke-RestMethod:SkipCertificateCheck' = $true }
+            }
+            # Set headers and make request to get note details
+            $TriliumHeaders = @{}
+            $TriliumHeaders.Add('Authorization', "$($TriliumCreds.Authorization)")
+            $uri = "$($TriliumCreds.URL)/notes/$NoteID"
+            Invoke-RestMethod -Uri $uri -Headers $TriliumHeaders -SkipHeaderValidation
+        } catch {
+            $_.Exception.Response
+        }
     }
     begin {
         if (!$global:TriliumCreds) { Write-Error -Message 'Need to run: Connect-TriliumAuth'; exit }
@@ -475,6 +574,15 @@ function Export-TriliumNote {
         Accept pipeline input?       false
         Accept wildcard characters?  false
 
+    .PARAMETER SkipCertCheck
+    Option to skip certificate check.
+
+        Required?                    false
+        Position?                    Named
+        Default value                None
+        Accept pipeline input?       false
+        Accept wildcard characters?  false
+
     .EXAMPLE
     Export-TriliumNote -NoteID "12345" -Path "C:\temp\export.zip"
 
@@ -482,26 +590,35 @@ function Export-TriliumNote {
     This function requires that the authentication has been set using Connect-TriliumAuth.
     Ensure that the provided path is valid and writable.
     #>
+    [CmdletBinding()]
     param (
         # Note ID to export
         [Parameter(Mandatory = $True)][ValidateNotNullOrEmpty()][string]$NoteID,
         # Optional path to save the exported file
-        [Parameter(Mandatory = $false)][ValidateNotNullOrEmpty()][string]$Path
+        [Parameter(Mandatory = $false)][ValidateNotNullOrEmpty()][string]$Path,
+        [switch]$SkipCertCheck
     )
     # Get note details and check if path is specified
     process {
-        $details = Get-TriliumNoteDetails -NoteID $NoteID
-        if ([string]::IsNullOrEmpty($Path)) {
-            $Path = "c:\temp\$($details.title + '_' + $NoteID).zip"
-        } elseif ($Path -notmatch '.zip') {
-            Write-Error 'Full path needed with filename and .zip extension:  C:\temp\export.zip'
-        } else {
-            # Set headers and make request to export note
-            $TriliumHeaders = @{}
-            $TriliumHeaders.Add('Authorization', "$($TriliumCreds.Authorization)")
-            $uri = "$($TriliumCreds.URL)/notes/$NoteID/export"
-            Invoke-RestMethod -Uri $uri -Headers $TriliumHeaders -SkipHeaderValidation -ContentType 'application/zip' -OutFile $Path
-            Write-Output "$($details.title) exported to $Path"
+        try {
+            if ($SkipCertCheck -eq $true) {
+                $PSDefaultParameterValues = @{'Invoke-RestMethod:SkipCertificateCheck' = $true }
+            }
+            $details = Get-TriliumNoteDetails -NoteID $NoteID
+            if ([string]::IsNullOrEmpty($Path)) {
+                $Path = "c:\temp\$($details.title + '_' + $NoteID).zip"
+            } elseif ($Path -notmatch '.zip') {
+                Write-Error 'Full path needed with filename and .zip extension:  C:\temp\export.zip'
+            } else {
+                # Set headers and make request to export note
+                $TriliumHeaders = @{}
+                $TriliumHeaders.Add('Authorization', "$($TriliumCreds.Authorization)")
+                $uri = "$($TriliumCreds.URL)/notes/$NoteID/export"
+                Invoke-RestMethod -Uri $uri -Headers $TriliumHeaders -SkipHeaderValidation -ContentType 'application/zip' -OutFile $Path
+                Write-Output "$($details.title) exported to $Path"
+            }
+        } catch {
+            $_.Exception.Response
         }
     }
     begin {
@@ -548,6 +665,15 @@ function New-TriliumNote {
         Accept pipeline input?       false
         Accept wildcard characters?  false
 
+    .PARAMETER SkipCertCheck
+    Option to skip certificate check.
+
+        Required?                    false
+        Position?                    Named
+        Default value                None
+        Accept pipeline input?       false
+        Accept wildcard characters?  false
+
     .EXAMPLE
     New-TriliumNote -ParentNoteId "root" -Title "New Note" -Content "This is a new note."
 
@@ -561,22 +687,30 @@ function New-TriliumNote {
         # Title of the new note
         [Parameter(Mandatory = $true)][ValidateNotNullOrEmpty()][string]$Title,
         # Content of the new note
-        [Parameter(Mandatory = $true)][ValidateNotNullOrEmpty()][string]$Content
+        [Parameter(Mandatory = $true)][ValidateNotNullOrEmpty()][string]$Content,
+        [switch]$SkipCertCheck
     )
     process {
-        # Set headers and make request to create new note
-        $TriliumHeaders = @{}
-        $TriliumHeaders.Add('Authorization', "$($TriliumCreds.Authorization)")
-        $uri = "$($TriliumCreds.URL)/create-note"
-        $body = @{
-            parentNoteId = $ParentNoteId
-            title        = $Title
-            content      = $Content
-            type         = 'text'
-        }
-        $body = $body | ConvertTo-Json
-        if ($PSCmdlet.ShouldProcess($uri, 'Update note order')) {
-            Invoke-RestMethod -Uri $uri -Headers $TriliumHeaders -SkipHeaderValidation -ContentType 'application/json' -Body $body -Method Post
+        try {
+            if ($SkipCertCheck -eq $true) {
+                $PSDefaultParameterValues = @{'Invoke-RestMethod:SkipCertificateCheck' = $true }
+            }
+            # Set headers and make request to create new note
+            $TriliumHeaders = @{}
+            $TriliumHeaders.Add('Authorization', "$($TriliumCreds.Authorization)")
+            $uri = "$($TriliumCreds.URL)/create-note"
+            $body = @{
+                parentNoteId = $ParentNoteId
+                title        = $Title
+                content      = $Content
+                type         = 'text'
+            }
+            $body = $body | ConvertTo-Json
+            if ($PSCmdlet.ShouldProcess($uri, 'Update note order')) {
+                Invoke-RestMethod -Uri $uri -Headers $TriliumHeaders -SkipHeaderValidation -ContentType 'application/json' -Body $body -Method Post
+            }
+        } catch {
+            $_.Exception.Response
         }
     }
     begin {
@@ -604,6 +738,15 @@ function Remove-TriliumNote {
         Accept pipeline input?       false
         Accept wildcard characters?  false
 
+    .PARAMETER SkipCertCheck
+    Option to skip certificate check.
+
+        Required?                    false
+        Position?                    Named
+        Default value                None
+        Accept pipeline input?       false
+        Accept wildcard characters?  false
+
     .EXAMPLE
     Remove-TriliumNote -NoteID "12345"
 
@@ -613,15 +756,23 @@ function Remove-TriliumNote {
     [CmdletBinding(SupportsShouldProcess = $true)]
     param (
         # Note ID to remove
-        [Parameter(Mandatory = $true)][ValidateNotNullOrEmpty()][string]$NoteID
+        [Parameter(Mandatory = $true)][ValidateNotNullOrEmpty()][string]$NoteID,
+        [switch]$SkipCertCheck
     )
     process {
-        # Set headers and make request to remove note
-        $TriliumHeaders = @{}
-        $TriliumHeaders.Add('Authorization', "$($TriliumCreds.Authorization)")
-        $uri = "$($TriliumCreds.URL)/notes/$NoteID"
-        if ($PSCmdlet.ShouldProcess($uri, 'Removing Note')) {
-            Invoke-RestMethod -Uri $uri -Headers $TriliumHeaders -Method Delete -SkipHeaderValidation
+        try {
+            if ($SkipCertCheck -eq $true) {
+                $PSDefaultParameterValues = @{'Invoke-RestMethod:SkipCertificateCheck' = $true }
+            }
+            # Set headers and make request to remove note
+            $TriliumHeaders = @{}
+            $TriliumHeaders.Add('Authorization', "$($TriliumCreds.Authorization)")
+            $uri = "$($TriliumCreds.URL)/notes/$NoteID"
+            if ($PSCmdlet.ShouldProcess($uri, 'Removing Note')) {
+                Invoke-RestMethod -Uri $uri -Headers $TriliumHeaders -Method Delete -SkipHeaderValidation
+            }
+        } catch {
+            $_.Exception.Response
         }
     }
     begin {
@@ -649,18 +800,32 @@ function Get-TriliumNoteContent {
         Accept pipeline input?       false
         Accept wildcard characters?  false
 
+    .PARAMETER SkipCertCheck
+    Option to skip certificate check.
+
+        Required?                    false
+        Position?                    Named
+        Default value                None
+        Accept pipeline input?       false
+        Accept wildcard characters?  false
+
     .EXAMPLE
     Get-TriliumNoteContent -NoteID "root"
 
     .NOTES
     This function requires that the authentication has been set using Connect-TriliumAuth.
     #>
+    [CmdletBinding()]
     param (
-        [Parameter(Mandatory = $true)][ValidateNotNullOrEmpty()][string]$NoteID
+        [Parameter(Mandatory = $true)][ValidateNotNullOrEmpty()][string]$NoteID,
+        [switch]$SkipCertCheck
     )
 
     process {
         try {
+            if ($SkipCertCheck -eq $true) {
+                $PSDefaultParameterValues = @{'Invoke-RestMethod:SkipCertificateCheck' = $true }
+            }
             $TriliumHeaders = @{ }
             $TriliumHeaders.Add('Authorization', "$($TriliumCreds.Authorization)")
             # API call run
@@ -709,6 +874,15 @@ function Set-TriliumNoteContent {
         Accept pipeline input?       false
         Accept wildcard characters?  false
 
+    .PARAMETER SkipCertCheck
+    Option to skip certificate check.
+
+        Required?                    false
+        Position?                    Named
+        Default value                None
+        Accept pipeline input?       false
+        Accept wildcard characters?  false
+
     .EXAMPLE
     Set-TriliumNoteContent -NoteID "root" -NoteContent "Updated content for the root note."
 
@@ -718,11 +892,15 @@ function Set-TriliumNoteContent {
     [CmdletBinding(SupportsShouldProcess = $true)]
     param (
         [Parameter(Mandatory = $true)][ValidateNotNullOrEmpty()][string]$NoteID,
-        [Parameter(Mandatory = $true)][ValidateNotNullOrEmpty()][string]$NoteContent
+        [Parameter(Mandatory = $true)][ValidateNotNullOrEmpty()][string]$NoteContent,
+        [switch]$SkipCertCheck
     )
 
     process {
         try {
+            if ($SkipCertCheck -eq $true) {
+                $PSDefaultParameterValues = @{'Invoke-RestMethod:SkipCertificateCheck' = $true }
+            }
             $TriliumHeaders = @{ }
             $TriliumHeaders.Add('Authorization', "$($TriliumCreds.Authorization)")
             # API call run
@@ -776,6 +954,15 @@ function Import-TriliumNoteZip {
         Accept pipeline input?       false
         Accept wildcard characters?  false
 
+    .PARAMETER SkipCertCheck
+    Option to skip certificate check.
+
+        Required?                    false
+        Position?                    Named
+        Default value                None
+        Accept pipeline input?       false
+        Accept wildcard characters?  false
+
     .EXAMPLE
     Import-TriliumNoteZip -NoteID "root" -ZipPath "C:\temp\import.zip"
 
@@ -790,11 +977,15 @@ function Import-TriliumNoteZip {
         [string]$NoteID,
         [Parameter(Mandatory = $true)]
         [ValidateNotNullOrEmpty()]
-        [string]$ZipPath
+        [string]$ZipPath,
+        [switch]$SkipCertCheck
     )
 
     process {
         try {
+            if ($SkipCertCheck -eq $true) {
+                $PSDefaultParameterValues = @{'Invoke-RestMethod:SkipCertificateCheck' = $true }
+            }
             $TriliumHeaders = @{ }
             $TriliumHeaders.Add('Authorization', "$($TriliumCreds.Authorization)")
             # Read the zip file content as byte array
@@ -842,6 +1033,15 @@ function New-TriliumNoteRevision {
         Accept pipeline input?       false
         Accept wildcard characters?  false
 
+    .PARAMETER SkipCertCheck
+    Option to skip certificate check.
+
+        Required?                    false
+        Position?                    Named
+        Default value                None
+        Accept pipeline input?       false
+        Accept wildcard characters?  false
+
     .EXAMPLE
     New-TriliumNoteRevision -NoteID "12345"
 
@@ -852,11 +1052,15 @@ function New-TriliumNoteRevision {
     param (
         [Parameter(Mandatory = $true)]
         [ValidateNotNullOrEmpty()]
-        [string]$NoteID
+        [string]$NoteID,
+        [switch]$SkipCertCheck
     )
 
     process {
         try {
+            if ($SkipCertCheck -eq $true) {
+                $PSDefaultParameterValues = @{'Invoke-RestMethod:SkipCertificateCheck' = $true }
+            }
             $TriliumHeaders = @{ }
             $TriliumHeaders.Add('Authorization', "$($TriliumCreds.Authorization)")
             # API call run
@@ -925,6 +1129,15 @@ function Copy-TriliumNote {
         Accept pipeline input?       false
         Accept wildcard characters?  false
 
+    .PARAMETER SkipCertCheck
+    Option to skip certificate check.
+
+        Required?                    false
+        Position?                    Named
+        Default value                None
+        Accept pipeline input?       false
+        Accept wildcard characters?  false
+
     .EXAMPLE
     Copy-TriliumNote -NoteID "sxhoPPMkVIuO" -parentNoteID "A2PGuqZgT03z"
 
@@ -936,11 +1149,15 @@ function Copy-TriliumNote {
         [Parameter(Mandatory = $true)][ValidateNotNullOrEmpty()][string]$NoteID,
         [Parameter(Mandatory = $true)][ValidateNotNullOrEmpty()][string]$parentNoteID,
         [Parameter(Mandatory = $false)][switch]$IsExpanded,
-        [Parameter(Mandatory = $false)][ValidateNotNullOrEmpty()][string]$Prefix
+        [Parameter(Mandatory = $false)][ValidateNotNullOrEmpty()][string]$Prefix,
+        [switch]$SkipCertCheck
     )
 
     process {
         try {
+            if ($SkipCertCheck -eq $true) {
+                $PSDefaultParameterValues = @{'Invoke-RestMethod:SkipCertificateCheck' = $true }
+            }
             $TriliumHeaders = @{ }
             $TriliumHeaders.Add('Authorization', "$($TriliumCreds.Authorization)")
             $TriliumHeaders.Add('accept', 'application/json; charset=utf-8')
@@ -990,18 +1207,32 @@ function Get-TriliumBranch {
         Accept pipeline input?       false
         Accept wildcard characters?  false
 
+    .PARAMETER SkipCertCheck
+    Option to skip certificate check.
+
+        Required?                    false
+        Position?                    Named
+        Default value                None
+        Accept pipeline input?       false
+        Accept wildcard characters?  false
+
     .EXAMPLE
     Get-TriliumBranch -BranchID "A2PGuqZgT03z_sxhoPPMkVIuO"
 
     .NOTES
     This function requires that the authentication has been set using Connect-TriliumAuth.
     #>
+    [CmdletBinding()]
     param (
-        [Parameter(Mandatory = $true)][ValidateNotNullOrEmpty()][string]$BranchID
+        [Parameter(Mandatory = $true)][ValidateNotNullOrEmpty()][string]$BranchID,
+        [switch]$SkipCertCheck
     )
 
     process {
         try {
+            if ($SkipCertCheck -eq $true) {
+                $PSDefaultParameterValues = @{'Invoke-RestMethod:SkipCertificateCheck' = $true }
+            }
             $TriliumHeaders = @{ }
             $TriliumHeaders.Add('Authorization', "$($TriliumCreds.Authorization)")
             # API call run
@@ -1041,6 +1272,15 @@ function Remove-TriliumBranch {
         Accept pipeline input?       false
         Accept wildcard characters?  false
 
+    .PARAMETER SkipCertCheck
+    Option to skip certificate check.
+
+        Required?                    false
+        Position?                    Named
+        Default value                None
+        Accept pipeline input?       false
+        Accept wildcard characters?  false
+
     .EXAMPLE
     Remove-TriliumBranch -BranchID "A2PGuqZgT03z_sxhoPPMkVIuO"
 
@@ -1049,11 +1289,15 @@ function Remove-TriliumBranch {
     #>
     [CmdletBinding(SupportsShouldProcess = $true)]
     param (
-        [Parameter(Mandatory = $true)][ValidateNotNullOrEmpty()][string]$BranchID
+        [Parameter(Mandatory = $true)][ValidateNotNullOrEmpty()][string]$BranchID,
+        [switch]$SkipCertCheck
     )
 
     process {
         try {
+            if ($SkipCertCheck -eq $true) {
+                $PSDefaultParameterValues = @{'Invoke-RestMethod:SkipCertificateCheck' = $true }
+            }
             $TriliumHeaders = @{ }
             $TriliumHeaders.Add('Authorization', "$($TriliumCreds.Authorization)")
             # API call run
@@ -1095,6 +1339,15 @@ function New-TriliumBackup {
         Accept pipeline input?       false
         Accept wildcard characters?  false
 
+    .PARAMETER SkipCertCheck
+    Option to skip certificate check.
+
+        Required?                    false
+        Position?                    Named
+        Default value                None
+        Accept pipeline input?       false
+        Accept wildcard characters?  false
+
     .EXAMPLE
     New-TriliumBackup -BackupID "MyBackup"
 
@@ -1103,11 +1356,15 @@ function New-TriliumBackup {
     #>
     [CmdletBinding(SupportsShouldProcess = $true)]
     param (
-        [Parameter(Mandatory = $true)][ValidateNotNullOrEmpty()][string]$BackupID
+        [Parameter(Mandatory = $true)][ValidateNotNullOrEmpty()][string]$BackupID,
+        [switch]$SkipCertCheck
     )
 
     process {
         try {
+            if ($SkipCertCheck -eq $true) {
+                $PSDefaultParameterValues = @{'Invoke-RestMethod:SkipCertificateCheck' = $true }
+            }
             $TriliumHeaders = @{ }
             $TriliumHeaders.Add('Authorization', "$($TriliumCreds.Authorization)")
             # API call run
@@ -1149,6 +1406,15 @@ function Get-TriliumAttribute {
         Accept pipeline input?       false
         Accept wildcard characters?  false
 
+    .PARAMETER SkipCertCheck
+    Option to skip certificate check.
+
+        Required?                    false
+        Position?                    Named
+        Default value                None
+        Accept pipeline input?       false
+        Accept wildcard characters?  false
+
     .EXAMPLE
     Get-TriliumAttribute -AttributeID "12345"
 
@@ -1159,11 +1425,15 @@ function Get-TriliumAttribute {
     param (
         [Parameter(Mandatory = $true)]
         [ValidateNotNullOrEmpty()]
-        [string]$AttributeID
+        [string]$AttributeID,
+        [switch]$SkipCertCheck
     )
 
     process {
         try {
+            if ($SkipCertCheck -eq $true) {
+                $PSDefaultParameterValues = @{'Invoke-RestMethod:SkipCertificateCheck' = $true }
+            }
             $TriliumHeaders = @{ }
             $TriliumHeaders.Add('Authorization', "$($TriliumCreds.Authorization)")
             $uri = "$($TriliumCreds.URL)/attributes/$AttributeID"
@@ -1201,6 +1471,15 @@ function Remove-TriliumAttribute {
         Accept pipeline input?       false
         Accept wildcard characters?  false
 
+    .PARAMETER SkipCertCheck
+    Option to skip certificate check.
+
+        Required?                    false
+        Position?                    Named
+        Default value                None
+        Accept pipeline input?       false
+        Accept wildcard characters?  false
+
     .EXAMPLE
     Remove-TriliumAttribute -AttributeID "12345"
 
@@ -1212,11 +1491,15 @@ function Remove-TriliumAttribute {
     param (
         [Parameter(Mandatory = $true)]
         [ValidateNotNullOrEmpty()]
-        [string]$AttributeID
+        [string]$AttributeID,
+        [switch]$SkipCertCheck
     )
 
     process {
         try {
+            if ($SkipCertCheck -eq $true) {
+                $PSDefaultParameterValues = @{'Invoke-RestMethod:SkipCertificateCheck' = $true }
+            }
             $TriliumHeaders = @{ }
             $TriliumHeaders.Add('Authorization', "$($TriliumCreds.Authorization)")
             $uri = "$($TriliumCreds.URL)/attributes/$AttributeID"
@@ -1254,6 +1537,15 @@ function Update-TriliumNoteOrder {
         Accept pipeline input?       false
         Accept wildcard characters?  false
 
+    .PARAMETER SkipCertCheck
+    Option to skip certificate check.
+
+        Required?                    false
+        Position?                    Named
+        Default value                None
+        Accept pipeline input?       false
+        Accept wildcard characters?  false
+
     .EXAMPLE
     Update-TriliumNoteOrder -ParentNoteId "root"
 
@@ -1265,11 +1557,15 @@ function Update-TriliumNoteOrder {
     param (
         [Parameter(Mandatory = $true)]
         [ValidateNotNullOrEmpty()]
-        [string]$ParentNoteId
+        [string]$ParentNoteId,
+        [switch]$SkipCertCheck
     )
 
     process {
         try {
+            if ($SkipCertCheck -eq $true) {
+                $PSDefaultParameterValues = @{'Invoke-RestMethod:SkipCertificateCheck' = $true }
+            }
             $TriliumHeaders = @{ }
             $TriliumHeaders.Add('Authorization', "$($TriliumCreds.Authorization)")
             $uri = "$($TriliumCreds.URL)/refresh-note-ordering/$ParentNoteId"
