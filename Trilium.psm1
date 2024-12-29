@@ -13,45 +13,23 @@ function Connect-TriliumAuth {
 
         Required?                    true
         Position?                    0
-        ParameterSetName             Auth, PlainText, Token
+        ParameterSetName             Password, Token
         Default value                None
-        Accept pipeline input?       false
-        Accept wildcard characters?  false
-
-    .PARAMETER Auth
-    The authentication method to use: 'Password' or 'ETAPITOKEN'.
-    ETAPITOKEN is required for desktop installations.
-    This method will ask for a password or token that can be input masked.
-
-        Required?                    true
-        Position?                    1
-        ParameterSetName             Auth
-        Default value                None
-        Accept pipeline input?       false
-        Accept wildcard characters?  false
-
-    .PARAMETER SkipCertCheck
-    Option to skip certificate check. Default is 'Yes'.
-
-        Required?                    false
-        Position?                    2
-        ParameterSetName             Auth, PlainText, Token
-        Default value                Yes
         Accept pipeline input?       false
         Accept wildcard characters?  false
 
     .PARAMETER Password
-    The password for authentication. This is if you are ok entering plain text password.
+    The PSCredential object including your password used for authentication.
 
         Required?                    true
         Position?                    1
-        ParameterSetName             PlainText
+        ParameterSetName             Password
         Default value                None
         Accept pipeline input?       false
         Accept wildcard characters?  false
 
     .PARAMETER EtapiToken
-    The ETAPI token for authentication. This is if you are ok entering a plain text token.
+    The PSCredential object including your ETAPIToken used for authentication.
 
         Required?                    true
         Position?                    1
@@ -60,38 +38,48 @@ function Connect-TriliumAuth {
         Accept pipeline input?       false
         Accept wildcard characters?  false
 
+    .PARAMETER SkipCertCheck
+    Option to skip certificate check.
+
+        Required?                    false
+        Position?                    2
+        ParameterSetName             Password, Token
+        Default value                None
+        Accept pipeline input?       false
+        Accept wildcard characters?  false
+
     .EXAMPLE
-    Connect-TriliumAuth -baseURL "https://trilium.myDomain.net" -Auth "Password"
+    Connect-TriliumAuth -baseURL "https://trilium.myDomain.net" -Password (Get-Credential -UserName 'admin')
 
     After running, you will be prompted for password using masked input.
 
     .EXAMPLE
-    Connect-TriliumAuth -baseURL "https://trilium.myDomain.net" -Auth "ETAPITOKEN" -SkipCertCheck "No"
+    Connect-TriliumAuth -baseURL "https://trilium.myDomain.net" -EtapiToken (Get-Credential -UserName 'admin')
 
     .NOTES
     Ensure that the baseURL is correct and accessible. The function will store the credentials globally for use in other functions.
+
+    .LINK
+    https://github.com/ptmorris1/TriliumNext-Powershell-Module
     #>
-    [CmdletBinding(DefaultParameterSetName = 'Auth')]
+    [CmdletBinding(DefaultParameterSetName = 'Token')]
     param(
         # Base URL for Trilium instance
-        [Parameter(Mandatory = $True, ParameterSetName = 'Auth', Position = 0)]
-        [Parameter(Mandatory = $True, ParameterSetName = 'PlainText', Position = 0)]
+        [Parameter(Mandatory = $True, ParameterSetName = 'Password', Position = 0)]
         [Parameter(Mandatory = $True, ParameterSetName = 'Token', Position = 0)]
         [ValidateNotNullOrEmpty()]
         [string]$baseURL,
-        # Authentication method: Password or ETAPI token
-        [Parameter(Mandatory = $True, ParameterSetName = 'Auth', Position = 1)]
-        [ValidateSet('Password', 'ETAPITOKEN')]
-        [string]$Auth,
-        # Option to skip certificate check
-        [Parameter(Mandatory = $false, ParameterSetName = 'Auth', Position = 2)]
-        [Parameter(Mandatory = $false, ParameterSetName = 'PlainText', Position = 2)]
-        [Parameter(Mandatory = $false, ParameterSetName = 'Token', Position = 2)]
-        [switch]$SkipCertCheck,
-        [Parameter(Mandatory = $True, ParameterSetName = 'PlainText', Position = 1)]
-        [string]$Password,
+
+        [Parameter(Mandatory = $True, ParameterSetName = 'Password', Position = 1)]
+        [PSCredential]$Password,
+
         [Parameter(Mandatory = $True, ParameterSetName = 'Token', Position = 1)]
-        [string]$EtapiToken
+        [PSCredential]$EtapiToken,
+
+        # Option to skip certificate check
+        [Parameter(Mandatory = $false, ParameterSetName = 'Password', Position = 2)]
+        [Parameter(Mandatory = $false, ParameterSetName = 'Token', Position = 2)]
+        [switch]$SkipCertCheck
     )
 
     begin {
@@ -109,38 +97,22 @@ function Connect-TriliumAuth {
                 $baseURL = $baseURL.TrimEnd('/')
             }
             $baseURL = $baseURL + '/etapi'
-            if ($PSCmdlet.ParameterSetName -eq 'Auth' -and $Auth -eq 'password') {
-                $AuthKey = Read-Host 'Enter your TriliumNext Password' -AsSecureString
-                $UnsecurePassword = ConvertFrom-SecureString -SecureString $authkey -AsPlainText
+
+            if ($PSCmdlet.ParameterSetName -eq 'Password') {
                 $headersLogin = @{ }
                 $headersLogin.Add('Accept', 'application/json')
                 $headersLogin.Add('Content-Type', 'application/json')
-                $body = @{'password' = $UnsecurePassword } | ConvertTo-Json
+                $pass = $Password.GetNetworkCredential().Password
+                $body = @{'password' = $Pass } | ConvertTo-Json
                 $login = Invoke-RestMethod -Uri "$baseURL/auth/login" -Method Post -Headers $headersLogin -Body $body
                 $Global:TriliumCreds = @{ }
                 $Global:TriliumCreds.Add('Authorization', "$($login.authToken)")
                 $Global:TriliumCreds.Add('URL', "$baseURL")
                 $Global:TriliumCreds.Add('Token', 'pass')
-            } elseif ($PSCmdlet.ParameterSetName -eq 'Auth' -and $Auth -eq 'ETAPITOKEN') {
-                $AuthKey = Read-Host 'Enter your TriliumNext ETAPI token key' -AsSecureString
-                $UnsecurePassword = ConvertFrom-SecureString -SecureString $authkey -AsPlainText
+            } if ($PSCmdlet.ParameterSetName -eq 'Token') {
                 $Global:TriliumCreds = @{ }
-                $Global:TriliumCreds.Add('Authorization', "$UnsecurePassword")
-                $Global:TriliumCreds.Add('URL', "$baseURL")
-                $Global:TriliumCreds.Add('Token', 'etapi')
-            } elseif ($PSCmdlet.ParameterSetName -eq 'PlainText') {
-                $headersLogin = @{ }
-                $headersLogin.Add('Accept', 'application/json')
-                $headersLogin.Add('Content-Type', 'application/json')
-                $body = @{'password' = $Password } | ConvertTo-Json
-                $login = Invoke-RestMethod -Uri "$baseURL/auth/login" -Method Post -Headers $headersLogin -Body $body
-                $Global:TriliumCreds = @{ }
-                $Global:TriliumCreds.Add('Authorization', "$($login.authToken)")
-                $Global:TriliumCreds.Add('URL', "$baseURL")
-                $Global:TriliumCreds.Add('Token', 'pass')
-            } elseif ($PSCmdlet.ParameterSetName -eq 'Token') {
-                $Global:TriliumCreds = @{ }
-                $Global:TriliumCreds.Add('Authorization', "$EtapiToken")
+                $Token = $EtapiToken.GetNetworkCredential().Password
+                $Global:TriliumCreds.Add('Authorization', "$Token")
                 $Global:TriliumCreds.Add('URL', "$baseURL")
                 $Global:TriliumCreds.Add('Token', 'etapi')
             }
@@ -177,6 +149,9 @@ function Disconnect-TriliumAuth {
 
     .NOTES
     This function should be called when you want to clear the stored credentials. It will also log out if password authentication was used.
+
+    .LINK
+    https://github.com/ptmorris1/TriliumNext-Powershell-Module
     #>
     [CmdletBinding()]
     param(
@@ -192,11 +167,11 @@ function Disconnect-TriliumAuth {
                 $TriliumHeaders = @{}
                 $TriliumHeaders.Add('Authorization', "$($TriliumCreds.Authorization)")
                 Invoke-RestMethod -Uri "$($TriliumCreds.URL)/auth/logout" -Headers $TriliumHeaders -SkipHeaderValidation -Method Post
-                Remove-Variable TriliumCreds
-                Write-Output 'Removed ETAPI tokena and global variable'
+                Remove-Variable TriliumCreds -ErrorAction SilentlyContinue
+                Write-Output 'Removed ETAPI token and global variable'
             } else {
                 Write-Output 'Using ETAPI key, will remove global variable'
-                Remove-Variable TriliumCreds
+                Remove-Variable TriliumCreds -ErrorAction SilentlyContinue
             }
         } catch {
             $_.Exception.Response
@@ -234,6 +209,9 @@ function Get-TriliumInfo {
 
     .NOTES
     This function requires that the authentication has been set using Connect-TriliumAuth.
+
+    .LINK
+    https://github.com/ptmorris1/TriliumNext-Powershell-Module
     #>
     [CmdletBinding()]
     param(
@@ -286,6 +264,9 @@ function Get-TriliumRootNote {
 
     .NOTES
     This function requires that the authentication has been set using Connect-TriliumAuth.
+
+    .LINK
+    https://github.com/ptmorris1/TriliumNext-Powershell-Module
     #>
     [CmdletBinding()]
     param(
@@ -409,6 +390,9 @@ function Find-TriliumNote {
 
     .NOTES
     This function requires that the authentication has been set using Connect-TriliumAuth.
+
+    .LINK
+    https://github.com/ptmorris1/TriliumNext-Powershell-Module
     #>
     [CmdletBinding(SupportsShouldProcess = $true)]
     param(
@@ -518,6 +502,9 @@ function Get-TriliumNoteDetail {
 
     .NOTES
     This function requires that the authentication has been set using Connect-TriliumAuth.
+
+    .LINK
+    https://github.com/ptmorris1/TriliumNext-Powershell-Module
     #>
     [CmdletBinding()]
     param (
@@ -589,6 +576,9 @@ function Export-TriliumNote {
     .NOTES
     This function requires that the authentication has been set using Connect-TriliumAuth.
     Ensure that the provided path is valid and writable.
+
+    .LINK
+    https://github.com/ptmorris1/TriliumNext-Powershell-Module
     #>
     [CmdletBinding()]
     param (
@@ -679,6 +669,9 @@ function New-TriliumNote {
 
     .NOTES
     This function requires that the authentication has been set using Connect-TriliumAuth.
+
+    .LINK
+    https://github.com/ptmorris1/TriliumNext-Powershell-Module
     #>
     [CmdletBinding(SupportsShouldProcess = $true)]
     param (
@@ -752,6 +745,9 @@ function Remove-TriliumNote {
 
     .NOTES
     This function requires that the authentication has been set using Connect-TriliumAuth.
+
+    .LINK
+    https://github.com/ptmorris1/TriliumNext-Powershell-Module
     #>
     [CmdletBinding(SupportsShouldProcess = $true)]
     param (
@@ -814,6 +810,9 @@ function Get-TriliumNoteContent {
 
     .NOTES
     This function requires that the authentication has been set using Connect-TriliumAuth.
+
+    .LINK
+    https://github.com/ptmorris1/TriliumNext-Powershell-Module
     #>
     [CmdletBinding()]
     param (
@@ -826,7 +825,7 @@ function Get-TriliumNoteContent {
             if ($SkipCertCheck -eq $true) {
                 $PSDefaultParameterValues = @{'Invoke-RestMethod:SkipCertificateCheck' = $true }
             }
-            $TriliumHeaders = @{ }
+            $TriliumHeaders = @{}
             $TriliumHeaders.Add('Authorization', "$($TriliumCreds.Authorization)")
             # API call run
             try {
@@ -888,6 +887,9 @@ function Set-TriliumNoteContent {
 
     .NOTES
     This function requires that the authentication has been set using Connect-TriliumAuth.
+
+    .LINK
+    https://github.com/ptmorris1/TriliumNext-Powershell-Module
     #>
     [CmdletBinding(SupportsShouldProcess = $true)]
     param (
@@ -901,7 +903,7 @@ function Set-TriliumNoteContent {
             if ($SkipCertCheck -eq $true) {
                 $PSDefaultParameterValues = @{'Invoke-RestMethod:SkipCertificateCheck' = $true }
             }
-            $TriliumHeaders = @{ }
+            $TriliumHeaders = @{}
             $TriliumHeaders.Add('Authorization', "$($TriliumCreds.Authorization)")
             # API call run
             try {
@@ -969,6 +971,9 @@ function Import-TriliumNoteZip {
     .NOTES
     This function requires that the authentication has been set using Connect-TriliumAuth.
     Ensure that the provided path is valid and points to a zip file.
+
+    .LINK
+    https://github.com/ptmorris1/TriliumNext-Powershell-Module
     #>
     [CmdletBinding(SupportsShouldProcess = $true)]
     param (
@@ -986,7 +991,7 @@ function Import-TriliumNoteZip {
             if ($SkipCertCheck -eq $true) {
                 $PSDefaultParameterValues = @{'Invoke-RestMethod:SkipCertificateCheck' = $true }
             }
-            $TriliumHeaders = @{ }
+            $TriliumHeaders = @{}
             $TriliumHeaders.Add('Authorization', "$($TriliumCreds.Authorization)")
             # Read the zip file content as byte array
             $fileBytes = [System.IO.File]::ReadAllBytes($ZipPath)
@@ -1047,6 +1052,9 @@ function New-TriliumNoteRevision {
 
     .NOTES
     This function requires that the authentication has been set using Connect-TriliumAuth.
+
+    .LINK
+    https://github.com/ptmorris1/TriliumNext-Powershell-Module
     #>
     [CmdletBinding(SupportsShouldProcess = $true)]
     param (
@@ -1061,7 +1069,7 @@ function New-TriliumNoteRevision {
             if ($SkipCertCheck -eq $true) {
                 $PSDefaultParameterValues = @{'Invoke-RestMethod:SkipCertificateCheck' = $true }
             }
-            $TriliumHeaders = @{ }
+            $TriliumHeaders = @{}
             $TriliumHeaders.Add('Authorization', "$($TriliumCreds.Authorization)")
             # API call run
             try {
@@ -1143,6 +1151,9 @@ function Copy-TriliumNote {
 
     .NOTES
     This function requires that the authentication has been set using Connect-TriliumAuth.
+
+    .LINK
+    https://github.com/ptmorris1/TriliumNext-Powershell-Module
     #>
     [CmdletBinding(SupportsShouldProcess = $true)]
     param (
@@ -1158,7 +1169,7 @@ function Copy-TriliumNote {
             if ($SkipCertCheck -eq $true) {
                 $PSDefaultParameterValues = @{'Invoke-RestMethod:SkipCertificateCheck' = $true }
             }
-            $TriliumHeaders = @{ }
+            $TriliumHeaders = @{}
             $TriliumHeaders.Add('Authorization', "$($TriliumCreds.Authorization)")
             $TriliumHeaders.Add('accept', 'application/json; charset=utf-8')
             # API call run
@@ -1221,6 +1232,9 @@ function Get-TriliumBranch {
 
     .NOTES
     This function requires that the authentication has been set using Connect-TriliumAuth.
+
+    .LINK
+    https://github.com/ptmorris1/TriliumNext-Powershell-Module
     #>
     [CmdletBinding()]
     param (
@@ -1233,7 +1247,7 @@ function Get-TriliumBranch {
             if ($SkipCertCheck -eq $true) {
                 $PSDefaultParameterValues = @{'Invoke-RestMethod:SkipCertificateCheck' = $true }
             }
-            $TriliumHeaders = @{ }
+            $TriliumHeaders = @{}
             $TriliumHeaders.Add('Authorization', "$($TriliumCreds.Authorization)")
             # API call run
             try {
@@ -1286,6 +1300,9 @@ function Remove-TriliumBranch {
 
     .NOTES
     This function requires that the authentication has been set using Connect-TriliumAuth.
+
+    .LINK
+    https://github.com/ptmorris1/TriliumNext-Powershell-Module
     #>
     [CmdletBinding(SupportsShouldProcess = $true)]
     param (
@@ -1298,7 +1315,7 @@ function Remove-TriliumBranch {
             if ($SkipCertCheck -eq $true) {
                 $PSDefaultParameterValues = @{'Invoke-RestMethod:SkipCertificateCheck' = $true }
             }
-            $TriliumHeaders = @{ }
+            $TriliumHeaders = @{}
             $TriliumHeaders.Add('Authorization', "$($TriliumCreds.Authorization)")
             # API call run
             try {
@@ -1353,6 +1370,9 @@ function New-TriliumBackup {
 
     .NOTES
     This function requires that the authentication has been set using Connect-TriliumAuth.
+
+    .LINK
+    https://github.com/ptmorris1/TriliumNext-Powershell-Module
     #>
     [CmdletBinding(SupportsShouldProcess = $true)]
     param (
@@ -1365,7 +1385,7 @@ function New-TriliumBackup {
             if ($SkipCertCheck -eq $true) {
                 $PSDefaultParameterValues = @{'Invoke-RestMethod:SkipCertificateCheck' = $true }
             }
-            $TriliumHeaders = @{ }
+            $TriliumHeaders = @{}
             $TriliumHeaders.Add('Authorization', "$($TriliumCreds.Authorization)")
             # API call run
             try {
@@ -1420,6 +1440,9 @@ function Get-TriliumAttribute {
 
     .NOTES
     This function requires that the authentication has been set using Connect-TriliumAuth.
+
+    .LINK
+    https://github.com/ptmorris1/TriliumNext-Powershell-Module
     #>
     [CmdletBinding(SupportsShouldProcess = $true)]
     param (
@@ -1434,7 +1457,7 @@ function Get-TriliumAttribute {
             if ($SkipCertCheck -eq $true) {
                 $PSDefaultParameterValues = @{'Invoke-RestMethod:SkipCertificateCheck' = $true }
             }
-            $TriliumHeaders = @{ }
+            $TriliumHeaders = @{}
             $TriliumHeaders.Add('Authorization', "$($TriliumCreds.Authorization)")
             $uri = "$($TriliumCreds.URL)/attributes/$AttributeID"
             if ($PSCmdlet.ShouldProcess($uri, 'Update note order')) {
@@ -1485,6 +1508,9 @@ function Remove-TriliumAttribute {
 
     .NOTES
     This function requires that the authentication has been set using Connect-TriliumAuth.
+
+    .LINK
+    https://github.com/ptmorris1/TriliumNext-Powershell-Module
     #>
     [CmdletBinding(SupportsShouldProcess = $true)]
     [Alias('Delete-TriliumAttribute', 'dta', 'rta')]
@@ -1500,7 +1526,7 @@ function Remove-TriliumAttribute {
             if ($SkipCertCheck -eq $true) {
                 $PSDefaultParameterValues = @{'Invoke-RestMethod:SkipCertificateCheck' = $true }
             }
-            $TriliumHeaders = @{ }
+            $TriliumHeaders = @{}
             $TriliumHeaders.Add('Authorization', "$($TriliumCreds.Authorization)")
             $uri = "$($TriliumCreds.URL)/attributes/$AttributeID"
             if ($PSCmdlet.ShouldProcess($uri, 'Remove attribute')) {
@@ -1551,6 +1577,9 @@ function Update-TriliumNoteOrder {
 
     .NOTES
     This function requires that the authentication has been set using Connect-TriliumAuth.
+
+    .LINK
+    https://github.com/ptmorris1/TriliumNext-Powershell-Module
     #>
     [CmdletBinding(SupportsShouldProcess = $true)]
     [Alias('utno')]
@@ -1566,7 +1595,7 @@ function Update-TriliumNoteOrder {
             if ($SkipCertCheck -eq $true) {
                 $PSDefaultParameterValues = @{'Invoke-RestMethod:SkipCertificateCheck' = $true }
             }
-            $TriliumHeaders = @{ }
+            $TriliumHeaders = @{}
             $TriliumHeaders.Add('Authorization', "$($TriliumCreds.Authorization)")
             $uri = "$($TriliumCreds.URL)/refresh-note-ordering/$ParentNoteId"
             if ($PSCmdlet.ShouldProcess($uri, 'Update note order')) {

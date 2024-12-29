@@ -1,5 +1,5 @@
 @{
-    ModuleVersion   = '0.3.0'
+    ModuleVersion   = '0.4.0'
     Guid            = '5d0452a3-0c40-4681-b12c-070eccc905dc'
     CompanyName     = 'Patrick Morris '
     Copyright       = '2024 Patrick Morris'
@@ -27,6 +27,11 @@
 * Added check for / at the end of base URL.
 * updated Connect-TriliumAuth to use -SkipCertCheck switch.
 * Added -SkipCertCheck switch to ALL functions.
+---
+### Trilium 0.4.0
+* Improved Connect-TriliumAuth to use PSCredential object.
+  * See documentation for new usage.
+
 
 
 '@

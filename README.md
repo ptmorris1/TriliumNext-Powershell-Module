@@ -60,6 +60,10 @@ help Connect-TriliumAuth
 * Added check for / at the end of base URL.
 * updated Connect-TriliumAuth to use -SkipCertCheck switch.
 * Added -SkipCertCheck switch to ALL functions.
+---
+* ### Trilium 0.4.0
+* Improved Connect-TriliumAuth to use PSCredential object.
+  * See documentation for new usage.
 
 ## Installation
 https://www.powershellgallery.com/packages/Trilium/
@@ -78,37 +82,44 @@ Before using any other functions, you need to set up authentication with your Tr
 ## Connect-TriliumAuth
 Sets the authentication to a Trilium instance for API calls.
 > :memo: **Notes:**
-> - Need to use Auth parameter only or Password parameter only or ETAPITOKEN parameter only
->   - Auth parameter is for better security using masked input after the command runs.  Uses a swtich, ETAPITOKEN or PASSWORD
->   - ETAPITOKEN parameter uses plain text and best for automation
->   - Password parameter uses plain text and best for automation.
-> - BaseUrl paramter should be base url including port:  'http://localhost:8082'
-> - BaseUrl when using a reverse proxy, port is not required:  'https://trilium.myDomain.com'
-> - :exclamation: 4 example options below to login, use ONLY 1 that works best for you.
+> - BaseUrl paramter should be base url including port:  `http://localhost:8082`
+> - BaseUrl when using a reverse proxy, port is not required:  `https://trilium.myDomain.com`
+> - Automate credentials using a [SecretStore](https://learn.microsoft.com/en-us/powershell/utility-modules/secretmanagement/how-to/using-secrets-in-automation?view=ps-modules)
 
 #### Examples
 
-#### - Option 1<!-- omit in toc -->
+#### - Using a password to login<!-- omit in toc -->
 ```powershell
-# This command will ask for the ETAPITOKEN using a masked input for better security.
-Connect-TriliumAuth -BaseUrl 'https://trilium.MyDomain.com' -Auth ETAPITOKEN
+# This command will ask for a password to login, username does not matter.  Input is masked.
+Connect-TriliumAuth -BaseUrl 'https://trilium.MyDomain.com' -Password (Get-Credential -UserName 'admin')
+
+# This command will create a $Creds variable to use.  Both commands do the same thing so only 1 is needed.
+$Creds = Get-Credential -Username 'admin'
+Connect-TriliumAuth -BaseUrl 'https://trilium.MyDomain.com' -Password $Creds
+
+# Automate credentials using a SecretStore.
+$user = 'admin'
+$p = Get-Secret admin
+$Creds = [System.Management.Automation.PSCredential]::new($user, $p)
+Connect-TriliumAuth -BaseUrl 'https://trilium.MyDomain.com' -Password $Creds
 ```
 
-#### - Option 2<!-- omit in toc -->
+#### - Using ETAPIToken to login<!-- omit in toc -->
 ```powershell
-# This command will ask for the password using a masked input for better security
-Connect-TriliumAuth -BaseUrl 'https://trilium.domain.com' -Auth Password
+# This command will use an ETAPI token to connect.  Input is masked.
+Connect-TriliumAuth -BaseUrl 'https://trilium.domain.com' -EtapiToken (Get-Credential -UserName 'admin')
+
+# This command will create a $Creds variable to use.  Both commands do the same thing so only 1 is needed.
+$Creds = Get-Credential -Username 'admin'
+Connect-TriliumAuth -BaseUrl 'https://trilium.MyDomain.com' -EtapiToken $Creds
+
+# Automate credentials using a SecretStore.
+$user = 'admin'
+$p = Get-Secret admin
+$Creds = [System.Management.Automation.PSCredential]::new($user, $p)
+Connect-TriliumAuth -BaseUrl 'https://trilium.MyDomain.com' -EtapiToken $Creds
 ```
-#### - Option 3<!-- omit in toc -->
-```powershell
-# This command will allow you to supply the ETAPITOKEN in plain text, no extra input.
-Connect-TriliumAuth -BaseUrl 'https://trilium.domain.com' -EtapiToken myEtapiTokenstring
-```
-#### - Option 4<!-- omit in toc -->
-```powershell
-# This command will allow you to supply the password in plain text, no extra input.
-Connect-TriliumAuth -BaseUrl 'https://trilium.domain.com' -Password myPassword
-```
+
 Successfull connection should display TriliumNext details.
 
 ![output](assets/Get-TriliumInfo.png)
