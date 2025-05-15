@@ -1,18 +1,3 @@
-@{
-    ModuleVersion   = '0.5.0'
-    Guid            = '5d0452a3-0c40-4681-b12c-070eccc905dc'
-    CompanyName     = 'Patrick Morris '
-    Copyright       = '2024-25 Patrick Morris'
-    Author          = 'Patrick Morris'
-    AliasesToExport = '*'
-    RootModule      = 'Trilium.psm1'
-    Description     = 'Powershell wrapper for the TriliumNext API'
-    PrivateData     = @{
-        PSData = @{
-            Tags         = 'Windows', 'TriliumNext', 'PowerShell', 'PSEdition_Core', 'Trilium'
-            ProjectURI   = 'https://github.com/ptmorris1/TriliumNext-Powershell-Module'
-            LicenseURI   = 'https://github.com/ptmorris1/TriliumNext-Powershell-Module/blob/main/LICENSE'            
-            ReleaseNotes = @'
 # 📅 Changelog
 
 All notable changes to the **Trilium** PowerShell module will be documented in this file.
@@ -54,7 +39,3 @@ All notable changes to the **Trilium** PowerShell module will be documented in t
 ---
 
 > 📌 This changelog follows [Keep a Changelog](https://keepachangelog.com/en/1.0.0/) principles.
-'@
-        }
-    }
-}

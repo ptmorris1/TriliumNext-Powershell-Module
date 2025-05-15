@@ -1,237 +1,387 @@
-# Trilium PowerShell Module<!-- omit in toc -->
+# 🚀 Trilium PowerShell Module
 
-## Table of Contents<!-- omit in toc -->
-- [Overview](#overview)
-- [ChangeLog](#changelog)
-- [Installation](#installation)
-- [Authentication](#authentication)
-- [Commands](#commands)
-- [Connect-TriliumAuth](#connect-triliumauth)
-    - [Examples](#examples)
-- [Disconnect-TriliumAuth](#disconnect-triliumauth)
-  - [Examples](#examples-1)
-- [Get-TriliumInfo](#get-triliuminfo)
-    - [Examples](#examples-2)
-- [Get-TriliumRootNote](#get-triliumrootnote)
-  - [Examples](#examples-3)
-- [Find-TriliumNote](#find-triliumnote)
-  - [Examples](#examples-4)
-  - [Parameters](#parameters)
-- [Get-TriliumNoteDetails](#get-triliumnotedetails)
-- [Export-TriliumNote](#export-triliumnote)
-- [New-TriliumNote](#new-triliumnote)
-- [Remove-TriliumNote](#remove-triliumnote)
-- [Get-TriliumNoteContent](#get-triliumnotecontent)
-- [Set-TriliumNoteContent](#set-triliumnotecontent)
-- [Import-TriliumNoteZip](#import-triliumnotezip)
-- [New-TriliumNoteRevision](#new-triliumnoterevision)
-- [Copy-TriliumNote](#copy-triliumnote)
-- [Get-TriliumBranch](#get-triliumbranch)
-- [Remove-TriliumBranch](#remove-triliumbranch)
-- [New-TriliumBackup](#new-triliumbackup)
-- [Get-TriliumAttribute](#get-triliumattribute)
-- [Remove-TriliumAttribute](#remove-triliumattribute)
-- [Update-TriliumNoteOrder](#update-triliumnoteorder)
+![PowerShell Gallery Version](https://img.shields.io/powershellgallery/v/Trilium)
+![Downloads](https://img.shields.io/powershellgallery/dt/Trilium)
+![PSGallery Quality](https://img.shields.io/powershellgallery/p/Trilium)  
+[![TriliumNext](https://img.shields.io/badge/TriliumNext-ETAPI-blue?logo=read-the-docs)](https://github.com/TriliumNext/Notes)  
+[![License: MIT](https://img.shields.io/badge/license-MIT-green.svg)](LICENSE)
 
-## Overview
+> Manage your [TriliumNext](https://github.com/TriliumNext/Notes) instance via PowerShell using the ETAPI
 
-This PowerShell module provides a set of functions to interact with a TriliumNext instance via its ETAPI. It allows you to authenticate, manage notes, and perform various operations on your TriliumNext instance.
-
-To get more help with any cmdlet run below and subsitute cmdlet name as needed:
-```powershell
-help Connect-TriliumAuth
-```
-
-[TriliumNext](https://github.com/TriliumNext/Notes)\
-[ETAPI Docs](https://github.com/zadam/trilium/wiki/ETAPI)\
-[ETAPI OpenAPI format](https://github.com/zadam/trilium/blob/master/src/etapi/etapi.openapi.yaml)
-
-## ChangeLog
-### Trilium 0.1.0<!-- omit in toc -->
-* Initial Release of Trilium, including:
-  * A command for almost every documented TriliumNext API.
 ---
-### Trilium 0.2.0<!-- omit in toc -->
-* Fixed paramter sets in Find-TriliumNote
-  * orderBy and Limit must be used together.
-* Updated\added some documentation.
----
-### Trilium 0.3.0<!-- omit in toc -->
-* Added check for / at the end of base URL.
-* updated Connect-TriliumAuth to use -SkipCertCheck switch.
-* Added -SkipCertCheck switch to ALL functions.
----
-* ### Trilium 0.4.0
-* Improved Connect-TriliumAuth to use PSCredential object.
-  * See documentation for new usage.
 
-## Installation
-https://www.powershellgallery.com/packages/Trilium/
+## 📖 Table of Contents
+- [Trilium PowerShell Module](#-trilium-powershell-module)
+  - [📖 Table of Contents](#-table-of-contents)
+  - [🦾 Description](#-description)
+  - [🛠 Requirements](#-requirements)
+  - [📦 Installation](#-installation)
+  - [🔐 Authentication](#-authentication)
+  - [📚 Available Functions](#-available-functions)
+  - [📣 Contributions & Issues](#-contributions--issues)
+  - [📄 License](#-license)
+  - [📅 Changelog](#-changelog)
+  - [🔗 Resources](#-resources)
+
+---
+
+## 🦾 Description
+
+**Trilium** is a PowerShell module that enables you to interact with your TriliumNext server programmatically.
+It provides functions to:
+
+* Authenticate and manage sessions
+* Search and manage notes
+* Export and import notes
+* Manage note attributes and branches
+* And more!
+
+---
+
+## 🛠 Requirements
+
+* PowerShell 7 or higher
+* TriliumNext instance with ETAPI enabled
+* HTTP(S) access to your Trilium server
+
+---
+
+## 📦 Installation
+
+Install from the PowerShell Gallery:
 
 ```powershell
-# Example installation command
 Install-Module -Name Trilium -Scope CurrentUser
 ```
 
-## Authentication
+---
 
-Before using any other functions, you need to set up authentication with your TriliumNext instance using [Connect-TriliumAuth](#connect-triliumauth)
+## 🔐 Authentication
 
-## Commands
+All functions require authentication 1st. Use a `PSCredential` object to store the password or ETAPI token.
+ Username does not matter but required for Get-Credential.  We only use the stored password.
 
-## Connect-TriliumAuth
-Sets the authentication to a Trilium instance for API calls.
-> :memo: **Notes:**
-> - BaseUrl paramter should be base url including port:  `http://localhost:8082`
-> - BaseUrl when using a reverse proxy, port is not required:  `https://trilium.myDomain.com`
-> - Automate credentials using a [SecretStore](https://learn.microsoft.com/en-us/powershell/utility-modules/secretmanagement/how-to/using-secrets-in-automation?view=ps-modules)
-
-#### Examples
-
-#### - Using a password to login<!-- omit in toc -->
 ```powershell
-# This command will ask for a password to login, username does not matter.  Input is masked.
-Connect-TriliumAuth -BaseUrl 'https://trilium.MyDomain.com' -Password (Get-Credential -UserName 'admin')
-
-# This command will create a $Creds variable to use.  Both commands do the same thing so only 1 is needed.
-$Creds = Get-Credential -Username 'admin'
-Connect-TriliumAuth -BaseUrl 'https://trilium.MyDomain.com' -Password $Creds
-
-# Automate credentials using a SecretStore.
-$user = 'admin'
-$p = Get-Secret admin
-$Creds = [System.Management.Automation.PSCredential]::new($user, $p)
-Connect-TriliumAuth -BaseUrl 'https://trilium.MyDomain.com' -Password $Creds
+$creds = Get-Credential -UserName admin
+Connect-TriliumAuth -BaseUrl 'https://trilium.domain.com' -Password $creds
 ```
 
-#### - Using ETAPIToken to login<!-- omit in toc -->
+---
+
+## 📚 Available Functions
+
+### 🔐 Connect-TriliumAuth
+
+Authenticates to a TriliumNext instance for API calls. Supports both password (PSCredential) and ETAPI token authentication. Optionally allows skipping SSL certificate checks. Credentials are stored globally for use by other module functions.
+
+**Parameters:**
+
+* `BaseUrl` – Base URL for the TriliumNext instance (e.g., `https://trilium.myDomain.net` or `https://1.2.3.4:443`)
+* `Password` – PSCredential object containing your Trilium password (standard login)
+* `EtapiToken` – PSCredential object containing your ETAPI token as the password (token-based login)
+* `SkipCertCheck` – (Optional) Ignore SSL certificate errors (useful for self-signed certs)
+
+**Examples:**
+
 ```powershell
-# This command will use an ETAPI token to connect.  Input is masked.
-Connect-TriliumAuth -BaseUrl 'https://trilium.domain.com' -EtapiToken (Get-Credential -UserName 'admin')
+Connect-TriliumAuth -BaseUrl "https://trilium.myDomain.net" -Password (Get-Credential -UserName 'admin')
+# Prompts for password and authenticates using standard login.
 
-# This command will create a $Creds variable to use.  Both commands do the same thing so only 1 is needed.
-$Creds = Get-Credential -Username 'admin'
-Connect-TriliumAuth -BaseUrl 'https://trilium.MyDomain.com' -EtapiToken $Creds
-
-# Automate credentials using a SecretStore.
-$user = 'admin'
-$p = Get-Secret admin
-$Creds = [System.Management.Automation.PSCredential]::new($user, $p)
-Connect-TriliumAuth -BaseUrl 'https://trilium.MyDomain.com' -EtapiToken $Creds
+Connect-TriliumAuth -BaseUrl "https://trilium.myDomain.net" -EtapiToken (Get-Credential -UserName 'admin')
+# Prompts for ETAPI token and authenticates using an ETAPI token.
 ```
 
-Successfull connection should display TriliumNext details.
+---
 
-![output](assets/Get-TriliumInfo.png)
+### 🔓 Disconnect-TriliumAuth
 
-## Disconnect-TriliumAuth
+Removes stored authentication/session information for the current session.
 
-Removes the authentication from TriliumNext instance if using a password.  Also removes local variable.
-
-### Examples
 ```powershell
 Disconnect-TriliumAuth
 ```
 
-## Get-TriliumInfo
-Gets the application info for Trilium
-#### Examples
+---
+
+### 🏷 Find-TriliumNote
+
+Searches for notes in TriliumNext using a search term and optional filters such as label, ancestor note, fast search, archived notes, debug mode, result limit, and sort order. Requires authentication via Connect-TriliumAuth.
+
+**Parameters:**
+
+* `Search` – (Required) Search term for note title/content
+* `Label` – (Optional) Filter by label
+* `FastSearch` – (Optional) Enables fast search mode
+* `IncludeArchivedNotes` – (Optional) Includes archived notes in results
+* `DebugOn` – (Optional) Enables debug mode
+* `AncestorNoteId` – (Optional) Restrict search to a specific ancestor note (default: root)
+* `Limit` – (Optional) Limit number of results (default: 10; requires OrderBy)
+* `OrderBy` – (Optional) Sort results by field (used only with Limit)
+* `SkipCertCheck` – (Optional) Ignore SSL certificate errors
+
+**Examples:**
+
 ```powershell
-Get-TriliumInfo
+Find-TriliumNote -Search "meeting notes"
+Find-TriliumNote -Search "project" -Label "work" -FastSearch -IncludeArchivedNotes
+Find-TriliumNote -Search "api" -Limit 5 -OrderBy dateCreated
 ```
-Output
 
-![output](assets/Get-TriliumInfo.png)
+---
 
-## Get-TriliumRootNote
-Gets the root note details from the Trilium instance.
-### Examples
+### 📄 Get-TriliumNoteDetails
+
+Retrieves details for a specific note by ID.
+
+**Parameters:**
+
+* `NoteId` – ID of the note
+
+```powershell
+Get-TriliumNoteDetails -NoteId 'abcdef'
+```
+
+---
+
+### 📝 New-TriliumNote
+
+Creates a new note under a specified parent note.
+
+**Parameters:**
+
+* `ParentNoteId` – ID of the parent note
+* `Title` – Title of the new note
+* `Type` – (Optional) Note type (default: text)
+* `Content` – (Optional) Initial content
+
+```powershell
+New-TriliumNote -ParentNoteId 'root' -Title 'My Note' -Content 'Hello World'
+```
+
+---
+
+### ✏️ Set-TriliumNoteContent
+
+Updates the content of an existing note.
+
+**Parameters:**
+
+* `NoteId` – ID of the note
+* `Content` – New content
+
+```powershell
+Set-TriliumNoteContent -NoteId 'abcdef' -Content 'Updated text'
+```
+
+---
+
+### 📖 Get-TriliumNoteContent
+
+Fetches the content of a note by ID.
+
+**Parameters:**
+
+* `NoteId` – ID of the note
+
+```powershell
+Get-TriliumNoteContent -NoteId 'abcdef'
+```
+
+---
+
+### 🗑 Remove-TriliumNote
+
+Deletes a note by ID.
+
+**Parameters:**
+
+* `NoteId` – ID of the note
+
+```powershell
+Remove-TriliumNote -NoteId 'abcdef'
+```
+
+---
+
+### 📤 Export-TriliumNote
+
+Exports a note to a `.zip` or Markdown/HTML file.
+
+**Parameters:**
+
+* `NoteId` – ID of the note
+* `Path` – Output file path
+* `Format` – (Optional) Export format (`zip`, `html`, `md`)
+
+```powershell
+Export-TriliumNote -NoteId 'abcdef' -Path 'C:\Backups\note.zip'
+Export-TriliumNote -NoteId 'abcdef' -Path 'C:\Backups\note.md' -Format md
+```
+
+---
+
+### 📥 Import-TriliumNoteZip
+
+Imports a `.zip` archive as a note under a specified parent note.
+
+**Parameters:**
+
+* `NoteId` – ID of the parent note
+* `Path` – Path to the `.zip` file
+
+```powershell
+Import-TriliumNoteZip -NoteId 'parentNoteId' -Path 'C:\note.zip'
+```
+
+---
+
+### 🕰 New-TriliumNoteRevision
+
+Creates a new revision for a note.
+
+**Parameters:**
+
+* `NoteId` – ID of the note
+* `Content` – New content for the revision
+
+```powershell
+New-TriliumNoteRevision -NoteId 'abcdef' -Content 'Revision text'
+```
+
+---
+
+### 🪄 Copy-TriliumNote
+
+Clones (branches) a note under a new parent.
+
+**Parameters:**
+
+* `NoteId` – ID of the note to clone
+* `ParentNoteId` – ID of the new parent note
+
+```powershell
+Copy-TriliumNote -NoteId 'abcdef' -ParentNoteId 'root'
+```
+
+---
+
+### 🌳 Get-TriliumRootNote
+
+Retrieves details for the root note.
+
 ```powershell
 Get-TriliumRootNote
 ```
-Output
 
-![output](assets/Get-TriliumRootNote.png)
+---
 
-## Find-TriliumNote
-Finds a Trilium note based on search criteria.
+### 💾 New-TriliumBackup
 
-Advanced functions can be used.  See [documentation](https://github.com/zadam/trilium/wiki/Search)
-### Examples
+Triggers a backup of the Trilium instance.
+
 ```powershell
-# Simple text based search, searches everything.
-Find-TriliumNote -Search 'TestNote'
-
-# Finds anything with 'textnote' and includes a 'iconClass' label
-Find-TriliumNote -Search 'testnote' -Label 'iconClass'
+New-TriliumBackup
 ```
-### Parameters
-- Search: The search term.
-- Label: Optional label to filter search.
-- FastSearch: Option for fast search.
-- IncludeArchivedNotes: Option to include archived notes.
-- DebugOn: Option to enable debug mode.
-- NoteId: Optional note ID to search within.
-- Limit: Limits search to certain number.  OrderBy is required.
-- OrderBy: Orders by values:  
-  - "title", "publicationDate", "isProtected", "isArchived", "dateCreated", "dateModified", "utcDateCreated", "utcDateModified", "parentCount", "childrenCount", "attributeCount", "labelCount", "ownedLabelCount", "relationCount", "ownedRelationCount", "relationCountIncludingLinks", "ownedRelationCountIncludingLinks", "targetRelationCount", "targetRelationCountIncludingLinks", "contentSize", "contentAndAttachmentsSize", "contentAndAttachmentsAndRevisionsSize", "revisionCount"
 
-## Get-TriliumNoteDetails
+---
 
-Gets details of a specific Trilium note.
+### 🏷 Get-TriliumAttribute
 
-## Export-TriliumNote
+Views attributes for a note.
 
-Exports a Trilium note to a zip file.
+**Parameters:**
 
-## New-TriliumNote
+* `NoteId` – ID of the note
 
-Creates a new Trilium note.
+```powershell
+Get-TriliumAttribute -NoteId 'abcdef'
+```
 
-## Remove-TriliumNote
+---
 
-Removes a Trilium note.
+### 🗑 Remove-TriliumAttribute
 
-## Get-TriliumNoteContent
+Deletes an attribute from a note.
 
-Gets the content of a specific Trilium note.
+**Parameters:**
 
-## Set-TriliumNoteContent
+* `NoteId` – ID of the note
+* `Name` – Name of the attribute
 
-Sets the content of a specific Trilium note.
+```powershell
+Remove-TriliumAttribute -NoteId 'abcdef' -Name 'myAttribute'
+```
 
-## Import-TriliumNoteZip
+---
 
-Imports a Trilium note zip file to a specific Trilium note.
+### 🌿 Get-TriliumBranch
 
-## New-TriliumNoteRevision
+Gets metadata for a note branch.
 
-Creates a new revision for a specific Trilium note.
+**Parameters:**
 
-## Copy-TriliumNote
+* `NoteId` – ID of the note
 
-Creates a clone (branch) of a Trilium note in another note.
+```powershell
+Get-TriliumBranch -NoteId 'abcdef'
+```
 
-## Get-TriliumBranch
+---
 
-Gets details of a specific Trilium branch.
+### 🗑 Remove-TriliumBranch
 
-## Remove-TriliumBranch
+Removes a branch from a note.
 
-Removes a specific Trilium branch.
+**Parameters:**
 
-## New-TriliumBackup
+* `NoteId` – ID of the note
+* `BranchId` – ID of the branch
 
-Creates a new backup for a specific Trilium instance.
+```powershell
+Remove-TriliumBranch -NoteId 'abcdef' -BranchId 'branch123'
+```
 
-## Get-TriliumAttribute
+---
 
-Gets details of a specific Trilium attribute.
+### 🔢 Update-TriliumNoteOrder
 
-## Remove-TriliumAttribute
+Changes the order of child notes under a parent.
 
-Removes a specific Trilium attribute.
+**Parameters:**
 
-## Update-TriliumNoteOrder
+* `ParentNoteId` – ID of the parent note
+* `ChildNoteIds` – Array of child note IDs in desired order
 
-Updates the order of notes under a specific parent note.
+```powershell
+Update-TriliumNoteOrder -ParentNoteId 'root' -ChildNoteIds @('id1','id2','id3')
+```
+
+---
+
+## 📣 Contributions & Issues
+
+Feel free to open issues, submit pull requests, or suggest features!
+
+---
+
+## 📄 License
+
+This project is licensed under the MIT License.
+
+---
+
+## 📅 Changelog
+
+See [CHANGELOG.md](./CHANGELOG.md) for release history.
+
+---
+
+## 🔗 Resources
+
+- 🌐 [TriliumNext on GitHub](https://github.com/TriliumNext/Notes)
+- 📖 [ETAPI Wiki](https://github.com/zadam/trilium/wiki/ETAPI)
+- 📜 [ETAPI OpenAPI YAML](https://github.com/zadam/trilium/blob/master/src/etapi/etapi.openapi.yaml)
+
+---
+
+🧠 _Made with ❤️ for scripting your notes._
