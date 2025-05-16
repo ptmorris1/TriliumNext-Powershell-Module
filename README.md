@@ -69,6 +69,36 @@ Connect-TriliumAuth -BaseUrl 'https://trilium.domain.com' -Password $creds
 
 ## 📚 Available Functions
 
+- [🚀 Trilium PowerShell Module](#-trilium-powershell-module)
+  - [🦾 Description](#-description)
+  - [🛠 Requirements](#-requirements)
+  - [📦 Installation](#-installation)
+  - [🔐 Authentication](#-authentication)
+  - [📚 Available Functions](#-available-functions)
+    - [🔐 Connect-TriliumAuth](#-connect-triliumauth)
+    - [🔓 Disconnect-TriliumAuth](#-disconnect-triliumauth)
+    - [🏷 Find-TriliumNote](#-find-triliumnote)
+    - [📄 Get-TriliumNoteDetails](#-get-triliumnotedetails)
+    - [📝 New-TriliumNote](#-new-triliumnote)
+    - [✏️ Set-TriliumNoteContent](#️-set-triliumnotecontent)
+    - [📖 Get-TriliumNoteContent](#-get-triliumnotecontent)
+    - [🗑 Remove-TriliumNote](#-remove-triliumnote)
+    - [📤 Export-TriliumNote](#-export-triliumnote)
+    - [📥 Import-TriliumNoteZip](#-import-triliumnotezip)
+    - [🕰 New-TriliumNoteRevision](#-new-triliumnoterevision)
+    - [🪄 Copy-TriliumNote](#-copy-triliumnote)
+    - [🌳 Get-TriliumRootNote](#-get-triliumrootnote)
+    - [💾 New-TriliumBackup](#-new-triliumbackup)
+    - [🏷 Get-TriliumAttribute](#-get-triliumattribute)
+    - [🗑 Remove-TriliumAttribute](#-remove-triliumattribute)
+    - [🌿 Get-TriliumBranch](#-get-triliumbranch)
+    - [🗑 Remove-TriliumBranch](#-remove-triliumbranch)
+    - [🔢 Update-TriliumNoteOrder](#-update-triliumnoteorder)
+  - [📣 Contributions \& Issues](#-contributions--issues)
+  - [📄 License](#-license)
+  - [📅 Changelog](#-changelog)
+  - [🔗 Resources](#-resources)
+
 ### 🔐 Connect-TriliumAuth
 
 Authenticates to a TriliumNext instance for API calls. Supports both password (PSCredential) and ETAPI token authentication. Optionally allows skipping SSL certificate checks. Credentials are stored globally for use by other module functions.
