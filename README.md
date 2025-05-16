@@ -11,13 +11,13 @@
 ---
 
 ## 📖 Table of Contents <!-- omit in toc -->
-- [Trilium PowerShell Module](#-trilium-powershell-module) 
+- [🚀 Trilium PowerShell Module](#-trilium-powershell-module)
   - [🦾 Description](#-description)
   - [🛠 Requirements](#-requirements)
   - [📦 Installation](#-installation)
   - [🔐 Authentication](#-authentication)
   - [📚 Available Functions](#-available-functions)
-  - [📣 Contributions & Issues](#-contributions--issues)
+  - [📣 Contributions \& Issues](#-contributions--issues)
   - [📄 License](#-license)
   - [📅 Changelog](#-changelog)
   - [🔗 Resources](#-resources)
@@ -69,37 +69,27 @@ Connect-TriliumAuth -BaseUrl 'https://trilium.domain.com' -Password $creds
 
 ## 📚 Available Functions
 
-- [🚀 Trilium PowerShell Module](#-trilium-powershell-module)
-  - [🦾 Description](#-description)
-  - [🛠 Requirements](#-requirements)
-  - [📦 Installation](#-installation)
-  - [🔐 Authentication](#-authentication)
-  - [📚 Available Functions](#-available-functions)
-    - [🔐 Connect-TriliumAuth](#-connect-triliumauth)
-    - [🔓 Disconnect-TriliumAuth](#-disconnect-triliumauth)
-    - [🏷 Find-TriliumNote](#-find-triliumnote)
-    - [📄 Get-TriliumNoteDetails](#-get-triliumnotedetails)
-    - [📝 New-TriliumNote](#-new-triliumnote)
-    - [✏️ Set-TriliumNoteContent](#️-set-triliumnotecontent)
-    - [📖 Get-TriliumNoteContent](#-get-triliumnotecontent)
-    - [🗑 Remove-TriliumNote](#-remove-triliumnote)
-    - [📤 Export-TriliumNote](#-export-triliumnote)
-    - [📥 Import-TriliumNoteZip](#-import-triliumnotezip)
-    - [🕰 New-TriliumNoteRevision](#-new-triliumnoterevision)
-    - [🪄 Copy-TriliumNote](#-copy-triliumnote)
-    - [🌳 Get-TriliumRootNote](#-get-triliumrootnote)
-    - [💾 New-TriliumBackup](#-new-triliumbackup)
-    - [🏷 Get-TriliumAttribute](#-get-triliumattribute)
-    - [🗑 Remove-TriliumAttribute](#-remove-triliumattribute)
-    - [🌿 Get-TriliumBranch](#-get-triliumbranch)
-    - [🗑 Remove-TriliumBranch](#-remove-triliumbranch)
-    - [🔢 Update-TriliumNoteOrder](#-update-triliumnoteorder)
-  - [📣 Contributions \& Issues](#-contributions--issues)
-  - [📄 License](#-license)
-  - [📅 Changelog](#-changelog)
-  - [🔗 Resources](#-resources)
+- [Connect-TriliumAuth](#-connect-triliumauth)
+- [Disconnect-TriliumAuth](#-disconnect-triliumnote)
+- [Find-TriliumNote](#-find-triliumnote)
+- [Get-TriliumNoteDetails](#-get-triliumnotedetails)
+- [New-TriliumNote](#-new-triliumnote)
+- [Set-TriliumNoteContent](#-set-triliumnotecontent)
+- [Get-TriliumNoteContent](#-get-triliumnotecontent)
+- [Remove-TriliumNote](#-remove-triliumnote)
+- [Export-TriliumNote](#-export-triliumnote)
+- [Import-TriliumNoteZip](#-import-triliumnotezip)
+- [New-TriliumNoteRevision](#-new-triliumnoterevision)
+- [Copy-TriliumNote](#-copy-triliumnote)
+- [Get-TriliumRootNote](#-get-triliumrootnote)
+- [New-TriliumBackup](#-new-triliumbackup)
+- [Get-TriliumAttribute](#-get-triliumattribute)
+- [Remove-TriliumAttribute](#-remove-triliumattribute)
+- [Get-TriliumBranch](#-get-triliumbranch)
+- [Remove-TriliumBranch](#-remove-triliumbranch)
+- [Update-TriliumNoteOrder](#-update-triliumnoteorder)
 
-### 🔐 Connect-TriliumAuth
+### 🔐 Connect-TriliumAuth <!-- omit in toc -->
 
 Authenticates to a TriliumNext instance for API calls. Supports both password (PSCredential) and ETAPI token authentication. Optionally allows skipping SSL certificate checks. Credentials are stored globally for use by other module functions.
 
@@ -122,7 +112,7 @@ Connect-TriliumAuth -BaseUrl "https://trilium.myDomain.net" -EtapiToken (Get-Cre
 
 ---
 
-### 🔓 Disconnect-TriliumAuth
+### 🔓 Disconnect-TriliumAuth <!-- omit in toc -->
 
 Removes stored authentication/session information for the current session.
 
@@ -132,7 +122,7 @@ Disconnect-TriliumAuth
 
 ---
 
-### 🏷 Find-TriliumNote
+### 🏷 Find-TriliumNote <!-- omit in toc -->
 
 Searches for notes in TriliumNext using a search term and optional filters such as label, ancestor note, fast search, archived notes, debug mode, result limit, and sort order. Requires authentication via Connect-TriliumAuth.
 
@@ -158,7 +148,7 @@ Find-TriliumNote -Search "api" -Limit 5 -OrderBy dateCreated
 
 ---
 
-### 📄 Get-TriliumNoteDetails
+### 📄 Get-TriliumNoteDetails <!-- omit in toc -->
 
 Retrieves details for a specific note by ID.
 
@@ -172,7 +162,7 @@ Get-TriliumNoteDetails -NoteId 'abcdef'
 
 ---
 
-### 📝 New-TriliumNote
+### 📝 New-TriliumNote <!-- omit in toc -->
 
 Creates a new note under a specified parent note.
 
@@ -189,7 +179,7 @@ New-TriliumNote -ParentNoteId 'root' -Title 'My Note' -Content 'Hello World'
 
 ---
 
-### ✏️ Set-TriliumNoteContent
+### ✏️ Set-TriliumNoteContent <!-- omit in toc -->
 
 Updates the content of an existing note.
 
@@ -204,7 +194,7 @@ Set-TriliumNoteContent -NoteId 'abcdef' -Content 'Updated text'
 
 ---
 
-### 📖 Get-TriliumNoteContent
+### 📖 Get-TriliumNoteContent <!-- omit in toc -->
 
 Fetches the content of a note by ID.
 
@@ -218,7 +208,7 @@ Get-TriliumNoteContent -NoteId 'abcdef'
 
 ---
 
-### 🗑 Remove-TriliumNote
+### 🗑 Remove-TriliumNote <!-- omit in toc -->
 
 Deletes a note by ID.
 
@@ -232,7 +222,7 @@ Remove-TriliumNote -NoteId 'abcdef'
 
 ---
 
-### 📤 Export-TriliumNote
+### 📤 Export-TriliumNote <!-- omit in toc -->
 
 Exports a note to a `.zip` or Markdown/HTML file.
 
@@ -249,7 +239,7 @@ Export-TriliumNote -NoteId 'abcdef' -Path 'C:\Backups\note.md' -Format md
 
 ---
 
-### 📥 Import-TriliumNoteZip
+### 📥 Import-TriliumNoteZip <!-- omit in toc -->
 
 Imports a `.zip` archive as a note under a specified parent note.
 
@@ -264,7 +254,7 @@ Import-TriliumNoteZip -NoteId 'parentNoteId' -Path 'C:\note.zip'
 
 ---
 
-### 🕰 New-TriliumNoteRevision
+### 🕰 New-TriliumNoteRevision <!-- omit in toc -->
 
 Creates a new revision for a note.
 
@@ -279,7 +269,7 @@ New-TriliumNoteRevision -NoteId 'abcdef' -Content 'Revision text'
 
 ---
 
-### 🪄 Copy-TriliumNote
+### 🪄 Copy-TriliumNote <!-- omit in toc -->
 
 Clones (branches) a note under a new parent.
 
@@ -294,7 +284,7 @@ Copy-TriliumNote -NoteId 'abcdef' -ParentNoteId 'root'
 
 ---
 
-### 🌳 Get-TriliumRootNote
+### 🌳 Get-TriliumRootNote <!-- omit in toc -->
 
 Retrieves details for the root note.
 
@@ -304,7 +294,7 @@ Get-TriliumRootNote
 
 ---
 
-### 💾 New-TriliumBackup
+### 💾 New-TriliumBackup <!-- omit in toc -->
 
 Triggers a backup of the Trilium instance.
 
@@ -314,7 +304,7 @@ New-TriliumBackup
 
 ---
 
-### 🏷 Get-TriliumAttribute
+### 🏷 Get-TriliumAttribute <!-- omit in toc -->
 
 Views attributes for a note.
 
@@ -328,7 +318,7 @@ Get-TriliumAttribute -NoteId 'abcdef'
 
 ---
 
-### 🗑 Remove-TriliumAttribute
+### 🗑 Remove-TriliumAttribute <!-- omit in toc -->
 
 Deletes an attribute from a note.
 
@@ -343,7 +333,7 @@ Remove-TriliumAttribute -NoteId 'abcdef' -Name 'myAttribute'
 
 ---
 
-### 🌿 Get-TriliumBranch
+### 🌿 Get-TriliumBranch <!-- omit in toc -->
 
 Gets metadata for a note branch.
 
@@ -357,7 +347,7 @@ Get-TriliumBranch -NoteId 'abcdef'
 
 ---
 
-### 🗑 Remove-TriliumBranch
+### 🗑 Remove-TriliumBranch <!-- omit in toc -->
 
 Removes a branch from a note.
 
@@ -372,7 +362,7 @@ Remove-TriliumBranch -NoteId 'abcdef' -BranchId 'branch123'
 
 ---
 
-### 🔢 Update-TriliumNoteOrder
+### 🔢 Update-TriliumNoteOrder <!-- omit in toc -->
 
 Changes the order of child notes under a parent.
 
