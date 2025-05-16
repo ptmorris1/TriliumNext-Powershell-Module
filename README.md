@@ -17,6 +17,7 @@
   - [📦 Installation](#-installation)
   - [🔐 Authentication](#-authentication)
   - [📚 Available Functions](#-available-functions)
+  - [🗂️ API Endpoints and Functions](#️-api-endpoints-and-functions)
   - [📣 Contributions \& Issues](#-contributions--issues)
   - [📄 License](#-license)
   - [📅 Changelog](#-changelog)
@@ -89,291 +90,46 @@ Connect-TriliumAuth -BaseUrl 'https://trilium.domain.com' -Password $creds
 - [Remove-TriliumBranch](#-remove-triliumbranch)
 - [Update-TriliumNoteOrder](#-update-triliumnoteorder)
 
-### 🔐 Connect-TriliumAuth <!-- omit in toc -->
-
-Authenticates to a TriliumNext instance for API calls. Supports both password (PSCredential) and ETAPI token authentication. Optionally allows skipping SSL certificate checks. Credentials are stored globally for use by other module functions.
-
-**Parameters:**
-
-* `BaseUrl` – Base URL for the TriliumNext instance (e.g., `https://trilium.myDomain.net` or `https://1.2.3.4:443`)
-* `Password` – PSCredential object containing your Trilium password (standard login)
-* `EtapiToken` – PSCredential object containing your ETAPI token as the password (token-based login)
-* `SkipCertCheck` – (Optional) Ignore SSL certificate errors (useful for self-signed certs)
-
-**Examples:**
-
-```powershell
-Connect-TriliumAuth -BaseUrl "https://trilium.myDomain.net" -Password (Get-Credential -UserName 'admin')
-# Prompts for password and authenticates using standard login.
-
-Connect-TriliumAuth -BaseUrl "https://trilium.myDomain.net" -EtapiToken (Get-Credential -UserName 'admin')
-# Prompts for ETAPI token and authenticates using an ETAPI token.
-```
-
 ---
 
-### 🔓 Disconnect-TriliumAuth <!-- omit in toc -->
-
-Removes stored authentication/session information for the current session.
-
-```powershell
-Disconnect-TriliumAuth
-```
-
----
-
-### 🏷 Find-TriliumNote <!-- omit in toc -->
-
-Searches for notes in TriliumNext using a search term and optional filters such as label, ancestor note, fast search, archived notes, debug mode, result limit, and sort order. Requires authentication via Connect-TriliumAuth.
-
-**Parameters:**
-
-* `Search` – (Required) Search term for note title/content
-* `Label` – (Optional) Filter by label
-* `FastSearch` – (Optional) Enables fast search mode
-* `IncludeArchivedNotes` – (Optional) Includes archived notes in results
-* `DebugOn` – (Optional) Enables debug mode
-* `AncestorNoteId` – (Optional) Restrict search to a specific ancestor note (default: root)
-* `Limit` – (Optional) Limit number of results (default: 10; requires OrderBy)
-* `OrderBy` – (Optional) Sort results by field (used only with Limit)
-* `SkipCertCheck` – (Optional) Ignore SSL certificate errors
-
-**Examples:**
-
-```powershell
-Find-TriliumNote -Search "meeting notes"
-Find-TriliumNote -Search "project" -Label "work" -FastSearch -IncludeArchivedNotes
-Find-TriliumNote -Search "api" -Limit 5 -OrderBy dateCreated
-```
-
----
-
-### 📄 Get-TriliumNoteDetails <!-- omit in toc -->
-
-Retrieves details for a specific note by ID.
-
-**Parameters:**
-
-* `NoteId` – ID of the note
-
-```powershell
-Get-TriliumNoteDetails -NoteId 'abcdef'
-```
-
----
-
-### 📝 New-TriliumNote <!-- omit in toc -->
-
-Creates a new note under a specified parent note.
-
-**Parameters:**
-
-* `ParentNoteId` – ID of the parent note
-* `Title` – Title of the new note
-* `Type` – (Optional) Note type (default: text)
-* `Content` – (Optional) Initial content
-
-```powershell
-New-TriliumNote -ParentNoteId 'root' -Title 'My Note' -Content 'Hello World'
-```
-
----
-
-### ✏️ Set-TriliumNoteContent <!-- omit in toc -->
-
-Updates the content of an existing note.
-
-**Parameters:**
-
-* `NoteId` – ID of the note
-* `Content` – New content
-
-```powershell
-Set-TriliumNoteContent -NoteId 'abcdef' -Content 'Updated text'
-```
-
----
-
-### 📖 Get-TriliumNoteContent <!-- omit in toc -->
-
-Fetches the content of a note by ID.
-
-**Parameters:**
-
-* `NoteId` – ID of the note
-
-```powershell
-Get-TriliumNoteContent -NoteId 'abcdef'
-```
-
----
-
-### 🗑 Remove-TriliumNote <!-- omit in toc -->
-
-Deletes a note by ID.
-
-**Parameters:**
-
-* `NoteId` – ID of the note
-
-```powershell
-Remove-TriliumNote -NoteId 'abcdef'
-```
-
----
-
-### 📤 Export-TriliumNote <!-- omit in toc -->
-
-Exports a note to a `.zip` or Markdown/HTML file.
-
-**Parameters:**
-
-* `NoteId` – ID of the note
-* `Path` – Output file path
-* `Format` – (Optional) Export format (`zip`, `html`, `md`)
-
-```powershell
-Export-TriliumNote -NoteId 'abcdef' -Path 'C:\Backups\note.zip'
-Export-TriliumNote -NoteId 'abcdef' -Path 'C:\Backups\note.md' -Format md
-```
-
----
-
-### 📥 Import-TriliumNoteZip <!-- omit in toc -->
-
-Imports a `.zip` archive as a note under a specified parent note.
-
-**Parameters:**
-
-* `NoteId` – ID of the parent note
-* `Path` – Path to the `.zip` file
-
-```powershell
-Import-TriliumNoteZip -NoteId 'parentNoteId' -Path 'C:\note.zip'
-```
-
----
-
-### 🕰 New-TriliumNoteRevision <!-- omit in toc -->
-
-Creates a new revision for a note.
-
-**Parameters:**
-
-* `NoteId` – ID of the note
-* `Content` – New content for the revision
-
-```powershell
-New-TriliumNoteRevision -NoteId 'abcdef' -Content 'Revision text'
-```
-
----
-
-### 🪄 Copy-TriliumNote <!-- omit in toc -->
-
-Clones (branches) a note under a new parent.
-
-**Parameters:**
-
-* `NoteId` – ID of the note to clone
-* `ParentNoteId` – ID of the new parent note
-
-```powershell
-Copy-TriliumNote -NoteId 'abcdef' -ParentNoteId 'root'
-```
-
----
-
-### 🌳 Get-TriliumRootNote <!-- omit in toc -->
-
-Retrieves details for the root note.
-
-```powershell
-Get-TriliumRootNote
-```
-
----
-
-### 💾 New-TriliumBackup <!-- omit in toc -->
-
-Triggers a backup of the Trilium instance.
-
-```powershell
-New-TriliumBackup
-```
-
----
-
-### 🏷 Get-TriliumAttribute <!-- omit in toc -->
-
-Views attributes for a note.
-
-**Parameters:**
-
-* `NoteId` – ID of the note
-
-```powershell
-Get-TriliumAttribute -NoteId 'abcdef'
-```
-
----
-
-### 🗑 Remove-TriliumAttribute <!-- omit in toc -->
-
-Deletes an attribute from a note.
-
-**Parameters:**
-
-* `NoteId` – ID of the note
-* `Name` – Name of the attribute
-
-```powershell
-Remove-TriliumAttribute -NoteId 'abcdef' -Name 'myAttribute'
-```
-
----
-
-### 🌿 Get-TriliumBranch <!-- omit in toc -->
-
-Gets metadata for a note branch.
-
-**Parameters:**
-
-* `NoteId` – ID of the note
-
-```powershell
-Get-TriliumBranch -NoteId 'abcdef'
-```
-
----
-
-### 🗑 Remove-TriliumBranch <!-- omit in toc -->
-
-Removes a branch from a note.
-
-**Parameters:**
-
-* `NoteId` – ID of the note
-* `BranchId` – ID of the branch
-
-```powershell
-Remove-TriliumBranch -NoteId 'abcdef' -BranchId 'branch123'
-```
-
----
-
-### 🔢 Update-TriliumNoteOrder <!-- omit in toc -->
-
-Changes the order of child notes under a parent.
-
-**Parameters:**
-
-* `ParentNoteId` – ID of the parent note
-* `ChildNoteIds` – Array of child note IDs in desired order
-
-```powershell
-Update-TriliumNoteOrder -ParentNoteId 'root' -ChildNoteIds @('id1','id2','id3')
-```
+## 🗂️ API Endpoints and Functions
+
+| Method | Endpoint | Function | Notes |
+|--------|----------|----------|-------|
+| POST   | /create-note | [New-TriliumNote](#-new-triliumnote) | Function to create a new note. |
+| GET    | /notes | [Find-TriliumNote](#-find-triliumnote) | |
+| GET    | /notes/{noteId} | [Get-TriliumNoteDetails](#-get-triliumnotedetails) | |
+| PATCH  | /notes/{noteId} |  | |
+| DELETE | /notes/{noteId} | [Remove-TriliumNote](#-remove-triliumnote) | |
+| GET    | /notes/{noteId}/content | [Get-TriliumNoteContent](#-get-triliumnotecontent) | |
+| PUT    | /notes/{noteId}/content | [Set-TriliumNoteContent](#-set-triliumnotecontent) | |
+| GET    | /notes/{noteId}/export | [Export-TriliumNote](#-export-triliumnote) | exports a zip file with a single or multiple notes in html or markdown |
+| POST   | /notes/{noteId}/import | [Import-TriliumNoteZip](#-import-triliumnotezip) | Imports a ZIP file to a note. |
+| POST   | /notes/{noteId}/revision | [New-TriliumNoteRevision](#-new-triliumnoterevision) | |
+| POST   | /branches | [Copy-TriliumNote](#-copy-triliumnote) | |
+| GET    | /branches/{branchId} | [Get-TriliumBranch](#-get-triliumbranch) | |
+| PATCH  | /branches/{branchId} |  | |
+| DELETE | /branches/{branchId} | [Remove-TriliumBranch](#-remove-triliumbranch) | |
+| POST   | /attachments |  | |
+| GET    | /attachments/{attachmentId} |  | |
+| PATCH  | /attachments/{attachmentId} |  | |
+| DELETE | /attachments/{attachmentId} |  | |
+| GET    | /attachments/{attachmentId}/content |  | |
+| PUT    | /attachments/{attachmentId}/content |  | |
+| POST   | /attributes |  | |
+| GET    | /attributes/{attributeId} | [Get-TriliumAttribute](#-get-triliumattribute) | |
+| PATCH  | /attributes/{attributeId} |  | |
+| DELETE | /attributes/{attributeId} | [Remove-TriliumAttribute](#-remove-triliumattribute) | |
+| POST   | /refresh-note-ordering/{parentNoteId} | [Update-TriliumNoteOrder](#-update-triliumnoteorder) | |
+| GET    | /inbox/{date} |  | |
+| GET    | /calendar/days/{date} |  | |
+| GET    | /calendar/weeks/{date} |  | |
+| GET    | /calendar/months/{month} |  | |
+| GET    | /calendar/years/{year} |  | |
+| POST   | /auth/login | [Connect-TriliumAuth](#-connect-triliumauth) | |
+| POST   | /auth/logout | [Disconnect-TriliumAuth](#-disconnect-triliumnote) | |
+| GET    | /app-info | Get-TriliumInfo | |
+| PUT    | /backup/{backupName} | [New-TriliumBackup](#-new-triliumbackup) | |
 
 ---
 
