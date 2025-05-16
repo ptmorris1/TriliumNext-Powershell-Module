@@ -10,9 +10,8 @@
 
 ---
 
-## 📖 Table of Contents
-- [Trilium PowerShell Module](#-trilium-powershell-module)
-  - [📖 Table of Contents](#-table-of-contents)
+## 📖 Table of Contents <!-- omit in toc -->
+- [Trilium PowerShell Module](#-trilium-powershell-module) 
   - [🦾 Description](#-description)
   - [🛠 Requirements](#-requirements)
   - [📦 Installation](#-installation)
