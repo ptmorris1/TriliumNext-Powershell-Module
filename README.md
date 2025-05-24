@@ -71,40 +71,40 @@ Connect-TriliumAuth -BaseUrl 'https://trilium.domain.com' -Password $creds
 
 | Method | Endpoint | Function | Notes |
 |--------|----------|----------|-------|
-| POST   | /create-note | [New-TriliumNote](/public/New-TriliumNote.ps1) | Function to create a new note. |
-| GET    | /notes | [Find-TriliumNote](/public/Find-TriliumNote.ps1) | |
-| GET    | /notes/{noteId} | [Get-TriliumNoteDetails](/public/Get-TriliumNoteDetails.ps1) | |
+| POST   | /create-note | [New-TriliumNote](/public/New-TriliumNote.ps1) | Create a new note |
+| GET    | /notes | [Find-TriliumNote](/public/Find-TriliumNote.ps1) | Search for notes |
+| GET    | /notes/{noteId} | [Get-TriliumNoteDetails](/public/Get-TriliumNoteDetails.ps1) | Get note details |
 | PATCH  | /notes/{noteId} |  | |
-| DELETE | /notes/{noteId} | [Remove-TriliumNote](/public/Remove-TriliumNote.ps1) | |
-| GET    | /notes/{noteId}/content | [Get-TriliumNoteContent](/public/Get-TriliumNoteContent.ps1) | |
-| PUT    | /notes/{noteId}/content | [Set-TriliumNoteContent](/public/Set-TriliumNoteContent.ps1) | |
-| GET    | /notes/{noteId}/export | [Export-TriliumNote](/public/Export-TriliumNote.ps1) | exports a zip file with a single or multiple notes in html or markdown |
-| POST   | /notes/{noteId}/import | [Import-TriliumNoteZip](/public/Import-TriliumNoteZip.ps1) | Imports a ZIP file to a note. |
-| POST   | /notes/{noteId}/revision | [New-TriliumNoteRevision](/public/New-TriliumNoteRevision.ps1) | |
-| POST   | /branches | [Copy-TriliumNote](/public/Copy-TriliumNote.ps1) | |
-| GET    | /branches/{branchId} | [Get-TriliumBranch](/public/Get-TriliumBranch.ps1) | |
+| DELETE | /notes/{noteId} | [Remove-TriliumNote](/public/Remove-TriliumNote.ps1) | Delete a note |
+| GET    | /notes/{noteId}/content | [Get-TriliumNoteContent](/public/Get-TriliumNoteContent.ps1) | Get note content |
+| PUT    | /notes/{noteId}/content | [Set-TriliumNoteContent](/public/Set-TriliumNoteContent.ps1) | Update note content |
+| GET    | /notes/{noteId}/export | [Export-TriliumNote](/public/Export-TriliumNote.ps1) | Export note(s) as zip (HTML/Markdown) |
+| POST   | /notes/{noteId}/import | [Import-TriliumNoteZip](/public/Import-TriliumNoteZip.ps1) | Import notes from ZIP |
+| POST   | /notes/{noteId}/revision | [New-TriliumNoteRevision](/public/New-TriliumNoteRevision.ps1) | Create a new note revision |
+| POST   | /branches | [Copy-TriliumNote](/public/Copy-TriliumNote.ps1) | Copy a note to a new branch |
+| GET    | /branches/{branchId} | [Get-TriliumBranch](/public/Get-TriliumBranch.ps1) | Get branch details |
 | PATCH  | /branches/{branchId} |  | |
-| DELETE | /branches/{branchId} | [Remove-TriliumBranch](/public/Remove-TriliumBranch.ps1) | |
+| DELETE | /branches/{branchId} | [Remove-TriliumBranch](/public/Remove-TriliumBranch.ps1) | Delete a branch |
 | POST   | /attachments |  | |
-| GET    | /attachments/{attachmentId} | [Get-TriliumAttachment](/public/Get-TriliumAttachment.ps1) | |
+| GET    | /attachments/{attachmentId} | [Get-TriliumAttachment](/public/Get-TriliumAttachment.ps1) | Get attachment metadata |
 | PATCH  | /attachments/{attachmentId} |  | |
 | DELETE | /attachments/{attachmentId} |  | |
-| GET    | /attachments/{attachmentId}/content | [Get-TriliumAttachmentContent](/public/Get-TriliumAttachmentContent.ps1) | |
+| GET    | /attachments/{attachmentId}/content | [Get-TriliumAttachmentContent](/public/Get-TriliumAttachmentContent.ps1) | Download attachment content |
 | PUT    | /attachments/{attachmentId}/content |  | |
 | POST   | /attributes |  | |
-| GET    | /attributes/{attributeId} | [Get-TriliumAttribute](/public/Get-TriliumAttribute.ps1) | |
+| GET    | /attributes/{attributeId} | [Get-TriliumAttribute](/public/Get-TriliumAttribute.ps1) | Get attribute details |
 | PATCH  | /attributes/{attributeId} |  | |
-| DELETE | /attributes/{attributeId} | [Remove-TriliumAttribute](/public/Remove-TriliumAttribute.ps1) | |
-| POST   | /refresh-note-ordering/{parentNoteId} | [Update-TriliumNoteOrder](/public/Update-TriliumNoteOrder.ps1) | |
+| DELETE | /attributes/{attributeId} | [Remove-TriliumAttribute](/public/Remove-TriliumAttribute.ps1) | Delete an attribute |
+| POST   | /refresh-note-ordering/{parentNoteId} | [Update-TriliumNoteOrder](/public/Update-TriliumNoteOrder.ps1) | Refresh note ordering |
 | GET    | /inbox/{date} |  | |
 | GET    | /calendar/days/{date} |  | |
 | GET    | /calendar/weeks/{date} |  | |
 | GET    | /calendar/months/{month} |  | |
 | GET    | /calendar/years/{year} |  | |
-| POST   | /auth/login | [Connect-TriliumAuth](/public/Connect-TriliumAuth.ps1) | |
-| POST   | /auth/logout | [Disconnect-TriliumAuth](/public/Disconnect-TriliumAuth.ps1) | |
-| GET    | /app-info | [Get-TriliumInfo](/public/Get-TriliumInfo.ps1) | |
-| PUT    | /backup/{backupName} | [New-TriliumBackup](/public/New-TriliumBackup.ps1) | |
+| POST   | /auth/login | [Connect-TriliumAuth](/public/Connect-TriliumAuth.ps1) | Authenticate to TriliumNext |
+| POST   | /auth/logout | [Disconnect-TriliumAuth](/public/Disconnect-TriliumAuth.ps1) | Logout from TriliumNext |
+| GET    | /app-info | [Get-TriliumInfo](/public/Get-TriliumInfo.ps1) | Get Trilium server info |
+| PUT    | /backup/{backupName} | [New-TriliumBackup](/public/New-TriliumBackup.ps1) | Create a new backup |
 
 ---
 
