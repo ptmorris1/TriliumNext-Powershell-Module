@@ -89,6 +89,8 @@ Connect-TriliumAuth -BaseUrl 'https://trilium.domain.com' -Password $creds
 - [Get-TriliumBranch](#-get-triliumbranch)
 - [Remove-TriliumBranch](#-remove-triliumbranch)
 - [Update-TriliumNoteOrder](#-update-triliumnoteorder)
+- [Get-TriliumAttachment](#-get-triliumattachment)
+- [Get-TriliumAttachmentContent](#-get-triliumattachmentcontent)
 
 ---
 
@@ -111,10 +113,10 @@ Connect-TriliumAuth -BaseUrl 'https://trilium.domain.com' -Password $creds
 | PATCH  | /branches/{branchId} |  | |
 | DELETE | /branches/{branchId} | [Remove-TriliumBranch](#-remove-triliumbranch) | |
 | POST   | /attachments |  | |
-| GET    | /attachments/{attachmentId} |  | |
+| GET    | /attachments/{attachmentId} | [Get-TriliumAttachment](#-get-triliumattachment) | |
 | PATCH  | /attachments/{attachmentId} |  | |
 | DELETE | /attachments/{attachmentId} |  | |
-| GET    | /attachments/{attachmentId}/content |  | |
+| GET    | /attachments/{attachmentId}/content | [Get-TriliumAttachmentContent](#-get-triliumattachmentcontent) | |
 | PUT    | /attachments/{attachmentId}/content |  | |
 | POST   | /attributes |  | |
 | GET    | /attributes/{attributeId} | [Get-TriliumAttribute](#-get-triliumattribute) | |

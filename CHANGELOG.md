@@ -1,40 +1,76 @@
 # 📅 Changelog
 
-All notable changes to the **Trilium** PowerShell module will be documented in this file.
+All notable changes to the **TriliumNext-Powershell-Module** will be documented in this file.
 
 ---
 
-## [0.5.0]
-- Fixed Export-TriliumNote
-- Added Markdown option to Export-TriliumNote. Default is HTML
-- Updated and improved some documentation
-- Split out functions into their own .ps1 file
+## [0.6.0] - 2025-05-24
+
+### Added
+
+* Added function `Get-TriliumAttachment` - GET /attachments/{attachmentId}
+* Added function `Get-TriliumAttachmentContent` - GET /attachments/{attachmentId}/content
 
 ---
 
-## [0.4.0]
-- Improved Connect-TriliumAuth to use PSCredential object.
-  - See documentation for new usage.
+## [0.5.0] - 
+
+### Fixed
+
+* Fixed `Export-TriliumNote`.
+
+### Added
+
+* Added Markdown option to `Export-TriliumNote`. Default is HTML.
+
+### Updated
+
+* Updated and improved some documentation.
+* Split out functions into their own .ps1 file.
 
 ---
 
-## [0.3.0]
-- Added check for / at the end of base URL.
-- Updated Connect-TriliumAuth to use -SkipCertCheck switch.
-- Added -SkipCertCheck switch to ALL functions.
+## [0.4.0] - 
+
+### Improved
+
+* Improved `Connect-TriliumAuth` to use PSCredential object.
+  * See documentation for new usage.
 
 ---
 
-## [0.2.0]
-- Fixed parameter sets in Find-TriliumNote
-  - orderBy and Limit must be used together.
-- Updated/added some documentation.
+## [0.3.0] - 
+
+### Added
+
+* Added check for `/` at the end of base URL.
+* Added `-SkipCertCheck` switch to ALL functions.
+
+### Updated
+
+* Updated `Connect-TriliumAuth` to use `-SkipCertCheck` switch.
 
 ---
 
-## [0.1.0]
-- Initial Release of Trilium, including:
-  - A command for almost every documented TriliumNext API.
+## [0.2.0] - 
+
+### Fixed
+
+* Fixed parameter sets in `Find-TriliumNote`.
+  * `orderBy` and `Limit` must be used together.
+
+### Updated
+
+* Updated/added some documentation.
+
+---
+
+## [0.1.0] - 
+
+### Initial Release
+
+* Initial release of TriliumNext-Powershell-Module.
+  * A command for almost every documented TriliumNext API.
 
 ---
 
