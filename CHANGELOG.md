@@ -4,6 +4,20 @@ All notable changes to the **TriliumNext-Powershell-Module** will be documented 
 
 ---
 
+## [0.7.0] - 2025-05-25
+
+### Added
+
+* Added function `Get-TriliumInbox` - GET /inbox/{date}
+* Added function `Get-TriliumDayNote` - GET /calendar/days/{date}
+* Added function `Get-TriliumWeekNote` - GET /calendar/weeks/{date} (Note: This appears to be broken due to a bug in TriliumNext)
+* Added function `Get-TriliumMonthNote` - GET /calendar/months/{month}
+* Added function `Get-TriliumYearNote` - GET /calendar/years/{year}
+* Added function `Set-TriliumNoteDetails` - PATCH /notes/{noteId}
+* Added function `Set-TriliumBranch` - PATCH /branches/{branchId}
+
+---
+
 ## [0.6.0] - 2025-05-24
 
 ### Added

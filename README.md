@@ -74,7 +74,7 @@ Connect-TriliumAuth -BaseUrl 'https://trilium.domain.com' -Password $creds
 | POST   | /create-note | [New-TriliumNote](/public/New-TriliumNote.ps1) | Create a new note |
 | GET    | /notes | [Find-TriliumNote](/public/Find-TriliumNote.ps1) | Search for notes |
 | GET    | /notes/{noteId} | [Get-TriliumNoteDetails](/public/Get-TriliumNoteDetails.ps1) | Get note details |
-| PATCH  | /notes/{noteId} |  | |
+| PATCH  | /notes/{noteId} | [Set-TriliumNoteDetails](/public/Set-TriliumNoteDetails.ps1) | Update note details (PATCH) |
 | DELETE | /notes/{noteId} | [Remove-TriliumNote](/public/Remove-TriliumNote.ps1) | Delete a note |
 | GET    | /notes/{noteId}/content | [Get-TriliumNoteContent](/public/Get-TriliumNoteContent.ps1) | Get note content |
 | PUT    | /notes/{noteId}/content | [Set-TriliumNoteContent](/public/Set-TriliumNoteContent.ps1) | Update note content |
@@ -83,7 +83,7 @@ Connect-TriliumAuth -BaseUrl 'https://trilium.domain.com' -Password $creds
 | POST   | /notes/{noteId}/revision | [New-TriliumNoteRevision](/public/New-TriliumNoteRevision.ps1) | Create a new note revision |
 | POST   | /branches | [Copy-TriliumNote](/public/Copy-TriliumNote.ps1) | Copy a note to a new branch |
 | GET    | /branches/{branchId} | [Get-TriliumBranch](/public/Get-TriliumBranch.ps1) | Get branch details |
-| PATCH  | /branches/{branchId} |  | |
+| PATCH  | /branches/{branchId} | [Set-TriliumBranch](/public/Set-TriliumBranch.ps1) | Update branch prefix and/or note position (PATCH) |
 | DELETE | /branches/{branchId} | [Remove-TriliumBranch](/public/Remove-TriliumBranch.ps1) | Delete a branch |
 | POST   | /attachments |  | |
 | GET    | /attachments/{attachmentId} | [Get-TriliumAttachment](/public/Get-TriliumAttachment.ps1) | Get attachment metadata |
@@ -96,15 +96,18 @@ Connect-TriliumAuth -BaseUrl 'https://trilium.domain.com' -Password $creds
 | PATCH  | /attributes/{attributeId} |  | |
 | DELETE | /attributes/{attributeId} | [Remove-TriliumAttribute](/public/Remove-TriliumAttribute.ps1) | Delete an attribute |
 | POST   | /refresh-note-ordering/{parentNoteId} | [Update-TriliumNoteOrder](/public/Update-TriliumNoteOrder.ps1) | Refresh note ordering |
-| GET    | /inbox/{date} |  | |
-| GET    | /calendar/days/{date} |  | |
-| GET    | /calendar/weeks/{date} |  | |
-| GET    | /calendar/months/{month} |  | |
-| GET    | /calendar/years/{year} |  | |
+| GET    | /inbox/{date} | [Get-TriliumInbox](/public/Get-TriliumInbox.ps1) | Get or create inbox note for a date |
+| GET    | /calendar/days/{date} | [Get-TriliumDayNote](/public/Get-TriliumDayNote.ps1) | Get or create day note for a date |
+| GET    | /calendar/weeks/{date} | [Get-TriliumWeekNote](/public/Get-TriliumWeekNote.ps1) | (Broken: appears to be a bug in TriliumNext) |
+| GET    | /calendar/months/{month} | [Get-TriliumMonthNote](/public/Get-TriliumMonthNote.ps1) | Get or create month note for a month |
+| GET    | /calendar/years/{year} | [Get-TriliumYearNote](/public/Get-TriliumYearNote.ps1) | Get or create year note for a year |
 | POST   | /auth/login | [Connect-TriliumAuth](/public/Connect-TriliumAuth.ps1) | Authenticate to TriliumNext |
 | POST   | /auth/logout | [Disconnect-TriliumAuth](/public/Disconnect-TriliumAuth.ps1) | Logout from TriliumNext |
 | GET    | /app-info | [Get-TriliumInfo](/public/Get-TriliumInfo.ps1) | Get Trilium server info |
 | PUT    | /backup/{backupName} | [New-TriliumBackup](/public/New-TriliumBackup.ps1) | Create a new backup |
+| GET    | /notes/root | [Get-TriliumRootNote](/public/Get-TriliumRootNote.ps1) | Get root note details (requires Connect-TriliumAuth, no params; every root note has id 'root'). |
+
+> **Note:** `Get-TriliumRootNote` is not a direct ETAPI endpoint but is provided for convenience. It retrieves the root note (id 'root') and requires authentication. Just run it with no parameters to get root note details.
 
 ---
 
