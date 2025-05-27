@@ -1,5 +1,5 @@
 @{
-    ModuleVersion   = '0.7.0'
+    ModuleVersion   = '0.8.0'
     Guid            = '5d0452a3-0c40-4681-b12c-070eccc905dc'
     CompanyName     = 'Patrick Morris '
     Copyright       = '2024-25 Patrick Morris'
@@ -16,6 +16,15 @@
 # 📅 Changelog
 
 All notable changes to the **TriliumNext-Powershell-Module** will be documented in this file.
+
+---
+
+## [0.8.0] - 2025-05-27
+
+### Updated
+
+* Updated `Set-TriliumNoteDetails` to improve `-NoteType` parameter handling and type/mime mapping for special note types.
+* Updated `New-TriliumNote` to include `-NoteType` parameter and unified type/mime mapping logic.
 
 ---
 

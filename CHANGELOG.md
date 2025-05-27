@@ -4,6 +4,15 @@ All notable changes to the **TriliumNext-Powershell-Module** will be documented 
 
 ---
 
+## [0.8.0] - 2025-05-27
+
+### Updated
+
+* Updated `Set-TriliumNoteDetails` to improve `-NoteType` parameter handling and type/mime mapping for special note types.
+* Updated `New-TriliumNote` to include `-NoteType` parameter and unified type/mime mapping logic.
+
+---
+
 ## [0.7.0] - 2025-05-25
 
 ### Added

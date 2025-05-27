@@ -1,13 +1,13 @@
 function Set-TriliumNoteDetails {
     <#
     .SYNOPSIS
-    Patch (update) a TriliumNext note's type by noteId.
+    Patch (update) a TriliumNext note's type, title, or both by noteId.
 
     .DESCRIPTION
-    This function updates a TriliumNext note's type using the PATCH /notes/{noteId} endpoint. You must provide the noteId and select a note type from the supported list. Optionally, you can provide a new title for the note. For certain types, a corresponding mime value will be set in the body.
+    Updates a TriliumNext note's type and/or title using the PATCH /notes/{noteId} endpoint. You must provide the noteId. Optionally, you can provide a new note type (from the supported list) and/or a new title. For certain types, a corresponding mime value will be set in the body. If -NoteType is not specified, the note will default to type 'text' and mime 'text/html'.
 
     .PARAMETER NoteId
-    The ID of the note to update.
+    The ID of the note to update. This parameter is required.
 
         Required?                    true
         Position?                    0
@@ -15,9 +15,10 @@ function Set-TriliumNoteDetails {
         Accept wildcard characters?  false
 
     .PARAMETER NoteType
-    The type to set for the note. Must be one of:
+    The type to set for the note. Optional. Must be one of:
         text, book, canvas, mermaid, geoMap, mindMap, relationMap, renderNote, webview,
-        PlainText, CSS, html, http, JSbackend, JSfrontend, json, markdown, powershell, python, ruby, 'shell bash', sql, 'sqlite trilium', xml, yaml
+        PlainText, CSS, html, http, JSbackend, JSfrontend, json, markdown, powershell, python, ruby, shellBash, sql, sqliteTrilium, xml, yaml
+    If not specified, defaults to 'text' with mime 'text/html'.
 
         Required?                    false
         Position?                    1
@@ -25,7 +26,7 @@ function Set-TriliumNoteDetails {
         Accept wildcard characters?  false
 
     .PARAMETER Title
-    The new title to set for the note.
+    The new title to set for the note. Optional. If not specified, the title will not be changed.
 
         Required?                    false
         Position?                    2
@@ -33,7 +34,7 @@ function Set-TriliumNoteDetails {
         Accept wildcard characters?  false
 
     .PARAMETER SkipCertCheck
-    Option to skip certificate check.
+    Option to skip certificate check. Optional. Use this if you are connecting to a Trilium server with a self-signed certificate.
 
         Required?                    false
         Position?                    Named
@@ -43,19 +44,36 @@ function Set-TriliumNoteDetails {
 
     .EXAMPLE
     Set-TriliumNoteDetails -NoteId "evnnmvHTCgIn" -NoteType PlainText -Title "New Note Title"
+    Updates the note with the specified ID, sets the type to 'code' and mime to 'text/plain', and updates the title.
+
+    .EXAMPLE
+    Set-TriliumNoteDetails -NoteId "evnnmvHTCgIn" -Title "Updated Title Only"
+    Updates only the title of the note with the specified ID.
+
+    .EXAMPLE
+    Set-TriliumNoteDetails -NoteId "evnnmvHTCgIn" -NoteType markdown
+    Updates only the type of the note with the specified ID to 'code' with mime 'text/x-markdown'.
 
     .NOTES
-    This function requires that the authentication has been set using Connect-TriliumAuth.
+    This function requires that authentication has been set using Connect-TriliumAuth.
+    If -NoteType is not specified, the note will default to type 'text' and mime 'text/html'.
+    If -Title is not specified, the title will not be changed.
 
     .LINK
     https://github.com/ptmorris1/TriliumNext-Powershell-Module
     #>
     [CmdletBinding()]
     param (
-        [Parameter(Mandatory = $true)][ValidateNotNullOrEmpty()][string]$NoteId,
-        [Parameter(Mandatory = $false)][ValidateSet('text','book','canvas','mermaid','geoMap','mindMap','relationMap','renderNote','webview',
-            'PlainText','CSS','html','http','JSbackend','JSfrontend','json','markdown','powershell','python','ruby','shell bash','sql','sqlite trilium','xml','yaml')][string]$NoteType,
-        [Parameter(Mandatory = $false)][string]$Title,
+        [Parameter(Mandatory = $true)]
+        [ValidateNotNullOrEmpty()]
+        [string]$NoteId,
+        [Parameter()]
+        [ValidateSet('text','book','canvas','mermaid','geoMap','mindMap','relationMap','renderNote','webview',
+            'PlainText','CSS','html','http','JSbackend','JSfrontend','json','markdown','powershell','python','ruby','shellBash','sql','sqliteTrilium','xml','yaml')]
+        [string]$NoteType,
+        [Parameter()]
+        [string]$Title,
+        [Parameter()]
         [switch]$SkipCertCheck
     )
     begin {
@@ -72,32 +90,47 @@ function Set-TriliumNoteDetails {
             $TriliumHeaders = @{}
             $TriliumHeaders.Add('Authorization', "$($TriliumCreds.Authorization)")
             $uri = "$($TriliumCreds.URL)/notes/$NoteId"
-            $mimeMap = @{
-                'PlainText' = 'text/plain'
-                'CSS' = 'text/css'
-                'html' = 'text/html'
-                'http' = 'message/http'
-                'JSbackend' = 'application/javascript;env=backend'
-                'JSfrontend' = 'application/javascript;env=frontend'
-                'json' = 'application/json'
-                'markdown' = 'text/x-markdown'
-                'powershell' = 'application/x-powershell'
-                'python' = 'text/x-python'
-                'ruby' = 'text/x-ruby'
-                'shell bash' = 'text/x-sh'
-                'sql' = 'text/x-sql'
-                'sqlite trilium' = 'text/x-sqlite;schema=trilium'
-                'xml' = 'text/xml'
-                'yaml' = 'text/x-yaml'
-            }
+            $mimeMap = @(
+                [PSCustomObject]@{ Note = 'PlainText'; Type = 'code'; Mime = 'text/plain' }
+                [PSCustomObject]@{ Note = 'CSS'; Type = 'code'; Mime = 'text/css' }
+                [PSCustomObject]@{ Note = 'html'; Type = 'code'; Mime = 'text/html' }
+                [PSCustomObject]@{ Note = 'http'; Type = 'code'; Mime = 'message/http' }
+                [PSCustomObject]@{ Note = 'JSbackend'; Type = 'code'; Mime = 'application/javascript;env=backend' }
+                [PSCustomObject]@{ Note = 'JSfrontend'; Type = 'code'; Mime = 'application/javascript;env=frontend' }
+                [PSCustomObject]@{ Note = 'json'; Type = 'code'; Mime = 'application/json' }
+                [PSCustomObject]@{ Note = 'markdown'; Type = 'code'; Mime = 'text/x-markdown' }
+                [PSCustomObject]@{ Note = 'powershell'; Type = 'code'; Mime = 'application/x-powershell' }
+                [PSCustomObject]@{ Note = 'python'; Type = 'code'; Mime = 'text/x-python' }
+                [PSCustomObject]@{ Note = 'ruby'; Type = 'code'; Mime = 'text/x-ruby' }
+                [PSCustomObject]@{ Note = 'shellBash'; Type = 'code'; Mime = 'text/x-sh' }
+                [PSCustomObject]@{ Note = 'sql'; Type = 'code'; Mime = 'text/x-sql' }
+                [PSCustomObject]@{ Note = 'sqliteTrilium'; Type = 'code'; Mime = 'text/x-sqlite;schema=trilium' }
+                [PSCustomObject]@{ Note = 'xml'; Type = 'code'; Mime = 'text/xml' }
+                [PSCustomObject]@{ Note = 'yaml'; Type = 'code'; Mime = 'text/x-yaml' }
+                [PSCustomObject]@{ Note = 'text'; Type = 'text'; Mime = 'text/html' }
+                [PSCustomObject]@{ Note = 'book'; Type = 'book'; Mime = $null }
+                [PSCustomObject]@{ Note = 'canvas'; Type = 'canvas'; Mime = 'application/json' }
+                [PSCustomObject]@{ Note = 'mermaid'; Type = 'mermaid'; Mime = 'text/mermaid' }
+                [PSCustomObject]@{ Note = 'geoMap'; Type = 'geoMap'; Mime = 'application/json' }
+                [PSCustomObject]@{ Note = 'mindMap'; Type = 'mindMap'; Mime = 'application/json' }
+                [PSCustomObject]@{ Note = 'relationMap'; Type = 'relationMap'; Mime = 'application/json' }
+                [PSCustomObject]@{ Note = 'renderNote'; Type = 'renderNote'; Mime = $null }
+                [PSCustomObject]@{ Note = 'webview'; Type = 'webview'; Mime = $null }
+            )
             $jsonBody = @{}
             if ($NoteType) {
-                if ($mimeMap.ContainsKey($NoteType)) {
-                    $jsonBody.type = 'code'
-                    $jsonBody.mime = $mimeMap[$NoteType]
+                $mimeObj = $mimeMap | Where-Object { $_.Note -eq $NoteType }
+                if ($mimeObj) {
+                    $jsonBody.type = $mimeObj.Type
+                    if ($null -ne $mimeObj.Mime) {
+                        $jsonBody.mime = $mimeObj.Mime
+                    }
                 } else {
                     $jsonBody.type = $NoteType
                 }
+            } else {
+                $jsonBody.type = 'text'
+                $jsonBody.mime = 'text/html'
             }
             if ($Title) { $jsonBody.title = $Title }
             $jsonBody = $jsonBody | ConvertTo-Json
@@ -105,8 +138,5 @@ function Set-TriliumNoteDetails {
         } catch {
             $_.Exception.Response
         }
-    }
-    end {
-        return
     }
 }
