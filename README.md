@@ -1,4 +1,4 @@
-# 🚀 Trilium PowerShell Module
+# 🚀 Trilium PowerShell Module <!-- omit in toc -->
 
 ![PowerShell Gallery Version](https://img.shields.io/powershellgallery/v/Trilium)
 ![Downloads](https://img.shields.io/powershellgallery/dt/Trilium)
@@ -11,8 +11,6 @@
 ---
 
 ## 📖 Table of Contents <!-- omit in toc -->
-- [🚀 Trilium PowerShell Module](#-trilium-powershell-module) <!-- omit in toc -->
-  - [🦾 Description](#-description) <!-- omit in toc -->
   - [🛠 Requirements](#-requirements)
   - [📦 Installation](#-installation)
   - [🔐 Authentication](#-authentication)
@@ -24,7 +22,7 @@
 
 ---
 
-## 🦾 Description
+## 🦾 Description <!-- omit in toc -->
 
 **Trilium** is a PowerShell module that enables you to interact with your TriliumNext server programmatically.
 It provides functions to:
