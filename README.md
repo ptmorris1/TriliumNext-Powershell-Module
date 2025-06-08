@@ -11,8 +11,8 @@
 ---
 
 ## 📖 Table of Contents <!-- omit in toc -->
-- [🚀 Trilium PowerShell Module](#-trilium-powershell-module)
-  - [🦾 Description](#-description)
+- [🚀 Trilium PowerShell Module](#-trilium-powershell-module) <!-- omit in toc -->
+  - [🦾 Description](#-description) <!-- omit in toc -->
   - [🛠 Requirements](#-requirements)
   - [📦 Installation](#-installation)
   - [🔐 Authentication](#-authentication)
