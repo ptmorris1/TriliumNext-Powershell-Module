@@ -1,30 +1,18 @@
-# 🚀 Trilium PowerShell Module <!-- omit in toc -->
+# 🚀 Trilium PowerShell Module
 
 ![PowerShell Gallery Version](https://img.shields.io/powershellgallery/v/Trilium)
 ![Downloads](https://img.shields.io/powershellgallery/dt/Trilium)
 ![PSGallery Quality](https://img.shields.io/powershellgallery/p/Trilium)  
-[![TriliumNext](https://img.shields.io/badge/TriliumNext-ETAPI-blue?logo=read-the-docs)](https://github.com/TriliumNext/Notes)  
+[![Trilium](https://img.shields.io/badge/Trilium-ETAPI-blue?logo=read-the-docs)](https://github.com/Trilium/Notes)  
 [![License: MIT](https://img.shields.io/badge/license-MIT-green.svg)](LICENSE)
 
-> Manage your [TriliumNext](https://github.com/TriliumNext/Notes) instance via PowerShell using the ETAPI
+> Manage your [Trilium](https://github.com/Trilium/Notes) instance via PowerShell using the ETAPI
 
 ---
 
-## 📖 Table of Contents <!-- omit in toc -->
-- [🛠 Requirements](#-requirements)
-- [📦 Installation](#-installation)
-- [🔐 Authentication](#-authentication)
-- [🗂️ API Endpoints and Functions](#️-api-endpoints-and-functions)
-- [📣 Contributions \& Issues](#-contributions--issues)
-- [📄 License](#-license)
-- [📅 Changelog](#-changelog)
-- [🔗 Resources](#-resources)
+## 🦾 Description
 
----
-
-## 🦾 Description <!-- omit in toc -->
-
-**Trilium** is a PowerShell module that enables you to interact with your TriliumNext server programmatically.
+**Trilium** is a PowerShell module that enables you to interact with your Trilium server programmatically.
 It provides functions to:
 
 * Authenticate and manage sessions
@@ -38,7 +26,7 @@ It provides functions to:
 ## 🛠 Requirements
 
 * PowerShell 7 or higher
-* TriliumNext instance with ETAPI enabled
+* Trilium instance with ETAPI enabled
 * HTTP(S) access to your Trilium server
 
 ---
@@ -96,11 +84,11 @@ Connect-TriliumAuth -BaseUrl 'https://trilium.domain.com' -Password $creds
 | POST   | /refresh-note-ordering/{parentNoteId} | [Update-TriliumNoteOrder](/public/Update-TriliumNoteOrder.ps1) | Refresh note ordering |
 | GET    | /inbox/{date} | [Get-TriliumInbox](/public/Get-TriliumInbox.ps1) | Get or create inbox note for a date |
 | GET    | /calendar/days/{date} | [Get-TriliumDayNote](/public/Get-TriliumDayNote.ps1) | Get or create day note for a date |
-| GET    | /calendar/weeks/{date} | [Get-TriliumWeekNote](/public/Get-TriliumWeekNote.ps1) | (Broken: appears to be a bug in TriliumNext) |
+| GET    | /calendar/weeks/{date} | [Get-TriliumWeekNote](/public/Get-TriliumWeekNote.ps1) | (Broken: appears to be a bug in Trilium) |
 | GET    | /calendar/months/{month} | [Get-TriliumMonthNote](/public/Get-TriliumMonthNote.ps1) | Get or create month note for a month |
 | GET    | /calendar/years/{year} | [Get-TriliumYearNote](/public/Get-TriliumYearNote.ps1) | Get or create year note for a year |
-| POST   | /auth/login | [Connect-TriliumAuth](/public/Connect-TriliumAuth.ps1) | Authenticate to TriliumNext |
-| POST   | /auth/logout | [Disconnect-TriliumAuth](/public/Disconnect-TriliumAuth.ps1) | Logout from TriliumNext |
+| POST   | /auth/login | [Connect-TriliumAuth](/public/Connect-TriliumAuth.ps1) | Authenticate to Trilium |
+| POST   | /auth/logout | [Disconnect-TriliumAuth](/public/Disconnect-TriliumAuth.ps1) | Logout from Trilium |
 | GET    | /app-info | [Get-TriliumInfo](/public/Get-TriliumInfo.ps1) | Get Trilium server info |
 | PUT    | /backup/{backupName} | [New-TriliumBackup](/public/New-TriliumBackup.ps1) | Create a new backup |
 | GET    | /notes/root | [Get-TriliumRootNote](/public/Get-TriliumRootNote.ps1) | Get root note details (requires Connect-TriliumAuth, no params; every root note has id 'root'). |
@@ -128,9 +116,8 @@ See [CHANGELOG.md](./CHANGELOG.md) for release history.
 
 ## 🔗 Resources
 
-- 🌐 [TriliumNext on GitHub](https://github.com/TriliumNext/Notes)
-- 📖 [ETAPI Wiki](https://github.com/zadam/trilium/wiki/ETAPI)
-- 📜 [ETAPI OpenAPI YAML](https://github.com/zadam/trilium/blob/master/src/etapi/etapi.openapi.yaml)
+- 🌐 [Trilium on GitHub](https://github.com/Trilium/Notes))
+- 📜 [ETAPI OpenAPI YAML](https://github.com/Trilium/Notes/blob/develop/apps/server/src/assets/etapi.openapi.yaml)
 
 ---
 
