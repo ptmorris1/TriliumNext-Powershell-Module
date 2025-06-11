@@ -54,6 +54,24 @@ function New-TriliumNote {
         Accept pipeline input?       false
         Accept wildcard characters?  false
 
+    .PARAMETER Markdown
+    Option to convert markdown content to HTML. Optional. Use this if you want to convert the content from markdown to HTML before creating the note. Only applicable if -NoteType is 'text'. If -Markdown is specified, -NoteType must be 'text'.
+
+        Required?                    false
+        Position?                    Named
+        Default value                None
+        Accept pipeline input?       false
+        Accept wildcard characters?  false
+
+    .PARAMETER Math
+    Option to enable math extension for markdown content. Optional. Use this if you want to enable inline and block LaTeX math rendering. Only applicable if -Markdown and -NoteType is 'text'. If -Markdown is specified, -NoteType must be 'text'.
+
+        Required?                    false
+        Position?                    Named
+        Default value                None
+        Accept pipeline input?       false
+        Accept wildcard characters?  false
+
     .EXAMPLE
     New-TriliumNote -Content "This is a new note."
     Creates a new note under the root with the specified content and default type 'text' and mime 'text/html'.
@@ -100,10 +118,38 @@ function New-TriliumNote {
             'PlainText','CSS','html','http','JSbackend','JSfrontend','json','markdown','powershell','python','ruby','shellBash','sql','sqliteTrilium','xml','yaml')]
         [string]$NoteType,
         [Parameter()]
-        [switch]$SkipCertCheck
+        [switch]$SkipCertCheck,
+        [Parameter()]
+        [switch]$Markdown,
+        [Parameter()]
+        [switch]$Math
     )
     begin {
         if (!$global:TriliumCreds) { Write-Error -Message 'Need to run: Connect-TriliumAuth'; exit }
+        if ($Markdown) {
+            if ($NoteType -and $NoteType -ne 'text') {
+                Write-Error -Message 'If -Markdown is specified, -NoteType must be "text".'
+                exit
+            }
+            $NoteType = 'text'
+            $moduleRoot = $MyInvocation.MyCommand.Module.ModuleBase
+            $dllPath = Join-Path -Path $moduleRoot -ChildPath 'lib\Markdig.dll'
+            if (-not ([AppDomain]::CurrentDomain.GetAssemblies() | Where-Object { $_.Location -eq (Resolve-Path $dllPath) })) {
+                Add-Type -Path $dllPath
+            }
+            $builder = [Markdig.MarkdownPipelineBuilder]::new()
+            [Markdig.MarkdownExtensions]::UseAdvancedExtensions($builder) | Out-Null
+            if ($Math) {
+                # Enable the math extension (inline and block LaTeX)
+                [Markdig.MarkdownExtensions]::UseMathematics($builder) | Out-Null
+            }
+            $pipeline = $builder.Build()
+            $Content = [Markdig.Markdown]::ToHtml($Content, $pipeline)
+            if ($Math) {
+                $Content = $Content.Replace('<span class="math"','<span class="math-tex"')
+                $Content = $Content.Replace('<div class="math"','<span class="math-tex"')
+            }
+        }
     }
     process {
         try {

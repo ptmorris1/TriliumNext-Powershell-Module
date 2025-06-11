@@ -1,5 +1,5 @@
 @{
-    ModuleVersion   = '0.8.0'
+    ModuleVersion   = '0.10.0'
     Guid            = '5d0452a3-0c40-4681-b12c-070eccc905dc'
     CompanyName     = 'Patrick Morris '
     Copyright       = '2024-25 Patrick Morris'
@@ -7,6 +7,10 @@
     AliasesToExport = '*'
     RootModule      = 'Trilium.psm1'
     Description     = 'Powershell wrapper for the TriliumNext API'
+    FileList             = @('Trilium.psm1', 'Trilium.psd1', 'lib\Markdig.dll', 'lib\Markdig.xml', 'THIRD-PARTY-NOTICES.txt')
+    PowerShellVersion    = '7.5'
+    CompatiblePSEditions = @('Core')
+    RequiredAssemblies   = @('.\lib\Markdig.dll')
     PrivateData     = @{
         PSData = @{
             Tags         = 'Windows', 'TriliumNext', 'PowerShell', 'PSEdition_Core', 'Trilium'
@@ -16,6 +20,18 @@
 # 📅 Changelog
 
 All notable changes to the **TriliumNext-Powershell-Module** will be documented in this file.
+
+---
+
+## [0.10.0] - 2025-06-11
+
+### Added
+
+* Added markdig library (v0.41.2) for Markdown to HTML conversion.
+* Added parameter `-Markdown` to `New-TriliumNote` to convert markdown content to HTML for rendering in text notes.
+* Added function `Get-TriliumAttachmentID` - Parses all attachment IDs from a note's contents (no direct API equivalent).
+* Added parameter `-Math` (used with `-Markdown`) to convert math markdown for rendering.
+* Added function `Create-TriliumAttribute`.
 
 ---
 
@@ -113,6 +129,7 @@ All notable changes to the **TriliumNext-Powershell-Module** will be documented 
 ---
 
 > 📌 This changelog follows [Keep a Changelog](https://keepachangelog.com/en/1.0.0/) principles.
+
 '@
         }
     }

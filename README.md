@@ -1,4 +1,4 @@
-# 🚀 Trilium PowerShell Module
+# 🚀 Trilium PowerShell Module <!-- omit in toc -->
 
 ![PowerShell Gallery Version](https://img.shields.io/powershellgallery/v/Trilium)
 ![Downloads](https://img.shields.io/powershellgallery/dt/Trilium)
@@ -11,20 +11,18 @@
 ---
 
 ## 📖 Table of Contents <!-- omit in toc -->
-- [🚀 Trilium PowerShell Module](#-trilium-powershell-module)
-  - [🦾 Description](#-description)
-  - [🛠 Requirements](#-requirements)
-  - [📦 Installation](#-installation)
-  - [🔐 Authentication](#-authentication)
-  - [🗂️ API Endpoints and Functions](#️-api-endpoints-and-functions)
-  - [📣 Contributions \& Issues](#-contributions--issues)
-  - [📄 License](#-license)
-  - [📅 Changelog](#-changelog)
-  - [🔗 Resources](#-resources)
+- [🛠 Requirements](#-requirements)
+- [📦 Installation](#-installation)
+- [🔐 Authentication](#-authentication)
+- [🗂️ API Endpoints and Functions](#️-api-endpoints-and-functions)
+- [📣 Contributions \& Issues](#-contributions--issues)
+- [📄 License](#-license)
+- [📅 Changelog](#-changelog)
+- [🔗 Resources](#-resources)
 
 ---
 
-## 🦾 Description
+## 🦾 Description <!-- omit in toc -->
 
 **Trilium** is a PowerShell module that enables you to interact with your TriliumNext server programmatically.
 It provides functions to:
@@ -91,7 +89,7 @@ Connect-TriliumAuth -BaseUrl 'https://trilium.domain.com' -Password $creds
 | DELETE | /attachments/{attachmentId} |  | |
 | GET    | /attachments/{attachmentId}/content | [Get-TriliumAttachmentContent](/public/Get-TriliumAttachmentContent.ps1) | Download attachment content |
 | PUT    | /attachments/{attachmentId}/content |  | |
-| POST   | /attributes |  | |
+| POST   | /attributes | [Create-TriliumAttribute](/public/Create-TriliumAttribute.ps1) | Create a new attribute |
 | GET    | /attributes/{attributeId} | [Get-TriliumAttribute](/public/Get-TriliumAttribute.ps1) | Get attribute details |
 | PATCH  | /attributes/{attributeId} |  | |
 | DELETE | /attributes/{attributeId} | [Remove-TriliumAttribute](/public/Remove-TriliumAttribute.ps1) | Delete an attribute |
@@ -106,8 +104,7 @@ Connect-TriliumAuth -BaseUrl 'https://trilium.domain.com' -Password $creds
 | GET    | /app-info | [Get-TriliumInfo](/public/Get-TriliumInfo.ps1) | Get Trilium server info |
 | PUT    | /backup/{backupName} | [New-TriliumBackup](/public/New-TriliumBackup.ps1) | Create a new backup |
 | GET    | /notes/root | [Get-TriliumRootNote](/public/Get-TriliumRootNote.ps1) | Get root note details (requires Connect-TriliumAuth, no params; every root note has id 'root'). |
-
-> **Note:** `Get-TriliumRootNote` is not a direct ETAPI endpoint but is provided for convenience. It retrieves the root note (id 'root') and requires authentication. Just run it with no parameters to get root note details.
+|        | (utility)   | [Get-TriliumAttachmentID](/public/Get-TriliumAttachmentID.ps1) | Parse all attachment IDs from a note's contents (no direct API endpoint) |
 
 ---
 

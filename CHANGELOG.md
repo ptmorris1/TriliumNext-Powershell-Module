@@ -4,6 +4,18 @@ All notable changes to the **TriliumNext-Powershell-Module** will be documented 
 
 ---
 
+## [0.10.0] - 2025-06-11
+
+### Added
+
+* Added markdig library (v0.41.2) for Markdown to HTML conversion.
+* Added parameter `-Markdown` to `New-TriliumNote` to convert markdown content to HTML for rendering in text notes.
+* Added function `Get-TriliumAttachmentID` - Parses all attachment IDs from a note's contents (no direct API equivalent).
+* Added parameter `-Math` (used with `-Markdown`) to convert math markdown for rendering.
+* Added function `Create-TriliumAttribute`.
+
+---
+
 ## [0.8.0] - 2025-05-27
 
 ### Updated
