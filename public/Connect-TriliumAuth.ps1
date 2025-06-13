@@ -86,7 +86,7 @@ function Connect-TriliumAuth {
             } if ($PSCmdlet.ParameterSetName -eq 'Token') {
                 $Global:TriliumCreds = @{ }
                 $Token = $EtapiToken.GetNetworkCredential().Password
-                $Global:TriliumCreds.Add('Authorization', "$Token")
+                $Global:TriliumCreds.Add('Authorization', "Bearer $Token")
                 $Global:TriliumCreds.Add('URL', "$baseURL")
                 $Global:TriliumCreds.Add('Token', 'etapi')
             }

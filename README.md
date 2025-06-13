@@ -76,7 +76,7 @@ Connect-TriliumAuth -BaseUrl 'https://trilium.domain.com' -Password $creds
 | PATCH  | /attachments/{attachmentId} |  | |
 | DELETE | /attachments/{attachmentId} |  | |
 | GET    | /attachments/{attachmentId}/content | [Get-TriliumAttachmentContent](/public/Get-TriliumAttachmentContent.ps1) | Download attachment content |
-| PUT    | /attachments/{attachmentId}/content |  | |
+| PUT    | /attachments/{attachmentId}/content | [New-TriliumNoteFile](/public/New-TriliumNoteFile.ps1) | Create a new note from a local file (uploads file content) |
 | POST   | /attributes | [Create-TriliumAttribute](/public/Create-TriliumAttribute.ps1) | Create a new attribute |
 | GET    | /attributes/{attributeId} | [Get-TriliumAttribute](/public/Get-TriliumAttribute.ps1) | Get attribute details |
 | PATCH  | /attributes/{attributeId} |  | |
@@ -87,12 +87,19 @@ Connect-TriliumAuth -BaseUrl 'https://trilium.domain.com' -Password $creds
 | GET    | /calendar/weeks/{date} | [Get-TriliumWeekNote](/public/Get-TriliumWeekNote.ps1) | (Broken: appears to be a bug in Trilium) |
 | GET    | /calendar/months/{month} | [Get-TriliumMonthNote](/public/Get-TriliumMonthNote.ps1) | Get or create month note for a month |
 | GET    | /calendar/years/{year} | [Get-TriliumYearNote](/public/Get-TriliumYearNote.ps1) | Get or create year note for a year |
-| POST   | /auth/login | [Connect-TriliumAuth](/public/Connect-TriliumAuth.ps1) | Authenticate to Trilium |
+| POST   | /auth/login | [Connect-TriliumAuth](/public/Connect-TriliumAuth.ps1) | Authenticate to Trilium (now uses 'Bearer' for ETAPI) |
 | POST   | /auth/logout | [Disconnect-TriliumAuth](/public/Disconnect-TriliumAuth.ps1) | Logout from Trilium |
 | GET    | /app-info | [Get-TriliumInfo](/public/Get-TriliumInfo.ps1) | Get Trilium server info |
 | PUT    | /backup/{backupName} | [New-TriliumBackup](/public/New-TriliumBackup.ps1) | Create a new backup |
 | GET    | /notes/root | [Get-TriliumRootNote](/public/Get-TriliumRootNote.ps1) | Get root note details (requires Connect-TriliumAuth, no params; every root note has id 'root'). |
-|        | (utility)   | [Get-TriliumAttachmentID](/public/Get-TriliumAttachmentID.ps1) | Parse all attachment IDs from a note's contents (no direct API endpoint) |
+| GET    | /notes/{noteId}/attachments | [Get-TriliumNoteAttachment](/public/Get-TriliumNoteAttachment.ps1) | Retrieves attachments for a specific note (Undocumented API) |
+
+---
+
+## 🧩 Notable Dependencies & Inspiration
+
+- 📝 [Markdig](https://github.com/xoofx/markdig): Used for converting Markdown to HTML in this module.
+- 🐍 [trilium-py](https://github.com/Nriver/trilium-py): Python library for Trilium ETAPI, used for some inspiration.
 
 ---
 
@@ -116,7 +123,7 @@ See [CHANGELOG.md](./CHANGELOG.md) for release history.
 
 ## 🔗 Resources
 
-- 🌐 [Trilium on GitHub](https://github.com/Trilium/Notes))
+- 🌐 [Trilium on GitHub](https://github.com/Trilium/Notes)
 - 📜 [ETAPI OpenAPI YAML](https://github.com/Trilium/Notes/blob/develop/apps/server/src/assets/etapi.openapi.yaml)
 
 ---

@@ -1,5 +1,5 @@
 @{
-    ModuleVersion   = '0.10.0'
+    ModuleVersion   = '0.11.0'
     Guid            = '5d0452a3-0c40-4681-b12c-070eccc905dc'
     CompanyName     = 'Patrick Morris '
     Copyright       = '2024-25 Patrick Morris'
@@ -23,6 +23,27 @@ All notable changes to the **TriliumNext-Powershell-Module** will be documented 
 
 ---
 
+## [0.11.0] - 2025-06-13
+
+### Added
+
+* Added function `Get-TriliumNoteAttachment` - Retrieves attachments for a specific note. (Undocumented API)
+* Added `New-TriliumNoteFile` - The File note type can be used to attach various external files such as images, videos or PDF documents.
+
+### Changed
+
+* Changed ETAPI authentication header to use 'Bearer' in `Connect-TriliumAuth`.
+
+### Fixed
+
+* Fixed code block rendering when using `-Markdown` with `New-TriliumNote`.
+
+### Removed
+
+* Removed function `Get-TriliumAttachmentID`, replaced with `Get-TriliumNoteAttachment`
+
+---
+
 ## [0.10.0] - 2025-06-11
 
 ### Added
@@ -32,6 +53,7 @@ All notable changes to the **TriliumNext-Powershell-Module** will be documented 
 * Added function `Get-TriliumAttachmentID` - Parses all attachment IDs from a note's contents (no direct API equivalent).
 * Added parameter `-Math` (used with `-Markdown`) to convert math markdown for rendering.
 * Added function `Create-TriliumAttribute`.
+* Added type `file` to `New-TriliumNote`  for file type notes.
 
 ---
 
@@ -130,7 +152,9 @@ All notable changes to the **TriliumNext-Powershell-Module** will be documented 
 
 > 📌 This changelog follows [Keep a Changelog](https://keepachangelog.com/en/1.0.0/) principles.
 
+
 '@
         }
     }
 }
+

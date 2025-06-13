@@ -63,8 +63,8 @@ function New-TriliumNote {
         Accept pipeline input?       false
         Accept wildcard characters?  false
 
-    .PARAMETER Math
-    Option to enable math extension for markdown content. Optional. Use this if you want to enable inline and block LaTeX math rendering. Only applicable if -Markdown and -NoteType is 'text'. If -Markdown is specified, -NoteType must be 'text'.
+    .PARAMETER NoMath
+    Option to disable math extension for markdown content. Optional. By default, math extension is enabled for inline and block LaTeX math rendering. Only applicable if -Markdown and -NoteType is 'text'.
 
         Required?                    false
         Position?                    Named
@@ -114,7 +114,7 @@ function New-TriliumNote {
         
         # Optional note type
         [Parameter()]
-        [ValidateSet('text','book','canvas','mermaid','geoMap','mindMap','relationMap','renderNote','webview',
+        [ValidateSet('file','text','book','canvas','mermaid','geoMap','mindMap','relationMap','renderNote','webview',
             'PlainText','CSS','html','http','JSbackend','JSfrontend','json','markdown','powershell','python','ruby','shellBash','sql','sqliteTrilium','xml','yaml')]
         [string]$NoteType,
         [Parameter()]
@@ -122,7 +122,7 @@ function New-TriliumNote {
         [Parameter()]
         [switch]$Markdown,
         [Parameter()]
-        [switch]$Math
+        [switch]$NoMath
     )
     begin {
         if (!$global:TriliumCreds) { Write-Error -Message 'Need to run: Connect-TriliumAuth'; exit }
@@ -139,15 +139,83 @@ function New-TriliumNote {
             }
             $builder = [Markdig.MarkdownPipelineBuilder]::new()
             [Markdig.MarkdownExtensions]::UseAdvancedExtensions($builder) | Out-Null
-            if ($Math) {
+            if (-not $NoMath) {
                 # Enable the math extension (inline and block LaTeX)
                 [Markdig.MarkdownExtensions]::UseMathematics($builder) | Out-Null
             }
             $pipeline = $builder.Build()
             $Content = [Markdig.Markdown]::ToHtml($Content, $pipeline)
-            if ($Math) {
+            if (-not $NoMath) {
                 $Content = $Content.Replace('<span class="math"','<span class="math-tex"')
                 $Content = $Content.Replace('<div class="math"','<span class="math-tex"')
+            }
+            # Patch code block classes to MIME-style if needed
+            # ~50 common languages and their MIME-style class equivalents
+            $LanguageToMimeMap = @{
+                "powershell"   = "application-x-powershell"
+                "bash"         = "application-x-sh"
+                "shell"        = "application-x-sh"
+                "zsh"          = "application-x-zsh"
+                "sh"           = "application-x-sh"
+                "python"       = "text-x-python"
+                "javascript"   = "application-x-javascript"
+                "typescript"   = "application-x-typescript"
+                "java"         = "text-x-java-source"
+                "csharp"       = "text-x-csharp"
+                "cs"           = "text-x-csharp"
+                "cpp"          = "text-x-c++src"
+                "c"            = "text-x-csrc"
+                "go"           = "text-x-go"
+                "rust"         = "text-x-rustsrc"
+                "ruby"         = "application-x-ruby"
+                "perl"         = "application-x-perl"
+                "php"          = "application-x-php"
+                "html"         = "text-html"
+                "xml"          = "application-xml"
+                "json"         = "application-json"
+                "yaml"         = "application-x-yaml"
+                "toml"         = "application-toml"
+                "markdown"     = "text-x-markdown"
+                "sql"          = "application-sql"
+                "dockerfile"   = "text-x-dockerfile"
+                "makefile"     = "text-x-makefile"
+                "ini"          = "text-x-ini"
+                "config"       = "text-x-config"
+                "kotlin"       = "text-x-kotlin"
+                "swift"        = "application-x-swift"
+                "r"            = "text-x-r"
+                "scala"        = "text-x-scala"
+                "groovy"       = "application-x-groovy"
+                "vbnet"        = "text-x-vbnet"
+                "dart"         = "application-x-dart"
+                "haskell"      = "text-x-haskell"
+                "elixir"       = "application-x-elixir"
+                "clojure"      = "application-x-clojure"
+                "lua"          = "text-x-lua"
+                "matlab"       = "application-x-matlab"
+                "fortran"      = "text-x-fortran"
+                "assembly"     = "text-x-asm"
+                "asm"          = "text-x-asm"
+                "latex"        = "application-x-latex"
+                "plaintext"    = "text-plain"
+                "text"         = "text-plain"
+            }
+            # Replace all class="language-xxx" with correct MIME-style
+            $Content = $Content -replace 'class="language-([a-z0-9+\-]+)"', {
+                param($match)
+                $lang = $matches[1]
+                if ($LanguageToMimeMap.ContainsKey($lang)) {
+                    $mime = $LanguageToMimeMap[$lang]
+                } else {
+                    if ($lang -match '^(html|xml|json|markdown|sql|text|plaintext)$') {
+                        $mime = "text-$lang"
+                    } elseif ($lang -match '^(c|cpp|csharp|java|go|sh|bash|powershell)$') {
+                        $mime = "text-x-$lang"
+                    } else {
+                        $mime = "application-x-$lang"
+                    }
+                }
+                'class="language-' + $mime + '"'
             }
         }
     }
