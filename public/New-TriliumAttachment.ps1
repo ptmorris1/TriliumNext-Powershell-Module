@@ -39,31 +39,27 @@ function New-TriliumAttachment {
         [string]$Title,
         [int]$Position
     )
-    # Basic MIME type map
-    $mimeMap = @{
-        ".png"  = "image/png"
-        ".jpg"  = "image/jpeg"
-        ".jpeg" = "image/jpeg"
-        ".gif"  = "image/gif"
-        ".bmp"  = "image/bmp"
-        ".svg"  = "image/svg+xml"
-        ".txt"  = "text/plain"
-        ".md"   = "text/markdown"
-        ".pdf"  = "application/pdf"
-        ".zip"  = "application/zip"
-        ".json" = "application/json"
-        ".csv"  = "text/csv"
-        ".xml"  = "application/xml"
-        ".html" = "text/html"
-    }
+    # Import MIME type map from JSON file
+    $mimeTypeMapPath = Join-Path $PSScriptRoot '..\data\MimeTypeMap.json'
+    $mimeTypeMap = Get-Content $mimeTypeMapPath -Raw | ConvertFrom-Json
     if (-not $Title) { $Title = [System.IO.Path]::GetFileName($FilePath) }
     if (-not $Mime) {
-        $ext = [System.IO.Path]::GetExtension($FilePath).ToLower()
-        $Mime = $mimeMap[$ext]
+        $ext = [System.IO.Path]::GetExtension($FilePath).ToLower().TrimStart('.')
+        Write-Verbose "[TriliumAttachment] Checking extension: '$ext'"
+        $mimeEntry = $mimeTypeMap | Where-Object { $_.Extension -and ($_.Extension.ToLower().Trim() -eq $ext) } | Select-Object -First 1
+        if ($mimeEntry -and $mimeEntry.Mime) {
+            $Mime = $mimeEntry.Mime
+            Write-Verbose "[TriliumAttachment] Found MIME type '$Mime' for extension '$ext'"
+        } else {
+            throw "[TriliumAttachment] No MIME type found for extension '$ext'. Please add it to MimeTypeMap.json."
+        }
     }
-    if (-not $Mime) { $Mime = 'image/png' }
     if (-not $Role) {
-        if ($Mime -like 'image*') { $Role = 'image' } else { $Role = 'file' }
+        if ($Mime -like 'image/*') {
+            $Role = 'image'
+        } else {
+            $Role = 'file'
+        }
     }
     $body = @{
         ownerId = $OwnerId
@@ -94,11 +90,36 @@ function New-TriliumAttachment {
         $fileName = [System.IO.Path]::GetFileName($FilePath)
         $html = @"
 <figure class="image">
-  <img style="aspect-ratio:$aspect;" src="api/attachments/$attachmentId/image/$fileName" width="$width" height="$height">
+    <img style="aspect-ratio:$aspect;" src="api/attachments/$attachmentId/image/$fileName" width="$width" height="$height">
 </figure>
 "@
         $res | Add-Member -MemberType NoteProperty -Name HtmlSnippet -Value $html
-        Set-TriliumNoteContent -NoteID $OwnerId -NoteContent $html
+        # Get current note content and append image HTML
+        $currentContent = Get-TriliumNoteContent -NoteID $OwnerId
+        if ([string]::IsNullOrWhiteSpace($currentContent)) {
+            $mergedContent = $html
+        } else {
+            $mergedContent = "$currentContent`r`n$html"
+        }
+        Set-TriliumNoteContent -NoteID $OwnerId -NoteContent $mergedContent
+    } else {
+        $fileName = [System.IO.Path]::GetFileName($FilePath)
+        $fileHtml = @"
+<p>
+    <a class="reference-link" href="#root/$($OwnerId)?viewMode=attachments&amp;attachmentId=$($attachmentId)">
+        $fileName
+    </a>
+    &nbsp;
+</p>
+"@
+        $res | Add-Member -MemberType NoteProperty -Name HtmlSnippet -Value $fileHtml
+        $currentContent = Get-TriliumNoteContent -NoteID $OwnerId
+        if ([string]::IsNullOrWhiteSpace($currentContent)) {
+            $mergedContent = $fileHtml
+        } else {
+            $mergedContent = "$currentContent`r`n$fileHtml"
+        }
+        Set-TriliumNoteContent -NoteID $OwnerId -NoteContent $mergedContent
     }
     return $res
 }

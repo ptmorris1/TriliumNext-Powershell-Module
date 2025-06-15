@@ -1,0 +1,602 @@
+[
+  {
+    "Note": "text",
+    "Type": "text",
+    "Mime": "text/html",
+    "Extension": "html"
+  },
+  {
+    "Note": "markdown",
+    "Type": "code",
+    "Mime": "text/x-markdown",
+    "Extension": "md"
+  },
+  {
+    "Note": "powershell",
+    "Type": "code",
+    "Mime": "application/x-powershell",
+    "Extension": "ps1"
+  },
+  {
+    "Note": "python",
+    "Type": "code",
+    "Mime": "text/x-python",
+    "Extension": "py"
+  },
+  {
+    "Note": "bash",
+    "Type": "code",
+    "Mime": "text/x-sh",
+    "Extension": "sh"
+  },
+  {
+    "Note": "shell",
+    "Type": "code",
+    "Mime": "text/x-sh",
+    "Extension": "sh"
+  },
+  {
+    "Note": "sh",
+    "Type": "code",
+    "Mime": "text/x-sh",
+    "Extension": "sh"
+  },
+  {
+    "Note": "zsh",
+    "Type": "code",
+    "Mime": "text/x-zsh",
+    "Extension": "zsh"
+  },
+  {
+    "Note": "javascript",
+    "Type": "code",
+    "Mime": "application/x-javascript",
+    "Extension": "js"
+  },
+  {
+    "Note": "typescript",
+    "Type": "code",
+    "Mime": "application/x-typescript",
+    "Extension": "ts"
+  },
+  {
+    "Note": "java",
+    "Type": "code",
+    "Mime": "text/x-java-source",
+    "Extension": "java"
+  },
+  {
+    "Note": "csharp",
+    "Type": "code",
+    "Mime": "text/x-csharp",
+    "Extension": "cs"
+  },
+  {
+    "Note": "cs",
+    "Type": "code",
+    "Mime": "text/x-csharp",
+    "Extension": "cs"
+  },
+  {
+    "Note": "cpp",
+    "Type": "code",
+    "Mime": "text/x-c++src",
+    "Extension": "cpp"
+  },
+  {
+    "Note": "c",
+    "Type": "code",
+    "Mime": "text/x-csrc",
+    "Extension": "c"
+  },
+  {
+    "Note": "go",
+    "Type": "code",
+    "Mime": "text/x-go",
+    "Extension": "go"
+  },
+  {
+    "Note": "rust",
+    "Type": "code",
+    "Mime": "text/x-rustsrc",
+    "Extension": "rs"
+  },
+  {
+    "Note": "ruby",
+    "Type": "code",
+    "Mime": "application/x-ruby",
+    "Extension": "rb"
+  },
+  {
+    "Note": "perl",
+    "Type": "code",
+    "Mime": "application/x-perl",
+    "Extension": "pl"
+  },
+  {
+    "Note": "php",
+    "Type": "code",
+    "Mime": "application/x-php",
+    "Extension": "php"
+  },
+  {
+    "Note": "html",
+    "Type": "code",
+    "Mime": "text/html",
+    "Extension": "html"
+  },
+  {
+    "Note": "xml",
+    "Type": "code",
+    "Mime": "text/xml",
+    "Extension": "xml"
+  },
+  {
+    "Note": "json",
+    "Type": "code",
+    "Mime": "application/json",
+    "Extension": "json"
+  },
+  {
+    "Note": "yaml",
+    "Type": "code",
+    "Mime": "text/x-yaml",
+    "Extension": "yaml"
+  },
+  {
+    "Note": "toml",
+    "Type": "code",
+    "Mime": "application/toml",
+    "Extension": "toml"
+  },
+  {
+    "Note": "sql",
+    "Type": "code",
+    "Mime": "text/x-sql",
+    "Extension": "sql"
+  },
+  {
+    "Note": "dockerfile",
+    "Type": "code",
+    "Mime": "text/x-dockerfile",
+    "Extension": "dockerfile"
+  },
+  {
+    "Note": "makefile",
+    "Type": "code",
+    "Mime": "text/x-makefile",
+    "Extension": "makefile"
+  },
+  {
+    "Note": "ini",
+    "Type": "code",
+    "Mime": "text/x-ini",
+    "Extension": "ini"
+  },
+  {
+    "Note": "config",
+    "Type": "code",
+    "Mime": "text/x-config",
+    "Extension": "conf"
+  },
+  {
+    "Note": "kotlin",
+    "Type": "code",
+    "Mime": "text/x-kotlin",
+    "Extension": "kt"
+  },
+  {
+    "Note": "swift",
+    "Type": "code",
+    "Mime": "application/x-swift",
+    "Extension": "swift"
+  },
+  {
+    "Note": "r",
+    "Type": "code",
+    "Mime": "text/x-r",
+    "Extension": "r"
+  },
+  {
+    "Note": "scala",
+    "Type": "code",
+    "Mime": "text/x-scala",
+    "Extension": "scala"
+  },
+  {
+    "Note": "groovy",
+    "Type": "code",
+    "Mime": "application/x-groovy",
+    "Extension": "groovy"
+  },
+  {
+    "Note": "vbnet",
+    "Type": "code",
+    "Mime": "text/x-vbnet",
+    "Extension": "vb"
+  },
+  {
+    "Note": "dart",
+    "Type": "code",
+    "Mime": "application/x-dart",
+    "Extension": "dart"
+  },
+  {
+    "Note": "haskell",
+    "Type": "code",
+    "Mime": "text/x-haskell",
+    "Extension": "hs"
+  },
+  {
+    "Note": "elixir",
+    "Type": "code",
+    "Mime": "application/x-elixir",
+    "Extension": "ex"
+  },
+  {
+    "Note": "clojure",
+    "Type": "code",
+    "Mime": "application/x-clojure",
+    "Extension": "clj"
+  },
+  {
+    "Note": "lua",
+    "Type": "code",
+    "Mime": "text/x-lua",
+    "Extension": "lua"
+  },
+  {
+    "Note": "matlab",
+    "Type": "code",
+    "Mime": "application/x-matlab",
+    "Extension": "m"
+  },
+  {
+    "Note": "fortran",
+    "Type": "code",
+    "Mime": "text/x-fortran",
+    "Extension": "f90"
+  },
+  {
+    "Note": "assembly",
+    "Type": "code",
+    "Mime": "text/x-asm",
+    "Extension": "asm"
+  },
+  {
+    "Note": "asm",
+    "Type": "code",
+    "Mime": "text/x-asm",
+    "Extension": "asm"
+  },
+  {
+    "Note": "latex",
+    "Type": "code",
+    "Mime": "application/x-latex",
+    "Extension": "tex"
+  },
+  {
+    "Note": "plaintext",
+    "Type": "text",
+    "Mime": "text/plain",
+    "Extension": "txt"
+  },
+  {
+    "Note": "pdf",
+    "Type": "file",
+    "Mime": "application/pdf",
+    "Extension": "pdf"
+  },
+  {
+    "Note": "docx",
+    "Type": "file",
+    "Mime": "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
+    "Extension": "docx"
+  },
+  {
+    "Note": "xlsx",
+    "Type": "file",
+    "Mime": "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+    "Extension": "xlsx"
+  },
+  {
+    "Note": "pptx",
+    "Type": "file",
+    "Mime": "application/vnd.openxmlformats-officedocument.presentationml.presentation",
+    "Extension": "pptx"
+  },
+  {
+    "Note": "mp3",
+    "Type": "file",
+    "Mime": "audio/mpeg",
+    "Extension": "mp3"
+  },
+  {
+    "Note": "flac",
+    "Type": "file",
+    "Mime": "audio/flac",
+    "Extension": "flac"
+  },
+  {
+    "Note": "wav",
+    "Type": "file",
+    "Mime": "audio/wav",
+    "Extension": "wav"
+  },
+  {
+    "Note": "ogg",
+    "Type": "file",
+    "Mime": "audio/ogg",
+    "Extension": "ogg"
+  },
+  {
+    "Note": "aac",
+    "Type": "file",
+    "Mime": "audio/aac",
+    "Extension": "aac"
+  },
+  {
+    "Note": "m4a",
+    "Type": "file",
+    "Mime": "audio/mp4",
+    "Extension": "m4a"
+  },
+  {
+    "Note": "wma",
+    "Type": "file",
+    "Mime": "audio/x-ms-wma",
+    "Extension": "wma"
+  },
+  {
+    "Note": "aiff",
+    "Type": "file",
+    "Mime": "audio/aiff",
+    "Extension": "aiff"
+  },
+  {
+    "Note": "alac",
+    "Type": "file",
+    "Mime": "audio/alac",
+    "Extension": "alac"
+  },
+  {
+    "Note": "opus",
+    "Type": "file",
+    "Mime": "audio/opus",
+    "Extension": "opus"
+  },
+  {
+    "Note": "mp4",
+    "Type": "file",
+    "Mime": "video/mp4",
+    "Extension": "mp4"
+  },
+  {
+    "Note": "zip",
+    "Type": "file",
+    "Mime": "application/zip",
+    "Extension": "zip"
+  },
+  {
+    "Note": "csv",
+    "Type": "file",
+    "Mime": "text/csv",
+    "Extension": "csv"
+  },
+  {
+    "Note": "png",
+    "Type": "file",
+    "Mime": "image/png",
+    "Extension": "png"
+  },
+  {
+    "Note": "jpg",
+    "Type": "file",
+    "Mime": "image/jpeg",
+    "Extension": "jpg"
+  },
+  {
+    "Note": "jpeg",
+    "Type": "file",
+    "Mime": "image/jpeg",
+    "Extension": "jpeg"
+  },
+  {
+    "Note": "gif",
+    "Type": "file",
+    "Mime": "image/gif",
+    "Extension": "gif"
+  },
+  {
+    "Note": "bmp",
+    "Type": "file",
+    "Mime": "image/bmp",
+    "Extension": "bmp"
+  },
+  {
+    "Note": "tiff",
+    "Type": "file",
+    "Mime": "image/tiff",
+    "Extension": "tiff"
+  },
+  {
+    "Note": "tif",
+    "Type": "file",
+    "Mime": "image/tiff",
+    "Extension": "tif"
+  },
+  {
+    "Note": "webp",
+    "Type": "file",
+    "Mime": "image/webp",
+    "Extension": "webp"
+  },
+  {
+    "Note": "svg",
+    "Type": "file",
+    "Mime": "image/svg+xml",
+    "Extension": "svg"
+  },
+  {
+    "Note": "ico",
+    "Type": "file",
+    "Mime": "image/x-icon",
+    "Extension": "ico"
+  },
+  {
+    "Note": "heic",
+    "Type": "file",
+    "Mime": "image/heic",
+    "Extension": "heic"
+  },
+  {
+    "Note": "doc",
+    "Type": "file",
+    "Mime": "application/msword",
+    "Extension": "doc"
+  },
+  {
+    "Note": "xls",
+    "Type": "file",
+    "Mime": "application/vnd.ms-excel",
+    "Extension": "xls"
+  },
+  {
+    "Note": "ppt",
+    "Type": "file",
+    "Mime": "application/vnd.ms-powerpoint",
+    "Extension": "ppt"
+  },
+  {
+    "Note": "odt",
+    "Type": "file",
+    "Mime": "application/vnd.oasis.opendocument.text",
+    "Extension": "odt"
+  },
+  {
+    "Note": "ods",
+    "Type": "file",
+    "Mime": "application/vnd.oasis.opendocument.spreadsheet",
+    "Extension": "ods"
+  },
+  {
+    "Note": "odp",
+    "Type": "file",
+    "Mime": "application/vnd.oasis.opendocument.presentation",
+    "Extension": "odp"
+  },
+  {
+    "Note": "odg",
+    "Type": "file",
+    "Mime": "application/vnd.oasis.opendocument.graphics",
+    "Extension": "odg"
+  },
+  {
+    "Note": "rtf",
+    "Type": "file",
+    "Mime": "application/rtf",
+    "Extension": "rtf"
+  },
+  {
+    "Note": "txt",
+    "Type": "text",
+    "Mime": "text/plain",
+    "Extension": "txt"
+  },
+  {
+    "Note": "tsv",
+    "Type": "file",
+    "Mime": "text/tab-separated-values",
+    "Extension": "tsv"
+  },
+  {
+    "Note": "epub",
+    "Type": "file",
+    "Mime": "application/epub+zip",
+    "Extension": "epub"
+  },
+  {
+    "Note": "md",
+    "Type": "text",
+    "Mime": "text/markdown",
+    "Extension": "md"
+  },
+  {
+    "Note": "html",
+    "Type": "text",
+    "Mime": "text/html",
+    "Extension": "html"
+  },
+  {
+    "Note": "xml",
+    "Type": "text",
+    "Mime": "application/xml",
+    "Extension": "xml"
+  },
+  {
+    "Note": "json",
+    "Type": "text",
+    "Mime": "application/json",
+    "Extension": "json"
+  },
+  {
+    "Note": "tex",
+    "Type": "text",
+    "Mime": "application/x-tex",
+    "Extension": "tex"
+  },
+  {
+    "Note": "log",
+    "Type": "text",
+    "Mime": "text/plain",
+    "Extension": "log"
+  },
+  {
+    "Note": "yaml",
+    "Type": "text",
+    "Mime": "text/yaml",
+    "Extension": "yaml"
+  },
+  {
+    "Note": "yml",
+    "Type": "text",
+    "Mime": "text/yaml",
+    "Extension": "yml"
+  },
+  {
+    "Note": "book",
+    "Type": "book",
+    "Mime": null,
+    "Extension": null
+  },
+  {
+    "Note": "canvas",
+    "Type": "canvas",
+    "Mime": "application/json",
+    "Extension": "json"
+  },
+  {
+    "Note": "mermaid",
+    "Type": "mermaid",
+    "Mime": "text/mermaid",
+    "Extension": "mmd"
+  },
+  {
+    "Note": "geoMap",
+    "Type": "geoMap",
+    "Mime": "application/json",
+    "Extension": "json"
+  },
+  {
+    "Note": "mindMap",
+    "Type": "mindMap",
+    "Mime": "application/json",
+    "Extension": "json"
+  },
+  {
+    "Note": "relationMap",
+    "Type": "relationMap",
+    "Mime": "application/json",
+    "Extension": "json"
+  }
+]

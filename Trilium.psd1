@@ -1,5 +1,5 @@
 @{
-    ModuleVersion   = '0.11.0'
+    ModuleVersion   = '0.12.0'
     Guid            = '5d0452a3-0c40-4681-b12c-070eccc905dc'
     CompanyName     = 'Patrick Morris '
     Copyright       = '2024-25 Patrick Morris'
@@ -20,6 +20,29 @@
 # 📅 Changelog
 
 All notable changes to the **TriliumNext-Powershell-Module** will be documented in this file.
+
+---
+
+## [0.12.0] - 2025-06-15
+
+### Added
+
+* Added `Remove-TriliumAttachment` function to delete attachments by attachmentId, supporting pipeline input.
+* Added tab-completion for common label names to `New-TriliumAttribute` when -Type is 'label'.
+* Added parameters `-IsExpanded`, `-NotePosition`, and `-Prefix` to `New-TriliumNote` for expanded UI control and note placement.
+* Added `image` note type to `New-TriliumNote`.
+* Added public function `Format-TriliumHtml` to beautify HTML content with improved header spacing and code block formatting.
+
+### Changed
+
+* Updated comment-based help for `New-TriliumAttribute`.
+* Updated `New-TriliumNoteFile` to use `New-TriliumNote` and `New-TriliumAttribute` functions instead of direct API calls.
+* Improved `New-TriliumNote` with better HTML formatting and consolidated mime type mapping.
+* Added `MimeTypeMap.json` file to module's data directory for centralized MIME type mappings across functions.
+
+### Fixed
+
+* `New-TriliumAttachment` now attaches with working links added to note content.
 
 ---
 
@@ -153,8 +176,10 @@ All notable changes to the **TriliumNext-Powershell-Module** will be documented 
 > 📌 This changelog follows [Keep a Changelog](https://keepachangelog.com/en/1.0.0/) principles.
 
 
+
 '@
         }
     }
 }
+
 

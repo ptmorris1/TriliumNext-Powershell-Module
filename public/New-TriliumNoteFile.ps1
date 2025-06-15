@@ -9,9 +9,6 @@ function New-TriliumNoteFile {
     .PARAMETER ParentNoteId
     The ID of the parent note.
 
-    .PARAMETER Title
-    The title of the new note.
-
     .PARAMETER FilePath
     The path to the file to upload.
 
@@ -36,13 +33,15 @@ function New-TriliumNoteFile {
     .PARAMETER BranchId
     (Optional) ID for the branch.
 
+    .PARAMETER Title
+    (Optional) Title for the note. If not provided, the file name (with extension) is used as the title.
+
     .EXAMPLE
-    New-TriliumNoteFile -ParentNoteId "abc123" -Title "My PDF" -FilePath "C:\docs\file.pdf"
+    New-TriliumNoteFile -ParentNoteId "abc123" -FilePath "C:\docs\file.pdf"
     #>
     [CmdletBinding()]
     param(
         [Parameter(Mandatory = $true)][string]$ParentNoteId,
-        [Parameter(Mandatory = $true)][string]$Title,
         [Parameter(Mandatory = $true)][string]$FilePath,
         [string]$Type,
         [string]$Mime,
@@ -50,7 +49,8 @@ function New-TriliumNoteFile {
         [string]$Prefix,
         [string]$IsExpanded,
         [string]$NoteId,
-        [string]$BranchId
+        [string]$BranchId,
+        [string]$Title
     )
     # MIME type table
     $mimeTable = @{
@@ -93,33 +93,34 @@ function New-TriliumNoteFile {
         $Mime = $mimeTable[$ext]
         if (-not $Mime) { $Mime = 'application/octet-stream' }
     }
+    # Set title to provided value or file name (with extension) if not provided
+    if (-not $Title) {
+        $Title = [System.IO.Path]::GetFileName($FilePath)
+    }
     # Set content internally based on type
     if ($Type -eq 'image') {
         $Content = 'image'
     } else {
         $Content = '<p></p>'
     }
-    $params = @{
-        parentNoteId = $ParentNoteId
-        title        = $Title
-        type         = $Type
-        mime         = $Mime
-        content      = $Content
+    # Create the note using New-TriliumNote
+    $noteParams = @{
+        ParentNoteId = $ParentNoteId
+        Title        = $Title
+        NoteType     = $Type
+        Mime         = $Mime
+        Content      = $Content
     }
-    if ($NotePosition) { $params.notePosition = $NotePosition }
-    if ($Prefix) { $params.prefix = $Prefix }
-    if ($IsExpanded) { $params.isExpanded = $IsExpanded }
-    if ($NoteId) { $params.noteId = $NoteId }
-    if ($BranchId) { $params.branchId = $BranchId }
-    $uri = "$($TriliumCreds.URL)/create-note"
-    $headers = @{ 'Authorization' = $TriliumCreds.Authorization; 'Content-Type' = 'application/json' }
-    $res_note = Invoke-RestMethod -Uri $uri -Method Post -Headers $headers -Body ($params | ConvertTo-Json -Depth 5)
+    if ($NotePosition) { $noteParams.NotePosition = $NotePosition }
+    if ($Prefix) { $noteParams.Prefix = $Prefix }
+    if ($IsExpanded) { $noteParams.IsExpanded = $IsExpanded }
+    if ($NoteId) { $noteParams.NoteId = $NoteId }
+    if ($BranchId) { $noteParams.BranchId = $BranchId }
+    $res_note = New-TriliumNote @noteParams
     $new_noteId = $res_note.note.noteId
-    # Set original file name attribute
+    # Set original file name attribute using New-TriliumAttribute
     $fileName = [System.IO.Path]::GetFileName($FilePath)
-    $attrUri = "$($TriliumCreds.URL)/attributes"
-    $attrBody = @{ noteId = $new_noteId; type = 'label'; name = 'originalFileName'; value = $fileName; isInheritable = $false } | ConvertTo-Json
-    Invoke-RestMethod -Uri $attrUri -Method Post -Headers $headers -Body $attrBody | Out-Null
+    $null = New-TriliumAttribute -NoteID $new_noteId -Name 'originalFileName' -Value $fileName -Type 'label' -IsInheritable:$false
     # Upload file content
     $contentUri = "$($TriliumCreds.URL)/notes/$new_noteId/content"
     $fileBytes = [System.IO.File]::ReadAllBytes($FilePath)

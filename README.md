@@ -71,12 +71,13 @@ Connect-TriliumAuth -BaseUrl 'https://trilium.domain.com' -Password $creds
 | GET    | /branches/{branchId} | [Get-TriliumBranch](/public/Get-TriliumBranch.ps1) | Get branch details |
 | PATCH  | /branches/{branchId} | [Set-TriliumBranch](/public/Set-TriliumBranch.ps1) | Update branch prefix and/or note position (PATCH) |
 | DELETE | /branches/{branchId} | [Remove-TriliumBranch](/public/Remove-TriliumBranch.ps1) | Delete a branch |
-| POST   | /attachments |  | |
+| POST   | /attachments | [New-TriliumAttachment](/public/New-TriliumAttachment.ps1) | Create a new attachment for a note |
 | GET    | /attachments/{attachmentId} | [Get-TriliumAttachment](/public/Get-TriliumAttachment.ps1) | Get attachment metadata |
 | PATCH  | /attachments/{attachmentId} |  | |
-| DELETE | /attachments/{attachmentId} |  | |
+| DELETE | /attachments/{attachmentId} | [Remove-TriliumAttachment](/public/Remove-TriliumAttachment.ps1) | Delete an attachment |
 | GET    | /attachments/{attachmentId}/content | [Get-TriliumAttachmentContent](/public/Get-TriliumAttachmentContent.ps1) | Download attachment content |
 | PUT    | /attachments/{attachmentId}/content | [New-TriliumNoteFile](/public/New-TriliumNoteFile.ps1) | Create a new note from a local file (uploads file content) |
+| N/A    | N/A | [Format-TriliumHtml](/public/Format-TriliumHtml.ps1) | Helper function to beautify HTML content with improved header spacing and code block formatting |
 | POST   | /attributes | [Create-TriliumAttribute](/public/Create-TriliumAttribute.ps1) | Create a new attribute |
 | GET    | /attributes/{attributeId} | [Get-TriliumAttribute](/public/Get-TriliumAttribute.ps1) | Get attribute details |
 | PATCH  | /attributes/{attributeId} |  | |
