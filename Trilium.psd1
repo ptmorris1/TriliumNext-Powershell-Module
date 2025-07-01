@@ -6,7 +6,7 @@
     Author          = 'Patrick Morris'
     AliasesToExport = '*'
     RootModule      = 'Trilium.psm1'
-    Description     = 'Powershell wrapper for the TriliumNext API'
+    Description     = 'Powershell wrapper for the Trilium Notes API'
     FileList             = @('Trilium.psm1', 'Trilium.psd1', 'lib\Markdig.dll', 'lib\Markdig.xml', 'THIRD-PARTY-NOTICES.txt')
     PowerShellVersion    = '7.5'
     CompatiblePSEditions = @('Core')

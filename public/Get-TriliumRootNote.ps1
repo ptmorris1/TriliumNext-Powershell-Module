@@ -1,28 +1,46 @@
 function Get-TriliumRootNote {
     <#
     .SYNOPSIS
-    Gets the root note details from the TriliumNext instance.
+        Gets the root note details from the TriliumNext instance.
 
     .DESCRIPTION
-    This function retrieves the root note of TriliumNext.
+        Retrieves the root note of your TriliumNext instance, including its ID, title, and metadata. Useful for obtaining the top-level note structure for navigation or automation.
 
     .PARAMETER SkipCertCheck
-    Option to skip certificate check.
+        If specified, SSL certificate errors will be ignored (useful for self-signed certs).
 
         Required?                    false
-        Position?                    Named
-        Default value                None
+        Position?                    named
+        Default value                false
         Accept pipeline input?       false
         Accept wildcard characters?  false
 
+    .INPUTS
+        None. You cannot pipe objects to Get-TriliumRootNote.
+
+    .OUTPUTS
+        System.Management.Automation.PSCustomObject
+        Returns the root note object from Trilium, including its ID, title, and metadata.
+
     .EXAMPLE
-    Get-TriliumRootNote
+        Get-TriliumRootNote
+
+        Retrieves the root note details from the connected Trilium instance.
+
+    .EXAMPLE
+        Get-TriliumRootNote -SkipCertCheck
+
+        Retrieves the root note details, skipping SSL certificate validation (for self-signed certs).
 
     .NOTES
-    This function requires that the authentication has been set using Connect-TriliumAuth.
+        - Requires authentication using Connect-TriliumAuth before use.
+        - Author: P. Morris
+        - Module: TriliumNext-Powershell-Module
 
     .LINK
-    https://github.com/ptmorris1/TriliumNext-Powershell-Module
+        Online version: https://github.com/ptmorris1/TriliumNext-Powershell-Module
+    .LINK
+        Connect-TriliumAuth
     #>
     [CmdletBinding()]
     param(

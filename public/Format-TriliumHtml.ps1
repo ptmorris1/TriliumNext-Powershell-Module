@@ -47,11 +47,11 @@ function Format-TriliumHtml {
         Adds proper spacing between the code block and the heading.
 
     .EXAMPLE
-        PS> # Example of retrieving note content, beautifying it, and updating the note
-        PS> $noteId = "abc123def456"
-        PS> $originalContent = Get-TriliumNoteContent -NoteID $noteId
-        PS> $beautifiedContent = Format-TriliumHtml -Content $originalContent
-        PS> Set-TriliumNoteContent -NoteID $noteId -NoteContent $beautifiedContent
+        # Example of retrieving note content, beautifying it, and updating the note
+        $noteId = "abc123def456"
+        $originalContent = Get-TriliumNoteContent -NoteID $noteId
+        $beautifiedContent = Format-TriliumHtml -Content $originalContent
+        Set-TriliumNoteContent -NoteID $noteId -NoteContent $beautifiedContent
         
         This example shows a complete workflow: retrieving a note's content with Get-TriliumNoteContent,
         beautifying the HTML with Format-TriliumHtml, and then saving the improved content back
