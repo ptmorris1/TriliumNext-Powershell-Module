@@ -1,32 +1,77 @@
 function New-TriliumAttachment {
     <#
     .SYNOPSIS
-    Creates a new attachment for a note in TriliumNext using the /attachments endpoint.
+    Uploads a file as an attachment to a Trilium Notes note and appends a reference link or image to the end of the note's content.
 
     .DESCRIPTION
-    Uploads a file as an attachment to a note using the /attachments endpoint (application/json),
-    then uploads the file content separately to /attachments/{attachmentId}/content.
+    Creates a new attachment for a note in Trilium Notes. The function uploads the file as an attachment, then appends a reference link (for files) or an image (for images) to the end of the note's content. Supports specifying role, MIME type, title, and position. Automatically detects MIME type from file extension if not specified. For images, includes width, height, and aspect ratio in the HTML snippet.
 
     .PARAMETER OwnerId
     The note ID to attach the file to.
+        Required?                    true
+        Position?                    0
+        Accept pipeline input?       false
+        Accept wildcard characters?  false
 
     .PARAMETER FilePath
     The path to the file to upload as an attachment.
+        Required?                    true
+        Position?                    1
+        Accept pipeline input?       false
+        Accept wildcard characters?  false
 
     .PARAMETER Role
-    (Optional) The role of the attachment.
+    (Optional) The role of the attachment (e.g., image, file). If not specified, will be set to 'image' for image MIME types, otherwise 'file'.
+        Required?                    false
+        Position?                    2
+        Accept pipeline input?       false
+        Accept wildcard characters?  false
 
     .PARAMETER Mime
     (Optional) The MIME type of the attachment. If not specified, will try to detect from file extension.
+        Required?                    false
+        Position?                    3
+        Accept pipeline input?       false
+        Accept wildcard characters?  false
 
     .PARAMETER Title
     (Optional) The title of the attachment. Defaults to the file name.
+        Required?                    false
+        Position?                    4
+        Accept pipeline input?       false
+        Accept wildcard characters?  false
 
     .PARAMETER Position
-    (Optional) The position of the attachment.
+    (Optional) The position of the attachment in the note's attachment list.
+        Required?                    false
+        Position?                    5
+        Accept pipeline input?       false
+        Accept wildcard characters?  false
+
+    .INPUTS
+    None. You cannot pipe objects to New-TriliumAttachment.
+
+    .OUTPUTS
+    PSCustomObject. Returns the new attachment object, including the HtmlSnippet used to add the link or image to the note's content.
 
     .EXAMPLE
     New-TriliumAttachment -OwnerId "12345" -FilePath "C:\path\to\file.png"
+    Uploads file.png as an attachment to the note with ID 12345 and appends an image or reference link to the note's content.
+
+    .EXAMPLE
+    New-TriliumAttachment -OwnerId "12345" -FilePath "C:\path\to\file.pdf" -Title "My PDF" -Mime "application/pdf"
+    Uploads file.pdf as an attachment with a custom title and MIME type.
+
+    .NOTES
+    - Requires authentication via Connect-TriliumAuth.
+    - This function uploads the file, creates the attachment, and appends a reference link or image to the note's content.
+    - For images, the HTML snippet includes width, height, and aspect ratio.
+    - For files, the HTML snippet is a reference link.
+    - Author: P. Morris
+    - Module: TriliumNext-Powershell-Module
+
+    .LINK
+    https://github.com/ptmorris1/TriliumNext-Powershell-Module
     #>
     [CmdletBinding()]
     param (

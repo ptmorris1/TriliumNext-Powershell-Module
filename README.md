@@ -3,10 +3,10 @@
 ![PowerShell Gallery Version](https://img.shields.io/powershellgallery/v/Trilium)
 ![Downloads](https://img.shields.io/powershellgallery/dt/Trilium)
 ![PSGallery Quality](https://img.shields.io/powershellgallery/p/Trilium)  
-[![Trilium](https://img.shields.io/badge/Trilium-ETAPI-blue?logo=read-the-docs)](https://github.com/Trilium/Notes)  
+[![Trilium Notes](https://img.shields.io/badge/Trilium-ETAPI-blue?logo=read-the-docs)](https://github.com/TriliumNext/trilium)  
 [![License: MIT](https://img.shields.io/badge/license-MIT-green.svg)](LICENSE)
 
-> Manage your [Trilium](https://github.com/Trilium/Notes) instance via PowerShell using the ETAPI
+> Manage your [Trilium Notes](https://github.com/TriliumNext/trilium) instance via PowerShell using the ETAPI
 
 ---
 
@@ -36,20 +36,67 @@ It provides functions to:
 Install from the PowerShell Gallery:
 
 ```powershell
-Install-Module -Name Trilium -Scope CurrentUser
+Install-PSResource -Name Trilium -Scope CurrentUser
 ```
 
 ---
 
 ## 🔐 Authentication
 
-All functions require authentication 1st. Use a `PSCredential` object to store the password or ETAPI token.
+All functions require 1 time authentication 1st. Use a `PSCredential` object to store the password or ETAPI token.
  Username does not matter but required for Get-Credential.  We only use the stored password.
 
+### 🔐 Authenticate with Password
+
+Authenticate using your Trilium username and password:
+
+[!TIP]
+> Since Trilium doesn't need a username, anything will do.
+
+
 ```powershell
-$creds = Get-Credential -UserName admin
-Connect-TriliumAuth -BaseUrl 'https://trilium.domain.com' -Password $creds
+$creds = Get-Credential -UserName 'admin'
+Connect-TriliumAuth -BaseUrl "https://trilium.myDomain.net" -Password $creds
 ```
+```powershell
+appVersion             : 0.96.0
+dbVersion              : 232
+nodeVersion            : v22.17.0
+syncVersion            : 36
+buildDate              : 6/7/2025 9:45:40 AM
+buildRevision          : 7cbff47078012e32279c110c49b904bd24dcecb3
+dataDirectory          : /home/node/trilium-data
+clipperProtocolVersion : 1.0
+utcDateTime            : 7/4/2025 4:07:48 AM
+```
+[!TIP]
+> This output confirms successful connection and shows server environment details.
+
+
+### 🔐 Authenticate with ETAPI Token
+
+Authenticate using your ETAPI token (enter token as password):
+
+[!TIP]
+> Since Trilium doesn't need a username, anything will do.
+
+```powershell
+$token = Get-Credential -UserName 'admin' # Enter your ETAPI token as the password
+Connect-TriliumAuth -BaseUrl "https://trilium.myDomain.net" -EtapiToken $token
+```
+
+### ⚠️ Skip Certificate Check (Self-Signed Certs)
+
+If your Trilium instance uses a self-signed certificate, you can skip certificate validation with any cmdlet using `-SkipCertCheck`:
+
+```powershell
+Connect-TriliumAuth -BaseUrl "https://trilium.myDomain.net" -Password $creds -SkipCertCheck
+```
+[!TIP]
+> All Trilium module cmdlets support the `-SkipCertCheck` parameter for self-signed certificates.
+
+[!WARNING]
+> Ensure your BaseUrl is correct and accessible. Use `-SkipCertCheck` only if you trust the server.
 
 ---
 
@@ -94,6 +141,23 @@ Connect-TriliumAuth -BaseUrl 'https://trilium.domain.com' -Password $creds
 | PUT    | /backup/{backupName} | [New-TriliumBackup](/public/New-TriliumBackup.ps1) | Create a new backup |
 | GET    | /notes/root | [Get-TriliumRootNote](/public/Get-TriliumRootNote.ps1) | Get root note details (requires Connect-TriliumAuth, no params; every root note has id 'root'). |
 | GET    | /notes/{noteId}/attachments | [Get-TriliumNoteAttachment](/public/Get-TriliumNoteAttachment.ps1) | Retrieves attachments for a specific note (Undocumented API) |
+
+---
+
+## 📖 Getting Help in PowerShell
+
+You can view detailed help for any function in this module directly from PowerShell using the `Get-Help` cmdlet. This displays usage, parameters, examples, and notes for each function.
+
+**Examples:**
+
+```powershell
+Get-Help Connect-TriliumAuth -Full
+Get-Help New-TriliumNote -Examples
+Get-Help Get-TriliumAttachment
+```
+
+[!TIP]
+> If you do not see full help details, run `Update-Help` to download the latest help content for PowerShell modules.
 
 ---
 

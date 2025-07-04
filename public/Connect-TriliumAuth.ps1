@@ -4,8 +4,9 @@ function Connect-TriliumAuth {
         Authenticates to a TriliumNext instance for API calls.
 
     .DESCRIPTION
-        Configures authentication for TriliumNext using either a password (via PSCredential) or an ETAPI token. Optionally allows skipping SSL certificate checks. Stores credentials globally for use by other module functions.
-        Supports both password-based and ETAPI token authentication. Optionally skips SSL certificate checks for self-signed certificates.
+        Configures authentication for TriliumNext using either a password (via PSCredential) or an ETAPI token (also via PSCredential, with the token as the password). Optionally allows skipping SSL certificate checks. Stores credentials globally for use by other module functions. Calls Get-TriliumInfo after authentication to verify connection.
+        
+        Supports both password-based and ETAPI token authentication. Only one authentication method can be used per invocation. Optionally skips SSL certificate checks for self-signed certificates.
 
     .PARAMETER BaseUrl
         The base URL for your TriliumNext instance. Should include protocol and port if needed.
@@ -19,19 +20,21 @@ function Connect-TriliumAuth {
 
     .PARAMETER Password
         A PSCredential object containing your Trilium password. Used for standard login authentication.
-
-        Required?                    true (Password set)
+        
+        Required?                    true (if using Password authentication)
         Position?                    1
         Accept pipeline input?       false
         Accept wildcard characters?  false
+        Parameter set                Password
 
     .PARAMETER EtapiToken
         A PSCredential object containing your ETAPI token as the password. Used for token-based authentication.
 
-        Required?                    true (Token set)
+        Required?                    true (if using Token authentication)
         Position?                    1
         Accept pipeline input?       false
         Accept wildcard characters?  false
+        Parameter set                Token
 
     .PARAMETER SkipCertCheck
         If specified, SSL certificate errors will be ignored (useful for self-signed certs).
@@ -46,7 +49,7 @@ function Connect-TriliumAuth {
         None. You cannot pipe objects to Connect-TriliumAuth.
 
     .OUTPUTS
-        None. Sets $Global:TriliumCreds for use by other module functions.
+        None. Sets $Global:TriliumCreds (a hashtable with authentication info) for use by other module functions.
 
     .EXAMPLE
         Connect-TriliumAuth -BaseUrl "https://trilium.myDomain.net" -Password (Get-Credential -UserName 'admin')
@@ -56,7 +59,7 @@ function Connect-TriliumAuth {
     .EXAMPLE
         Connect-TriliumAuth -BaseUrl "https://trilium.myDomain.net" -EtapiToken (Get-Credential -UserName 'admin')
 
-        Authenticates using an ETAPI token.
+        Authenticates using an ETAPI token (token is entered as the password).
 
     .EXAMPLE
         Connect-TriliumAuth -BaseUrl "https://trilium.myDomain.net" -Password (Get-Credential -UserName 'admin') -SkipCertCheck
@@ -64,9 +67,11 @@ function Connect-TriliumAuth {
         Authenticates using password and skips SSL certificate validation (for self-signed certs).
 
     .NOTES
-        - The function stores credentials in $Global:TriliumCreds for use by other module functions.
+        - The function stores credentials in $Global:TriliumCreds (hashtable) for use by other module functions.
+        - Only one of -Password or -EtapiToken can be used per call.
         - Ensure the BaseUrl is correct and accessible.
         - Use -SkipCertCheck for self-signed or untrusted SSL certificates.
+        - Calls Get-TriliumInfo after authentication to verify connection.
         - Author: P. Morris
         - Module: TriliumNext-Powershell-Module
 

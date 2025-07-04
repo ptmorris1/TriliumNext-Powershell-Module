@@ -1,22 +1,22 @@
 function Remove-TriliumAttachment {
     <#
     .SYNOPSIS
-    Removes a specific Trilium attachment.
+    Removes a specific Trilium attachment by its ID.
 
     .DESCRIPTION
-    This function deletes a Trilium attachment based on the provided attachment ID.
+    Deletes a Trilium attachment using the provided AttachmentID. Supports pipeline input for AttachmentID. Requires authentication via Connect-TriliumAuth.
 
     .PARAMETER AttachmentID
-    The attachment ID to remove.
+    The ID of the attachment to remove. Accepts input from the pipeline.
 
         Required?                    true
         Position?                    0
         Default value                None
-        Accept pipeline input?       false
+        Accept pipeline input?       true
         Accept wildcard characters?  false
 
     .PARAMETER SkipCertCheck
-    Option to skip certificate check.
+    If specified, skips SSL certificate validation for the request.
 
         Required?                    false
         Position?                    Named
@@ -26,15 +26,22 @@ function Remove-TriliumAttachment {
 
     .EXAMPLE
     Remove-TriliumAttachment -AttachmentID "evnnmvHTCgIn"
+    
+    Removes the attachment with the specified ID.
+
+    .EXAMPLE
+    "evnnmvHTCgIn", "abc123" | Remove-TriliumAttachment
+    
+    Removes multiple attachments by piping their IDs to the function.
 
     .NOTES
-    This function requires that the authentication has been set using Connect-TriliumAuth.
+    This function requires that authentication has been set using Connect-TriliumAuth.
 
     .LINK
     https://github.com/ptmorris1/TriliumNext-Powershell-Module
     #>
     [CmdletBinding(SupportsShouldProcess = $true)]
-    [Alias('Delete-TriliumAttachment', 'dtaa', 'rtaa')]
+    [Alias('Delete-TriliumAttachment', 'dta', 'rta')]
     param (
         [Parameter(Mandatory = $true, ValueFromPipeline = $true)]
         [ValidateNotNullOrEmpty()]

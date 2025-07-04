@@ -1,5 +1,5 @@
 @{
-    ModuleVersion   = '0.12.0'
+    ModuleVersion   = '0.13.0'
     Guid            = '5d0452a3-0c40-4681-b12c-070eccc905dc'
     CompanyName     = 'Patrick Morris '
     Copyright       = '2024-25 Patrick Morris'
@@ -20,6 +20,18 @@
 # 📅 Changelog
 
 All notable changes to the **TriliumNext-Powershell-Module** will be documented in this file.
+
+---
+
+## [0.13.0] - 2025-07-04
+
+### Fixed
+
+* Fixed module casing to ensure compatibility with Linux filesystems.
+
+### Changed
+
+* Updating and improving help documentation.
 
 ---
 
@@ -63,7 +75,7 @@ All notable changes to the **TriliumNext-Powershell-Module** will be documented 
 
 ### Removed
 
-* Removed function `Get-TriliumAttachmentID`, replaced with `Get-TriliumNoteAttachment`
+* Removed function `Get-TriliumAttachmentID`, replaced with `Get-TriliumNoteAttachment`.
 
 ---
 
@@ -76,13 +88,13 @@ All notable changes to the **TriliumNext-Powershell-Module** will be documented 
 * Added function `Get-TriliumAttachmentID` - Parses all attachment IDs from a note's contents (no direct API equivalent).
 * Added parameter `-Math` (used with `-Markdown`) to convert math markdown for rendering.
 * Added function `Create-TriliumAttribute`.
-* Added type `file` to `New-TriliumNote`  for file type notes.
+* Added type `file` to `New-TriliumNote` for file type notes.
 
 ---
 
 ## [0.8.0] - 2025-05-27
 
-### Updated
+### Changed
 
 * Updated `Set-TriliumNoteDetails` to improve `-NoteType` parameter handling and type/mime mapping for special note types.
 * Updated `New-TriliumNote` to include `-NoteType` parameter and unified type/mime mapping logic.
@@ -114,27 +126,27 @@ All notable changes to the **TriliumNext-Powershell-Module** will be documented 
 
 ## [0.5.0] - 
 
-### Fixed
-
-* Fixed `Export-TriliumNote`.
-
 ### Added
 
 * Added Markdown option to `Export-TriliumNote`. Default is HTML.
+* Added and improved some documentation.
+* Split out functions into their own .ps1 file.
 
-### Updated
+### Changed
 
 * Updated and improved some documentation.
-* Split out functions into their own .ps1 file.
+
+### Fixed
+
+* Fixed `Export-TriliumNote`.
 
 ---
 
 ## [0.4.0] - 
 
-### Improved
+### Changed
 
-* Improved `Connect-TriliumAuth` to use PSCredential object.
-  * See documentation for new usage.
+* Improved `Connect-TriliumAuth` to use PSCredential object. See documentation for new usage.
 
 ---
 
@@ -145,7 +157,7 @@ All notable changes to the **TriliumNext-Powershell-Module** will be documented 
 * Added check for `/` at the end of base URL.
 * Added `-SkipCertCheck` switch to ALL functions.
 
-### Updated
+### Changed
 
 * Updated `Connect-TriliumAuth` to use `-SkipCertCheck` switch.
 
@@ -153,23 +165,18 @@ All notable changes to the **TriliumNext-Powershell-Module** will be documented 
 
 ## [0.2.0] - 
 
-### Fixed
+### Changed
 
-* Fixed parameter sets in `Find-TriliumNote`.
-  * `orderBy` and `Limit` must be used together.
-
-### Updated
-
+* Fixed parameter sets in `Find-TriliumNote`. `orderBy` and `Limit` must be used together.
 * Updated/added some documentation.
 
 ---
 
 ## [0.1.0] - 
 
-### Initial Release
+### Added
 
-* Initial release of TriliumNext-Powershell-Module.
-  * A command for almost every documented TriliumNext API.
+* Initial release of TriliumNext-Powershell-Module. A command for almost every documented TriliumNext API.
 
 ---
 
@@ -177,9 +184,11 @@ All notable changes to the **TriliumNext-Powershell-Module** will be documented 
 
 
 
+
 '@
         }
     }
 }
+
 
 

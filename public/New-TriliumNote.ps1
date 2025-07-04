@@ -4,18 +4,11 @@ function New-TriliumNote {
         Creates a new note in Trilium Notes.
 
     .DESCRIPTION
-        This function creates a new note in Trilium Notes with the specified content, type, and various formatting options.
-        It supports creating different types of notes including text, code, markdown, and special note types like books, canvas, mermaid, etc.
-        
-        When using the -Markdown parameter, the function converts markdown to HTML before sending to Trilium.
-        Code blocks in markdown will be properly formatted with syntax highlighting based on the language specified.
-        The function supports mathematical expressions through MathJax when using the -Math switch with -Markdown.
-        
-        HTML content is beautified before sending to Trilium, ensuring proper spacing and formatting of headings and code blocks.
+        Creates a new note in Trilium Notes with the specified content, title, type, and formatting options. Supports a wide range of note types, including text, markdown, code, and special types like book, canvas, mermaid, and more. When using `-Markdown`, the function converts markdown to HTML before sending to Trilium, with optional MathJax support via `-Math`. HTML content is beautified before sending. Requires authentication via `Connect-TriliumAuth`.
 
     .PARAMETER ParentNoteId
         The ID of the parent note under which the new note will be created. Defaults to 'root'.
-        Use the Get-TriliumNotes function to find IDs of existing notes.
+        Use `Get-TriliumNotes` to find IDs of existing notes.
 
         Required?                    false
         Position?                    0
@@ -24,58 +17,47 @@ function New-TriliumNote {
         Accept wildcard characters?  false
 
     .PARAMETER Title
-        The title of the new note. This will be displayed in the Trilium Notes UI.
+        The title of the new note. Displayed in the Trilium Notes UI.
 
         Required?                    false
         Position?                    1
-        Default value                
+        Default value                None
         Accept pipeline input?       false
         Accept wildcard characters?  false
 
     .PARAMETER Content
         The content of the new note. This is required.
-        For code notes, provide the code as plain text.
-        For markdown notes, provide markdown-formatted text.
+        For code notes, provide the code as plain text. For markdown notes, provide markdown-formatted text.
 
         Required?                    true
         Position?                    2
-        Default value                
+        Default value                None
         Accept pipeline input?       false
         Accept wildcard characters?  false
 
     .PARAMETER NoteType
         The type of note to create. Tab completion is available for common types.
-        
-        Supported values include:
-        - text: Plain text or HTML note (default)
-        - markdown: Markdown formatted text note
-        - powershell, python, ruby, etc.: Code notes with syntax highlighting
-        - book: Special note type for organizing content
-        - canvas: Interactive canvas note
-        - mermaid: Diagram using Mermaid syntax
-        - geoMap, mindMap, relationMap: Special visualization notes
-        
-        The NoteType parameter has tab completion for all supported note types.
+        Supported values:
+        image, file, text, book, canvas, mermaid, geoMap, mindMap, relationMap, renderNote, webview, PlainText, CSS, html, http, JSbackend, JSfrontend, json, markdown, powershell, python, ruby, shellBash, sql, sqliteTrilium, xml, yaml
+        See Trilium documentation for more details.
 
         Required?                    false
         Position?                    3
-        Default value                
+        Default value                None
         Accept pipeline input?       false
         Accept wildcard characters?  false
 
     .PARAMETER Mime
-        The MIME type of the note content. If not specified, it will be determined based on NoteType.
-        Only specify this if you need to override the default MIME type.
+        The MIME type of the note content. If not specified, it will be determined based on NoteType. Only specify this if you need to override the default MIME type.
 
         Required?                    false
         Position?                    4
-        Default value                
+        Default value                None
         Accept pipeline input?       false
         Accept wildcard characters?  false
 
     .PARAMETER SkipCertCheck
-        If specified, certificate validation will be skipped when connecting to Trilium.
-        Useful when connecting to Trilium instances with self-signed certificates.
+        If specified, certificate validation will be skipped when connecting to Trilium (useful for self-signed certificates).
 
         Required?                    false
         Position?                    named
@@ -84,9 +66,7 @@ function New-TriliumNote {
         Accept wildcard characters?  false
 
     .PARAMETER Markdown
-        If specified, the Content will be treated as markdown and converted to HTML.
-        When this parameter is used, NoteType must be 'text' or not specified.
-        This parameter enables advanced markdown rendering including tables, task lists, and code blocks.
+        If specified, the Content will be treated as markdown and converted to HTML. When this parameter is used, NoteType must be 'text' or not specified. Enables advanced markdown rendering including tables, task lists, and code blocks.
 
         Required?                    false
         Position?                    named
@@ -95,9 +75,7 @@ function New-TriliumNote {
         Accept wildcard characters?  false
 
     .PARAMETER Math
-        If specified, adds support for mathematical expressions in markdown using MathJax.
-        This parameter is only used with the -Markdown parameter.
-        Math expressions can be included inline using $expression$ syntax or as blocks with $$ syntax.
+        If specified, adds support for mathematical expressions in markdown using MathJax. Only used with the -Markdown parameter. Math expressions can be included inline using $expression$ syntax or as blocks with $$ syntax.
 
         Required?                    false
         Position?                    named
@@ -110,45 +88,38 @@ function New-TriliumNote {
 
     .OUTPUTS
         System.Management.Automation.PSCustomObject
-        Returns the API response from Trilium which includes information about the created note.
+        Returns the API response from Trilium, including information about the created note.
 
     .EXAMPLE
         New-TriliumNote -Title "My Note" -Content "This is the content of my note"
-
         Creates a new text note with the specified title and content under the root.
 
     .EXAMPLE
-        New-TriliumNote -Title "Code Sample" -Content "Get-Process" -NoteType "powershell" 
-
-        Creates a new powershell code note with syntax highlighting.
+        New-TriliumNote -Title "Code Sample" -Content "Get-Process" -NoteType "powershell"
+        Creates a new PowerShell code note with syntax highlighting.
 
     .EXAMPLE
         New-TriliumNote -Title "Markdown Note" -Content "# Header`n`nThis is *markdown* content" -Markdown
-
         Creates a new note by converting the markdown content to HTML.
 
     .EXAMPLE
         New-TriliumNote -Title "Math Example" -Content "When $a \ne 0$, there are two solutions to $ax^2 + bx + c = 0$" -Markdown -Math
-
         Creates a note with markdown content that includes mathematical expressions.
 
     .EXAMPLE
         $parentId = (Get-TriliumNotes -Title "My Folder").noteId
-        New-TriliumNote -ParentNoteId $parentId -Title "Nested Note" -Content "This is a nested note" 
-
+        New-TriliumNote -ParentNoteId $parentId -Title "Nested Note" -Content "This is a nested note"
         Creates a new note inside an existing note folder by specifying its ID.
 
     .LINK
         Online version: https://github.com/ptmorris1/TriliumNext-Powershell-Module
-
     .LINK
         Connect-TriliumAuth
-
     .LINK
         Get-TriliumNotes
 
     .NOTES
-        Requires connection to Trilium via Connect-TriliumAuth before use.
+        Requires authentication via Connect-TriliumAuth before use.
         Author: P. Morris
         Module: TriliumNext-Powershell-Module
     #>

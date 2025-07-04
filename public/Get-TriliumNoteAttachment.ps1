@@ -1,34 +1,44 @@
 function Get-TriliumNoteAttachment {
     <#
     .SYNOPSIS
-    Gets attachments for a specific TriliumNext note.
+    Retrieves all attachments for a specific Trilium Notes note by note ID.
 
     .DESCRIPTION
-    This function retrieves the attachments of a specific TriliumNext note based on the provided note ID.
+    Gets the metadata for all attachments associated with a specific Trilium Notes note, using the provided note ID. Returns an array of attachment metadata objects. Requires prior authentication with Connect-TriliumAuth.
 
     .PARAMETER NoteID
-    The note ID to get attachments for.
+    The unique ID of the note to retrieve attachments for. This value can be found in the note's metadata or via Find-TriliumNote.
 
         Required?                    true
         Position?                    0
-        Default value                None
         Accept pipeline input?       false
         Accept wildcard characters?  false
 
     .PARAMETER SkipCertCheck
-    Option to skip certificate check.
+    If specified, skips SSL certificate validation for the request. Useful for self-signed certificates or development environments.
 
         Required?                    false
         Position?                    Named
-        Default value                None
         Accept pipeline input?       false
         Accept wildcard characters?  false
 
+    .OUTPUTS
+    System.Object[]
+    Returns an array of attachment metadata objects for the specified note. Each object includes properties such as attachmentId, mime, title, ownerId, size, and other details, but not the file or binary content itself.
+
     .EXAMPLE
-    Get-TriliumNoteAttachment -NoteID "12345"
+    Get-TriliumNoteAttachment -NoteID "jfkls7klusi"
+    Retrieves all attachment metadata for the note with the specified ID.
+
+    .EXAMPLE
+    Get-TriliumNoteAttachment -NoteID "jfkls7klusi" -SkipCertCheck
+    Retrieves all attachment metadata for the note while skipping SSL certificate validation.
 
     .NOTES
-    This function requires that the authentication has been set using Connect-TriliumAuth.
+    - Requires authentication via Connect-TriliumAuth.
+    - This function returns only the metadata for the attachments, not the file or binary content. To download the actual content, use Get-TriliumAttachmentContent.
+    - If the note or attachments are not found or an error occurs, the function returns the error response from the server.
+    - For more information on finding note IDs, see Find-TriliumNote or the Trilium Notes API documentation.
 
     .LINK
     https://github.com/ptmorris1/TriliumNext-Powershell-Module

@@ -1,28 +1,40 @@
 function Disconnect-TriliumAuth {
     <#
     .SYNOPSIS
-    Removes the authentication for TriliumNext.
+        Removes authentication for TriliumNext and clears stored credentials.
 
     .DESCRIPTION
-    This function removes the authentication for TriliumNext. If using password authentication, it logs out. If using ETAPI token, it displays an error.
+        This function removes authentication for TriliumNext by clearing the global credential variable `$Global:TriliumCreds`. If you authenticated using a password, it will also log you out of Trilium via the API. If you authenticated using an ETAPI token, it will only remove the global variable (no logout API call is made).
 
     .PARAMETER SkipCertCheck
-    Option to skip certificate check.
+        If specified, SSL certificate errors will be ignored (useful for self-signed certificates). Optional.
 
         Required?                    false
         Position?                    Named
-        Default value                None
+        Default value                false
         Accept pipeline input?       false
         Accept wildcard characters?  false
 
+    .INPUTS
+        None. You cannot pipe objects to Disconnect-TriliumAuth.
+
+    .OUTPUTS
+        None. This function performs logout and/or clears credentials.
+
     .EXAMPLE
-    Disconnect-TriliumAuth
+        Disconnect-TriliumAuth
+
+        Logs out (if using password authentication) and clears credentials.
 
     .NOTES
-    This function should be called when you want to clear the stored credentials. It will also log out if password authentication was used.
+        - Use this function to clear your credentials from the session, especially if you switch users or finish automation tasks.
+        - If you authenticated with a password, this will log you out of Trilium. If you used an ETAPI token, it only clears the session variable.
+        - Use -SkipCertCheck for self-signed or untrusted SSL certificates.
+        - Author: P. Morris
+        - Module: TriliumNext-Powershell-Module
 
     .LINK
-    https://github.com/ptmorris1/TriliumNext-Powershell-Module
+        https://github.com/ptmorris1/TriliumNext-Powershell-Module
     #>
     [CmdletBinding()]
     param(
