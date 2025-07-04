@@ -91,7 +91,7 @@ function New-TriliumNote {
         Returns the API response from Trilium, including information about the created note.
 
     .EXAMPLE
-        New-TriliumNote -Title "My Note" -Content "This is the content of my note"
+        PS> New-TriliumNote -Title "My Note" -Content "This is the content of my note"
         Creates a new text note with the specified title and content under the root.
 
     .EXAMPLE

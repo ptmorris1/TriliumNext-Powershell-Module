@@ -50,7 +50,7 @@ All functions require 1 time authentication 1st. Use a `PSCredential` object to 
 
 Authenticate using your Trilium username and password:
 
-[!TIP]
+> [!TIP]
 > Since Trilium doesn't need a username, anything will do.
 
 
@@ -69,7 +69,7 @@ dataDirectory          : /home/node/trilium-data
 clipperProtocolVersion : 1.0
 utcDateTime            : 7/4/2025 4:07:48 AM
 ```
-[!TIP]
+> [!TIP]
 > This output confirms successful connection and shows server environment details.
 
 
@@ -77,7 +77,7 @@ utcDateTime            : 7/4/2025 4:07:48 AM
 
 Authenticate using your ETAPI token (enter token as password):
 
-[!TIP]
+> [!TIP]
 > Since Trilium doesn't need a username, anything will do.
 
 ```powershell
@@ -92,10 +92,10 @@ If your Trilium instance uses a self-signed certificate, you can skip certificat
 ```powershell
 Connect-TriliumAuth -BaseUrl "https://trilium.myDomain.net" -Password $creds -SkipCertCheck
 ```
-[!TIP]
+> [!TIP]
 > All Trilium module cmdlets support the `-SkipCertCheck` parameter for self-signed certificates.
 
-[!WARNING]
+> [!WARNING]
 > Ensure your BaseUrl is correct and accessible. Use `-SkipCertCheck` only if you trust the server.
 
 ---
@@ -156,7 +156,7 @@ Get-Help New-TriliumNote -Examples
 Get-Help Get-TriliumAttachment
 ```
 
-[!TIP]
+> [!TIP]
 > If you do not see full help details, run `Update-Help` to download the latest help content for PowerShell modules.
 
 ---
