@@ -2,6 +2,8 @@
 site_name: Trilium PowerShell Module
 site_author: "Patrick Morris"
 site_description: "Documentation for the Trilium PowerShell Module"
+repo_name: TriliumNext-PowerShell-Module
+repo_url: https://github.com/ptmorris1/TriliumNext-Powershell-Module
 
 theme:
   name: material
@@ -23,6 +25,7 @@ theme:
       accent: deep orange
   icon:
     logo: simple/trilium
+    repo: fontawesome/brands/github-alt
   features:
     - navigation.tabs
     - navigation.sections

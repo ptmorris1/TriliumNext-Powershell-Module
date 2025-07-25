@@ -161,4 +161,4 @@ All notable changes to the **TriliumNext-Powershell-Module** will be documented 
 
 ---
 
-> 📌 This changelog follows [Keep a Changelog](https://keepachangelog.com/en/1.0.0/) principles.
+> 📌 This changelog follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) principles.
