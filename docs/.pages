@@ -1,0 +1,13 @@
+nav:
+  - index.md
+  - auth
+  - notes
+  - calendar
+  - clone
+  - attachments
+  - attributes
+  - misc
+  - Trilium.md
+  - CHANGELOG.md
+
+collapse_single_pages: true

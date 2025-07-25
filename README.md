@@ -156,8 +156,6 @@ Get-Help New-TriliumNote -Examples
 Get-Help Get-TriliumAttachment
 ```
 
-> [!TIP]
-> If you do not see full help details, run `Update-Help` to download the latest help content for PowerShell modules.
 
 ---
 
@@ -182,7 +180,7 @@ This project is licensed under the MIT License.
 
 ## 📅 Changelog
 
-See [CHANGELOG.md](./CHANGELOG.md) for release history.
+See [CHANGELOG.md](/docs/CHANGELOG.md) for release history.
 
 ---
 
