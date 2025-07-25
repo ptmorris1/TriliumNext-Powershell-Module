@@ -156,6 +156,7 @@ Get-Help New-TriliumNote -Examples
 Get-Help Get-TriliumAttachment
 ```
 
+[Read the docs](https://ptmorris1.github.io/TriliumNext-Powershell-Module)
 
 ---
 
