@@ -1,0 +1,4 @@
+/* Custom background for header */
+.md-header {
+  background: linear-gradient(90deg, #388e3c, #fbc02d 80%);
+}
