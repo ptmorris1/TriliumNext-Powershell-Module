@@ -1,2 +1,4 @@
 nav:
-  - ...
+  - auth.md
+  - Connect-TriliumAuth.md
+  - Disconnect-TriliumAuth.md
