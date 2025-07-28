@@ -76,7 +76,7 @@ function Connect-TriliumAuth {
         - Module: TriliumNext-Powershell-Module
 
     .LINK
-        Online version: https://github.com/ptmorris1/TriliumNext-Powershell-Module
+        https://ptmorris1.github.io/TriliumNext-Powershell-Module
     #>
     [CmdletBinding(DefaultParameterSetName = 'Token')]
     param(
