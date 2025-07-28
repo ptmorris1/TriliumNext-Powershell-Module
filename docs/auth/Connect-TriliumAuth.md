@@ -1,7 +1,7 @@
 ---
 document type: cmdlet
 external help file: Trilium-Help.xml
-HelpUri: ''
+HelpUri: 'https://ptmorris1.github.io/TriliumNext-Powershell-Module/auth/Connect-TriliumAuth.html'
 Locale: en-US
 Module Name: Trilium
 ms.date: 07/19/2025
@@ -218,4 +218,4 @@ Morris
 
 ## RELATED LINKS
 
-- [Online version: https://github.com/ptmorris1/TriliumNext-Powershell-Module]()
+- [Docs](https://ptmorris1.github.io/TriliumNext-Powershell-Module/auth/Connect-TriliumAuth.html)

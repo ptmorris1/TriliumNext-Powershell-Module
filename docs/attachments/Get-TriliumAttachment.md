@@ -25,8 +25,7 @@ Get-TriliumAttachment [-AttachmentID] <string> [-SkipCertCheck] [<CommonParamete
 
 ## ALIASES
 
-This cmdlet has the following aliases,
-  {{Insert list of aliases}}
+None
 
 ## DESCRIPTION
 
@@ -38,12 +37,18 @@ Requires prior authentication with Connect-TriliumAuth.
 
 ### EXAMPLE 1
 
+```powershell
 Get-TriliumAttachment -AttachmentID "evnnmvHTCgIn"
+```
+
 Retrieves the metadata for the attachment with the specified ID and outputs it as a PowerShell object.
 
 ### EXAMPLE 2
 
+```powershell
 Get-TriliumAttachment -AttachmentID "evnnmvHTCgIn" -SkipCertCheck
+```
+
 Retrieves the attachment metadata while skipping SSL certificate validation.
 
 ## PARAMETERS
@@ -114,9 +119,8 @@ This cmdlet supports the common parameters: -Debug, -ErrorAction, -ErrorVariable
 ## OUTPUTS
 
 ### System.Object
-Returns the attachment metadata as a PowerShell object. This includes properties such as attachmentId
 
-{{ Fill in the Description }}
+Returns the attachment metadata as a PowerShell object. This includes properties such as attachmentId, title, dateModified, utcDateModified, dateCreated, utcDateCreated, mime, isProtected, blobId, and contentLength.
 
 ## NOTES
 
@@ -129,4 +133,4 @@ To download the actual content, use Get-TriliumAttachmentContent.
 
 ## RELATED LINKS
 
-- [](https://github.com/ptmorris1/TriliumNext-Powershell-Module)
+[TriliumNext PowerShell Module](https://github.com/ptmorris1/TriliumNext-Powershell-Module)

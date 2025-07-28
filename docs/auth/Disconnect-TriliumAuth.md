@@ -1,7 +1,7 @@
 ---
 document type: cmdlet
 external help file: Trilium-Help.xml
-HelpUri: https://github.com/ptmorris1/TriliumNext-Powershell-Module
+HelpUri: 'https://ptmorris1.github.io/TriliumNext-Powershell-Module/auth/Disconnect-TriliumAuth.html'
 Locale: en-US
 Module Name: Trilium
 ms.date: 07/19/2025
@@ -84,4 +84,4 @@ None. This function performs logout and/or clears credentials.
 
 ## Related Links
 
-- [TriliumNext-Powershell-Module](https://github.com/ptmorris1/TriliumNext-Powershell-Module)
+- [Docs](https://ptmorris1.github.io/TriliumNext-Powershell-Module/auth/Disconnect-TriliumAuth.html)
