@@ -26,8 +26,7 @@ New-TriliumAttachment [-OwnerId] <string> [-FilePath] <string> [[-Role] <string>
 
 ## ALIASES
 
-This cmdlet has the following aliases,
-  {{Insert list of aliases}}
+None
 
 ## DESCRIPTION
 
@@ -41,12 +40,18 @@ For images, includes width, height, and aspect ratio in the HTML snippet.
 
 ### EXAMPLE 1
 
+```powershell
 New-TriliumAttachment -OwnerId "12345" -FilePath "C:\path\to\file.png"
+```
+
 Uploads file.png as an attachment to the note with ID 12345 and appends an image or reference link to the note's content.
 
 ### EXAMPLE 2
 
+```powershell
 New-TriliumAttachment -OwnerId "12345" -FilePath "C:\path\to\file.pdf" -Title "My PDF" -Mime "application/pdf"
+```
+
 Uploads file.pdf as an attachment with a custom title and MIME type.
 
 ## PARAMETERS
@@ -213,15 +218,22 @@ This cmdlet supports the common parameters: -Debug, -ErrorAction, -ErrorVariable
 
 ## INPUTS
 
-### None. You cannot pipe objects to New-TriliumAttachment.
+### None
 
-{{ Fill in the Description }}
+You cannot pipe objects to New-TriliumAttachment.
 
 ## OUTPUTS
 
-### PSCustomObject. Returns the new attachment object
+### PSCustomObject
 
-{{ Fill in the Description }}
+Returns the new attachment object with the following properties:
+
+- **Id**: The unique identifier of the attachment
+- **OwnerId**: The note ID that owns the attachment
+- **Title**: The title of the attachment
+- **Role**: The role of the attachment (image, file, etc.)
+- **Mime**: The MIME type of the attachment
+- **Position**: The position of the attachment in the note's attachment list
 
 ## NOTES
 
@@ -236,4 +248,4 @@ Morris
 
 ## RELATED LINKS
 
-- [](https://github.com/ptmorris1/TriliumNext-Powershell-Module)
+[TriliumNext PowerShell Module](https://github.com/ptmorris1/TriliumNext-Powershell-Module)

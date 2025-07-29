@@ -28,12 +28,16 @@ theme:
     repo: fontawesome/brands/github-alt
   features:
     - navigation.tabs
-    - navigation.sections
+    - navigation.path
     - navigation.expand
     - navigation.indexes
     - navigation.tracking
     - navigation.top
     - navigation.tabs.sticky
+    - navigation.instant
+    - navigation.instant.progress
+    - toc.follow
+    - content.code.copy
 
 plugins:
   - offline:

@@ -1,7 +1,7 @@
 # 🔐 Authentication
 
-> [!NOTE]
-> Before using any cmdlets in this module, you must authenticate with [`Connect-TriliumAuth`](Connect-TriliumAuth.md).
+!!! note
+    Before using any cmdlets in this module, you must authenticate with [`Connect-TriliumAuth`](Connect-TriliumAuth.md).
 
 ---
 
@@ -12,8 +12,8 @@ Authenticate to your TriliumNext instance for API access. Two mutually exclusive
 - **Password-based**: Use the `-Password` parameter with a PSCredential object containing your Trilium password.
 - **ETAPI token-based**: Use the `-EtapiToken` parameter with a PSCredential object containing your ETAPI token as the password.
 
-> [!IMPORTANT]
-> Provide either `-Password` or `-EtapiToken`, not both. Optionally, use `-SkipCertCheck` to ignore SSL certificate errors (for self-signed certs).
+!!! important
+    Provide either `-Password` or `-EtapiToken`, not both. Optionally, use `-SkipCertCheck` to ignore SSL certificate errors (for self-signed certs).
 
 ### Parameters
 
@@ -26,11 +26,11 @@ Authenticate to your TriliumNext instance for API access. Two mutually exclusive
 
 \* One of `-Password` or `-EtapiToken` is required, but not both.
 
-> [!TIP]
-> The username in `Get-Credential` is not used by Trilium; you can enter any value.
+!!! tip
+    The username in `Get-Credential` is not used by Trilium; you can enter any value.
 
-> [!WARNING]
-> Credentials are stored in `$Global:TriliumCreds` for use by other module functions. The function also calls `Get-TriliumInfo` after authentication to verify the connection.
+!!! warning
+    Credentials are stored in `$Global:TriliumCreds` for use by other module functions. The function also calls `Get-TriliumInfo` after authentication to verify the connection.
 
 ---
 
@@ -55,8 +55,9 @@ dataDirectory          : /home/node/trilium-data
 clipperProtocolVersion : 1.0
 utcDateTime            : 7/4/2025 4:07:48 AM
 ```
-> [!TIP]
-> This output confirms a successful connection and shows server environment details.
+
+!!! tip
+    This output confirms a successful connection and shows server environment details.
 
 #### Authenticate with ETAPI Token
 
@@ -70,11 +71,12 @@ Connect-TriliumAuth -BaseUrl "https://trilium.myDomain.net" -EtapiToken $token
 ```powershell
 Connect-TriliumAuth -BaseUrl "https://trilium.myDomain.net" -Password $creds -SkipCertCheck
 ```
-> [!TIP]
-> All Trilium module cmdlets support the `-SkipCertCheck` parameter for self-signed certificates.
 
-> [!WARNING]
-> Ensure your BaseUrl is correct and accessible. Use `-SkipCertCheck` only if you trust the server.
+!!! tip
+    All Trilium module cmdlets support the `-SkipCertCheck` parameter for self-signed certificates.
+
+!!! warning
+    Ensure your BaseUrl is correct and accessible. Use `-SkipCertCheck` only if you trust the server.
 
 ---
 
@@ -101,8 +103,9 @@ None. This cmdlet performs a logout operation (if using password authentication)
 ```powershell
 Disconnect-TriliumAuth
 ```
-> [!TIP]
-> Use [`Disconnect-TriliumAuth`](Disconnect-TriliumAuth.md) to ensure your credentials are cleared from your session, especially if you switch users or finish your automation tasks.
+
+!!! tip
+    Use [`Disconnect-TriliumAuth`](Disconnect-TriliumAuth.md) to ensure your credentials are cleared from your session, especially if you switch users or finish your automation tasks.
 
 ---
 
