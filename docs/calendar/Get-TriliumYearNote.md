@@ -25,8 +25,7 @@ Get-TriliumYearNote [[-Year] <datetime>] [-SkipCertCheck] [<CommonParameters>]
 
 ## ALIASES
 
-This cmdlet has the following aliases,
-  {{Insert list of aliases}}
+None
 
 ## DESCRIPTION
 
@@ -36,38 +35,15 @@ The year note is typically used for yearly journaling or planning.
 
 ## EXAMPLES
 
-### EXAMPLE 1
+### Example 1
 
+```powershell
 Get-TriliumYearNote -Year "2022"
+```
+
+Gets the year note for 2022, or creates it if it doesn't exist.
 
 ## PARAMETERS
-
-### -SkipCertCheck
-
-Option to skip certificate check.
-
-    Required?                    false
-    Position?                    Named
-    Default value                None
-    Accept pipeline input?       false
-    Accept wildcard characters?  false
-
-```yaml
-Type: System.Management.Automation.SwitchParameter
-DefaultValue: False
-SupportsWildcards: false
-Aliases: []
-ParameterSets:
-- Name: (All)
-  Position: Named
-  IsRequired: false
-  ValueFromPipeline: false
-  ValueFromPipelineByPropertyName: false
-  ValueFromRemainingArguments: false
-DontShow: false
-AcceptedValues: []
-HelpMessage: ''
-```
 
 ### -Year
 
@@ -75,12 +51,6 @@ The year for which to retrieve the year note.
 Accepts a [datetime] object.
 Format sent to API: yyyy.
 Defaults to the current year if not specified.
-
-    Required?                    false
-    Position?                    0
-    Default value                Current year
-    Accept pipeline input?       false
-    Accept wildcard characters?  false
 
 ```yaml
 Type: System.DateTime
@@ -99,6 +69,27 @@ AcceptedValues: []
 HelpMessage: ''
 ```
 
+### -SkipCertCheck
+
+Option to skip certificate check.
+
+```yaml
+Type: System.Management.Automation.SwitchParameter
+DefaultValue: False
+SupportsWildcards: false
+Aliases: []
+ParameterSets:
+- Name: (All)
+  Position: Named
+  IsRequired: false
+  ValueFromPipeline: false
+  ValueFromPipelineByPropertyName: false
+  ValueFromRemainingArguments: false
+DontShow: false
+AcceptedValues: []
+HelpMessage: ''
+```
+
 ### CommonParameters
 
 This cmdlet supports the common parameters: -Debug, -ErrorAction, -ErrorVariable,
@@ -108,14 +99,19 @@ This cmdlet supports the common parameters: -Debug, -ErrorAction, -ErrorVariable
 
 ## INPUTS
 
+None. You cannot pipe objects to Get-TriliumYearNote.
+
 ## OUTPUTS
+
+System.Object
+
+Returns the TriliumNext year note object for the specified year.
 
 ## NOTES
 
 This function requires that the authentication has been set using Connect-TriliumAuth.
 If the year note for the specified year does not exist, it will be created automatically.
 
-
 ## RELATED LINKS
 
-- [](https://github.com/ptmorris1/TriliumNext-Powershell-Module)
+[TriliumNext PowerShell Module](https://github.com/ptmorris1/TriliumNext-Powershell-Module)

@@ -25,8 +25,7 @@ Get-TriliumInbox [[-Date] <datetime>] [-SkipCertCheck] [<CommonParameters>]
 
 ## ALIASES
 
-This cmdlet has the following aliases,
-  {{Insert list of aliases}}
+None
 
 ## DESCRIPTION
 
@@ -36,9 +35,13 @@ The inbox may be a fixed note (with #inbox label) or a day note in a journal, de
 
 ## EXAMPLES
 
-### EXAMPLE 1
+### Example 1
 
+```powershell
 Get-TriliumInbox -Date "2022-02-22"
+```
+
+Gets the inbox note for February 22, 2022, or creates it if it doesn't exist.
 
 ## PARAMETERS
 
@@ -48,12 +51,6 @@ The date for which to retrieve the inbox note.
 Accepts a [datetime] object.
 Format sent to API: yyyy-MM-dd.
 Defaults to today if not specified.
-
-    Required?                    false
-    Position?                    0
-    Default value                Today
-    Accept pipeline input?       false
-    Accept wildcard characters?  false
 
 ```yaml
 Type: System.DateTime
@@ -75,12 +72,6 @@ HelpMessage: ''
 ### -SkipCertCheck
 
 Option to skip certificate check.
-
-    Required?                    false
-    Position?                    Named
-    Default value                None
-    Accept pipeline input?       false
-    Accept wildcard characters?  false
 
 ```yaml
 Type: System.Management.Automation.SwitchParameter
@@ -108,14 +99,19 @@ This cmdlet supports the common parameters: -Debug, -ErrorAction, -ErrorVariable
 
 ## INPUTS
 
+None. You cannot pipe objects to Get-TriliumInbox.
+
 ## OUTPUTS
+
+System.Object
+
+Returns the TriliumNext inbox note object for the specified date.
 
 ## NOTES
 
 This function requires that the authentication has been set using Connect-TriliumAuth.
 If the inbox note for the specified date does not exist, it will be created at #calendarRoot.
 
-
 ## RELATED LINKS
 
-- [](https://github.com/ptmorris1/TriliumNext-Powershell-Module)
+[TriliumNext PowerShell Module](https://github.com/ptmorris1/TriliumNext-Powershell-Module)

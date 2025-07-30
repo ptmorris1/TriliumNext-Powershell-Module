@@ -26,8 +26,7 @@ Remove-TriliumAttachment [-AttachmentID] <string> [-SkipCertCheck] [-WhatIf] [-C
 
 ## ALIASES
 
-This cmdlet has the following aliases,
-  {{Insert list of aliases}}
+None
 
 ## DESCRIPTION
 
@@ -39,13 +38,17 @@ Requires authentication via Connect-TriliumAuth.
 
 ### EXAMPLE 1
 
+```powershell
 Remove-TriliumAttachment -AttachmentID "evnnmvHTCgIn"
+```
 
 Removes the attachment with the specified ID.
 
 ### EXAMPLE 2
 
+```powershell
 "evnnmvHTCgIn", "abc123" | Remove-TriliumAttachment
+```
 
 Removes multiple attachments by piping their IDs to the function.
 
@@ -161,15 +164,25 @@ This cmdlet supports the common parameters: -Debug, -ErrorAction, -ErrorVariable
 
 ### System.String
 
-{{ Fill in the Description }}
+The attachment ID to remove. This parameter accepts pipeline input, allowing you to pipe attachment IDs directly to the cmdlet.
 
 ## OUTPUTS
 
+### None
+
+This cmdlet does not generate any output. It performs a deletion operation and returns nothing upon successful completion.
+
 ## NOTES
 
-This function requires that authentication has been set using Connect-TriliumAuth.
+- Requires authentication via Connect-TriliumAuth.
+- This cmdlet supports pipeline input for batch operations on multiple attachments.
+- Supports `-WhatIf` parameter to preview what would be deleted without actually performing the deletion.
+- Supports `-Confirm` parameter to prompt for confirmation before deletion.
+- Use `-SkipCertCheck` parameter when working with self-signed certificates.
+- Author: P. Morris
+- Module: TriliumNext-Powershell-Module
 
 
 ## RELATED LINKS
 
-- [](https://github.com/ptmorris1/TriliumNext-Powershell-Module)
+[TriliumNext PowerShell Module](https://github.com/ptmorris1/TriliumNext-Powershell-Module)

@@ -27,8 +27,7 @@ New-TriliumNoteFile [-ParentNoteId] <string> [-FilePath] <string> [[-Type] <stri
 
 ## ALIASES
 
-This cmdlet has the following aliases,
-  {{Insert list of aliases}}
+None
 
 ## DESCRIPTION
 
@@ -39,7 +38,19 @@ The note type and content are determined automatically based on the file extensi
 
 ### EXAMPLE 1
 
+```powershell
 New-TriliumNoteFile -ParentNoteId "abc123" -FilePath "C:\docs\file.pdf"
+```
+
+Creates a new note with the PDF file content under the parent note with ID "abc123". The note title will be "file.pdf" and the type will be automatically determined as "file".
+
+### EXAMPLE 2
+
+```powershell
+New-TriliumNoteFile -ParentNoteId "abc123" -FilePath "C:\images\photo.jpg" -Title "My Photo" -Type "image"
+```
+
+Creates a new image note with a custom title "My Photo" under the parent note with ID "abc123".
 
 ## PARAMETERS
 
@@ -265,11 +276,35 @@ This cmdlet supports the common parameters: -Debug, -ErrorAction, -ErrorVariable
 
 ## INPUTS
 
+### None
+
+You cannot pipe objects to New-TriliumNoteFile.
+
 ## OUTPUTS
+
+### PSCustomObject
+
+Returns the created note object with the following properties:
+
+- **NoteId**: The unique identifier of the created note
+- **Title**: The title of the note
+- **Type**: The note type (file, image, etc.)
+- **Mime**: The MIME type of the file content
+- **ParentNoteId**: The ID of the parent note
+- **IsExpanded**: Whether the note is expanded in the tree view
+- **NotePosition**: The position of the note among its siblings
 
 ## NOTES
 
+- Requires authentication via Connect-TriliumAuth.
+- This function creates a note with binary file content and sets the original filename as an attribute.
+- The note type and MIME type are automatically determined from the file extension if not specified.
+- Supported file types include images, PDFs, documents, and other binary files.
+- The created note will appear in the Trilium tree structure under the specified parent note.
+- Author: P. Morris
+- Module: TriliumNext-Powershell-Module
+
 ## RELATED LINKS
 
-{{ Fill in the related links here }}
+[TriliumNext PowerShell Module](https://github.com/ptmorris1/TriliumNext-Powershell-Module)
 

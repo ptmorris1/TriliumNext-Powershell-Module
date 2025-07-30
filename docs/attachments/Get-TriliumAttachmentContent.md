@@ -25,8 +25,7 @@ Get-TriliumAttachmentContent [-AttachmentID] <string> [-SkipCertCheck] [<CommonP
 
 ## ALIASES
 
-This cmdlet has the following aliases,
-  {{Insert list of aliases}}
+None
 
 ## DESCRIPTION
 
@@ -36,7 +35,19 @@ This function retrieves the content of a TriliumNext attachment using the provid
 
 ### EXAMPLE 1
 
+```powershell
 Get-TriliumAttachmentContent -AttachmentID "evnnmvHTCgIn"
+```
+
+Retrieves the content of the attachment with the specified ID and returns it as binary data.
+
+### EXAMPLE 2
+
+```powershell
+Get-TriliumAttachmentContent -AttachmentID "abc123" -SkipCertCheck
+```
+
+Retrieves the content of the attachment while skipping SSL certificate validation (useful for self-signed certificates).
 
 ## PARAMETERS
 
@@ -103,13 +114,26 @@ This cmdlet supports the common parameters: -Debug, -ErrorAction, -ErrorVariable
 
 ## INPUTS
 
+### None
+
+You cannot pipe objects to Get-TriliumAttachmentContent.
+
 ## OUTPUTS
+
+### System.Byte[]
+
+Returns the raw binary content of the attachment as a byte array. This can be used to save the attachment to disk or process the content programmatically.
 
 ## NOTES
 
-This function requires that the authentication has been set using Connect-TriliumAuth.
+- Requires authentication via Connect-TriliumAuth.
+- This function returns raw binary data that can be used to save files or process content programmatically.
+- Use `-SkipCertCheck` parameter when working with self-signed certificates.
+- The returned byte array can be written to a file using `[System.IO.File]::WriteAllBytes()` or similar methods.
+- Author: P. Morris
+- Module: TriliumNext-Powershell-Module
 
 
 ## RELATED LINKS
 
-- [](https://github.com/ptmorris1/TriliumNext-Powershell-Module)
+[TriliumNext PowerShell Module](https://github.com/ptmorris1/TriliumNext-Powershell-Module)

@@ -26,8 +26,7 @@ New-TriliumAttribute [-NoteID] <string> [-Name] <string> [-Value] <string> [[-Ty
 
 ## ALIASES
 
-This cmdlet has the following aliases,
-  {{Insert list of aliases}}
+None
 
 ## DESCRIPTION
 
@@ -41,12 +40,18 @@ Optionally, specify an AttributeId to update an existing attribute.
 
 ### EXAMPLE 1
 
+```powershell
 New-TriliumAttribute -NoteID "abc123" -Name "archived" -Value "true"
+```
+
 Adds the 'archived' label to the note with ID 'abc123'.
 
 ### EXAMPLE 2
 
+```powershell
 New-TriliumAttribute -NoteID "abc123" -Name "color" -Value "#ff0000" -IsInheritable
+```
+
 Adds an inheritable 'color' label to the note with ID 'abc123'.
 
 ## PARAMETERS
@@ -190,7 +195,19 @@ This cmdlet supports the common parameters: -Debug, -ErrorAction, -ErrorVariable
 
 ## INPUTS
 
+### System.String
+
+The note ID, attribute name, value, type, and optional attribute ID as strings.
+
+### System.Management.Automation.SwitchParameter
+
+The IsInheritable switch parameter.
+
 ## OUTPUTS
+
+### System.Object
+
+Returns the created or updated Trilium attribute object.
 
 ## NOTES
 
@@ -199,5 +216,5 @@ Requires authentication via Connect-TriliumAuth.
 
 ## RELATED LINKS
 
-{{ Fill in the related links here }}
+- [TriliumNext PowerShell Module](https://github.com/ptmorris1/TriliumNext-Powershell-Module)
 

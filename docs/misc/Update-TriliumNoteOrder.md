@@ -26,8 +26,7 @@ Update-TriliumNoteOrder [-ParentNoteId] <string> [-SkipCertCheck] [-WhatIf] [-Co
 
 ## ALIASES
 
-This cmdlet has the following aliases,
-  {{Insert list of aliases}}
+This cmdlet has no aliases.
 
 ## DESCRIPTION
 
@@ -37,7 +36,11 @@ This function updates the order of notes under a specific parent note based on t
 
 ### EXAMPLE 1
 
+```powershell
 Update-TriliumNoteOrder -ParentNoteId "root"
+```
+
+Updates the order of child notes under the root note.
 
 ## PARAMETERS
 
@@ -67,12 +70,6 @@ HelpMessage: ''
 
 The parent note ID to update the order for.
 
-    Required?                    true
-    Position?                    0
-    Default value                None
-    Accept pipeline input?       false
-    Accept wildcard characters?  false
-
 ```yaml
 Type: System.String
 DefaultValue: ''
@@ -93,12 +90,6 @@ HelpMessage: ''
 ### -SkipCertCheck
 
 Option to skip certificate check.
-
-    Required?                    false
-    Position?                    Named
-    Default value                None
-    Accept pipeline input?       false
-    Accept wildcard characters?  false
 
 ```yaml
 Type: System.Management.Automation.SwitchParameter
@@ -148,7 +139,15 @@ This cmdlet supports the common parameters: -Debug, -ErrorAction, -ErrorVariable
 
 ## INPUTS
 
+### System.String
+
+You can pipe a parent note ID string to this cmdlet.
+
 ## OUTPUTS
+
+### System.Management.Automation.PSCustomObject
+
+Returns information about the updated note ordering.
 
 ## NOTES
 
@@ -157,4 +156,4 @@ This function requires that the authentication has been set using Connect-Triliu
 
 ## RELATED LINKS
 
-- [](https://github.com/ptmorris1/TriliumNext-Powershell-Module)
+- [Online version: https://github.com/ptmorris1/TriliumNext-Powershell-Module](https://github.com/ptmorris1/TriliumNext-Powershell-Module)

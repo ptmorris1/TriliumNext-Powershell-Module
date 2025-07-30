@@ -23,11 +23,6 @@ Gets the application info for TriliumNext.
 Get-TriliumInfo [-SkipCertCheck] [<CommonParameters>]
 ```
 
-## ALIASES
-
-This cmdlet has the following aliases,
-  {{Insert list of aliases}}
-
 ## DESCRIPTION
 
 This function retrieves the application info for TriliumNext.
@@ -36,19 +31,15 @@ This function retrieves the application info for TriliumNext.
 
 ### EXAMPLE 1
 
+```powershell
 Get-TriliumInfo
+```
 
 ## PARAMETERS
 
 ### -SkipCertCheck
 
 Option to skip certificate check.
-
-    Required?                    false
-    Position?                    Named
-    Default value                None
-    Accept pipeline input?       false
-    Accept wildcard characters?  false
 
 ```yaml
 Type: System.Management.Automation.SwitchParameter
@@ -76,7 +67,11 @@ This cmdlet supports the common parameters: -Debug, -ErrorAction, -ErrorVariable
 
 ## INPUTS
 
+None
+
 ## OUTPUTS
+
+System.Object
 
 ## NOTES
 
@@ -85,4 +80,4 @@ This function requires that the authentication has been set using Connect-Triliu
 
 ## RELATED LINKS
 
-- [](https://github.com/ptmorris1/TriliumNext-Powershell-Module)
+[TriliumNext PowerShell Module](https://github.com/ptmorris1/TriliumNext-Powershell-Module)

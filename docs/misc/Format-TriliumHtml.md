@@ -23,11 +23,6 @@ Formats and beautifies HTML content for Trilium Notes.
 Format-TriliumHtml [-Content] <string> [<CommonParameters>]
 ```
 
-## ALIASES
-
-This cmdlet has the following aliases:
-- None
-
 ## DESCRIPTION
 
 This function formats and beautifies HTML content before sending to Trilium Notes.
@@ -49,6 +44,7 @@ The function performs several improvements to the HTML:
 ```powershell
 $html = Format-TriliumHtml -Content "<h2>Header</h2><p>Text</p>"
 ```
+
 Beautifies the HTML by adding proper spacing and formatting.
 
 ### EXAMPLE 2
@@ -57,12 +53,14 @@ Beautifies the HTML by adding proper spacing and formatting.
 $markdownHtml = [Markdig.Markdown]::ToHtml($markdown)
 $beautifiedHtml = Format-TriliumHtml -Content $markdownHtml
 ```
+
 Processes HTML generated from markdown to ensure proper formatting in Trilium Notes.
 
 ```powershell
 $html = "<pre><code>Get-Process</code></pre><h2>Results</h2>"
 Format-TriliumHtml -Content $html
 ```
+
 Adds proper spacing between the code block and the heading.
 
 ### EXAMPLE 3
@@ -74,6 +72,7 @@ $originalContent = Get-TriliumNoteContent -NoteID $noteId
 $beautifiedContent = Format-TriliumHtml -Content $originalContent
 Set-TriliumNoteContent -NoteID $noteId -NoteContent $beautifiedContent
 ```
+
 This example shows a complete workflow: retrieving a note's content with Get-TriliumNoteContent, beautifying the HTML with Format-TriliumHtml, and then saving the improved content back to the note with Set-TriliumNoteContent.
 
 ## PARAMETERS
@@ -81,12 +80,6 @@ This example shows a complete workflow: retrieving a note's content with Get-Tri
 ### -Content
 
 The HTML content to beautify.
-
-Required?                    true
-Position?                    0
-Default value                None
-Accept pipeline input?       false
-Accept wildcard characters?  false
 
 ```yaml
 Type: System.String
@@ -114,25 +107,24 @@ This cmdlet supports the common parameters: -Debug, -ErrorAction, -ErrorVariable
 
 ## INPUTS
 
-None. You cannot pipe objects to Format-TriliumHtml.
+None
 
-Format-TriliumHtml only accepts the -Content parameter as direct input.
+You cannot pipe objects to Format-TriliumHtml. Format-TriliumHtml only accepts the -Content parameter as direct input.
 
 ## OUTPUTS
 
-System.String. Format-TriliumHtml returns a string with the beautified HTML content.
+System.String
 
-The output is a formatted HTML string suitable for Trilium Notes.
+Format-TriliumHtml returns a string with the beautified HTML content. The output is a formatted HTML string suitable for Trilium Notes.
 
 ## NOTES
 
-Name: Format-TriliumHtml
-Author: Patrick Morris
-Module: Trilium
-This function is used internally by New-TriliumNote to format HTML content.
+This function is used internally by New-TriliumNote to format HTML content. It performs several improvements to the HTML structure to ensure proper display in Trilium Notes.
+
+**Author:** Patrick Morris  
+**Module:** Trilium
 
 
 ## RELATED LINKS
 
-- [Online version: https://github.com/ptmorris1/TriliumNext-Powershell-Module]()
-- [New-TriliumNote]()
+[TriliumNext PowerShell Module](https://github.com/ptmorris1/TriliumNext-Powershell-Module)

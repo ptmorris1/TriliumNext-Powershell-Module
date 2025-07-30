@@ -25,8 +25,7 @@ Get-TriliumMonthNote [[-Month] <datetime>] [-SkipCertCheck] [<CommonParameters>]
 
 ## ALIASES
 
-This cmdlet has the following aliases,
-  {{Insert list of aliases}}
+None
 
 ## DESCRIPTION
 
@@ -36,9 +35,13 @@ The month note is typically used for monthly journaling or planning.
 
 ## EXAMPLES
 
-### EXAMPLE 1
+### Example 1
 
+```powershell
 Get-TriliumMonthNote -Month "2022-02"
+```
+
+Gets the month note for February 2022, or creates it if it doesn't exist.
 
 ## PARAMETERS
 
@@ -48,12 +51,6 @@ The month for which to retrieve the month note.
 Accepts a [datetime] object.
 Format sent to API: yyyy-MM.
 Defaults to the current month if not specified.
-
-    Required?                    false
-    Position?                    0
-    Default value                Current month
-    Accept pipeline input?       false
-    Accept wildcard characters?  false
 
 ```yaml
 Type: System.DateTime
@@ -75,12 +72,6 @@ HelpMessage: ''
 ### -SkipCertCheck
 
 Option to skip certificate check.
-
-    Required?                    false
-    Position?                    Named
-    Default value                None
-    Accept pipeline input?       false
-    Accept wildcard characters?  false
 
 ```yaml
 Type: System.Management.Automation.SwitchParameter
@@ -108,14 +99,19 @@ This cmdlet supports the common parameters: -Debug, -ErrorAction, -ErrorVariable
 
 ## INPUTS
 
+None. You cannot pipe objects to Get-TriliumMonthNote.
+
 ## OUTPUTS
+
+System.Object
+
+Returns the TriliumNext month note object for the specified month.
 
 ## NOTES
 
 This function requires that the authentication has been set using Connect-TriliumAuth.
 If the month note for the specified month does not exist, it will be created automatically.
 
-
 ## RELATED LINKS
 
-- [](https://github.com/ptmorris1/TriliumNext-Powershell-Module)
+[TriliumNext PowerShell Module](https://github.com/ptmorris1/TriliumNext-Powershell-Module)

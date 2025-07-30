@@ -24,11 +24,6 @@ Set-TriliumBranch [-BranchId] <string> [[-Prefix] <string>] [[-NotePosition] <in
  [<CommonParameters>]
 ```
 
-## ALIASES
-
-This cmdlet has the following aliases,
-  {{Insert list of aliases}}
-
 ## DESCRIPTION
 
 This function updates a TriliumNext branch's prefix and/or notePosition using the PATCH /branches/{branchId} endpoint.
@@ -39,18 +34,15 @@ If you want to update other properties, you need to delete the old branch and cr
 
 ### EXAMPLE 1
 
+```powershell
 Set-TriliumBranch -BranchId "abc123" -Prefix "A" -NotePosition 2
+```
 
 ## PARAMETERS
 
 ### -BranchId
 
 The ID of the branch to update.
-
-    Required?                    true
-    Position?                    0
-    Accept pipeline input?       false
-    Accept wildcard characters?  false
 
 ```yaml
 Type: System.String
@@ -73,11 +65,6 @@ HelpMessage: ''
 
 The new note position to set for the branch.
 
-    Required?                    false
-    Position?                    2
-    Accept pipeline input?       false
-    Accept wildcard characters?  false
-
 ```yaml
 Type: System.Int32
 DefaultValue: 0
@@ -98,11 +85,6 @@ HelpMessage: ''
 ### -Prefix
 
 The new prefix to set for the branch.
-
-    Required?                    false
-    Position?                    1
-    Accept pipeline input?       false
-    Accept wildcard characters?  false
 
 ```yaml
 Type: System.String
@@ -130,7 +112,11 @@ This cmdlet supports the common parameters: -Debug, -ErrorAction, -ErrorVariable
 
 ## INPUTS
 
+None
+
 ## OUTPUTS
+
+System.Object
 
 ## NOTES
 
@@ -139,5 +125,5 @@ This function requires that the authentication has been set using Connect-Triliu
 
 ## RELATED LINKS
 
-{{ Fill in the related links here }}
+[TriliumNext PowerShell Module](https://github.com/ptmorris1/TriliumNext-Powershell-Module)
 

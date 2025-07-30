@@ -25,8 +25,7 @@ Get-TriliumWeekNote [[-Date] <datetime>] [-SkipCertCheck] [<CommonParameters>]
 
 ## ALIASES
 
-This cmdlet has the following aliases,
-  {{Insert list of aliases}}
+None
 
 ## DESCRIPTION
 
@@ -36,9 +35,13 @@ The week note is typically used for weekly journaling or planning.
 
 ## EXAMPLES
 
-### EXAMPLE 1
+### Example 1
 
+```powershell
 Get-TriliumWeekNote -Date "2022-02-22"
+```
+
+Gets the week note for the week containing February 22, 2022, or creates it if it doesn't exist.
 
 ## PARAMETERS
 
@@ -48,12 +51,6 @@ The date for which to retrieve the week note.
 Accepts a [datetime] object.
 Format sent to API: yyyy-MM-dd.
 Defaults to today if not specified.
-
-    Required?                    false
-    Position?                    0
-    Default value                Today
-    Accept pipeline input?       false
-    Accept wildcard characters?  false
 
 ```yaml
 Type: System.DateTime
@@ -75,12 +72,6 @@ HelpMessage: ''
 ### -SkipCertCheck
 
 Option to skip certificate check.
-
-    Required?                    false
-    Position?                    Named
-    Default value                None
-    Accept pipeline input?       false
-    Accept wildcard characters?  false
 
 ```yaml
 Type: System.Management.Automation.SwitchParameter
@@ -108,14 +99,19 @@ This cmdlet supports the common parameters: -Debug, -ErrorAction, -ErrorVariable
 
 ## INPUTS
 
+None. You cannot pipe objects to Get-TriliumWeekNote.
+
 ## OUTPUTS
+
+System.Object
+
+Returns the TriliumNext week note object for the week containing the specified date.
 
 ## NOTES
 
 This function requires that the authentication has been set using Connect-TriliumAuth.
 If the week note for the specified date does not exist, it will be created automatically.
 
-
 ## RELATED LINKS
 
-- [](https://github.com/ptmorris1/TriliumNext-Powershell-Module)
+[TriliumNext PowerShell Module](https://github.com/ptmorris1/TriliumNext-Powershell-Module)

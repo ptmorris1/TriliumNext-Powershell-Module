@@ -24,11 +24,6 @@ Copy-TriliumNote [-NoteID] <string> [-parentNoteID] <string> [[-Prefix] <string>
  [-SkipCertCheck] [-WhatIf] [-Confirm] [<CommonParameters>]
 ```
 
-## ALIASES
-
-This cmdlet has the following aliases,
-  {{Insert list of aliases}}
-
 ## DESCRIPTION
 
 This function clones a Trilium note to a new parent note based on the provided note ID and parent note ID.
@@ -37,7 +32,9 @@ This function clones a Trilium note to a new parent note based on the provided n
 
 ### EXAMPLE 1
 
+```powershell
 Copy-TriliumNote -NoteID "sxhoPPMkVIuO" -parentNoteID "A2PGuqZgT03z"
+```
 
 ## PARAMETERS
 
@@ -67,12 +64,6 @@ HelpMessage: ''
 
 Option to expand the copied note.
 
-    Required?                    false
-    Position?                    2
-    Default value                False
-    Accept pipeline input?       false
-    Accept wildcard characters?  false
-
 ```yaml
 Type: System.Management.Automation.SwitchParameter
 DefaultValue: False
@@ -93,12 +84,6 @@ HelpMessage: ''
 ### -NoteID
 
 The note ID to clone.
-
-    Required?                    true
-    Position?                    0
-    Default value                None
-    Accept pipeline input?       false
-    Accept wildcard characters?  false
 
 ```yaml
 Type: System.String
@@ -121,12 +106,6 @@ HelpMessage: ''
 
 The parent note ID to clone the note to.
 
-    Required?                    true
-    Position?                    1
-    Default value                None
-    Accept pipeline input?       false
-    Accept wildcard characters?  false
-
 ```yaml
 Type: System.String
 DefaultValue: ''
@@ -148,12 +127,6 @@ HelpMessage: ''
 
 Optional prefix for the copied note.
 
-    Required?                    false
-    Position?                    3
-    Default value                None
-    Accept pipeline input?       false
-    Accept wildcard characters?  false
-
 ```yaml
 Type: System.String
 DefaultValue: ''
@@ -174,12 +147,6 @@ HelpMessage: ''
 ### -SkipCertCheck
 
 Option to skip certificate check.
-
-    Required?                    false
-    Position?                    Named
-    Default value                None
-    Accept pipeline input?       false
-    Accept wildcard characters?  false
 
 ```yaml
 Type: System.Management.Automation.SwitchParameter
@@ -229,7 +196,11 @@ This cmdlet supports the common parameters: -Debug, -ErrorAction, -ErrorVariable
 
 ## INPUTS
 
+None
+
 ## OUTPUTS
+
+None
 
 ## NOTES
 
@@ -238,4 +209,4 @@ This function requires that the authentication has been set using Connect-Triliu
 
 ## RELATED LINKS
 
-- [](https://github.com/ptmorris1/TriliumNext-Powershell-Module)
+[TriliumNext PowerShell Module](https://github.com/ptmorris1/TriliumNext-Powershell-Module)

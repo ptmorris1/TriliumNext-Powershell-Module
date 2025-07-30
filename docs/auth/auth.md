@@ -1,11 +1,17 @@
+---
+#title: Home
+hide:
+  - navigation
+---
+
 # 🔐 Authentication
 
-!!! note
+!!! warning
     Before using any cmdlets in this module, you must authenticate with [`Connect-TriliumAuth`](Connect-TriliumAuth.md).
 
 ---
 
-## 🔑 Connect-TriliumAuth
+## 🔑 [Connect-TriliumAuth](Connect-TriliumAuth.md)
 
 Authenticate to your TriliumNext instance for API access. Two mutually exclusive authentication methods are supported:
 
@@ -80,7 +86,7 @@ Connect-TriliumAuth -BaseUrl "https://trilium.myDomain.net" -Password $creds -Sk
 
 ---
 
-## 🔌 Disconnect-TriliumAuth
+## 🔌 [Disconnect-TriliumAuth](Disconnect-TriliumAuth.md)
 
 Removes your session from Trilium and clears the global credential variable.
 

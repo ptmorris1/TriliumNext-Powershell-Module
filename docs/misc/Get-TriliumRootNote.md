@@ -25,8 +25,7 @@ Get-TriliumRootNote [-SkipCertCheck] [<CommonParameters>]
 
 ## ALIASES
 
-This cmdlet has the following aliases,
-  {{Insert list of aliases}}
+This cmdlet has no aliases.
 
 ## DESCRIPTION
 
@@ -37,13 +36,17 @@ Useful for obtaining the top-level note structure for navigation or automation.
 
 ### EXAMPLE 1
 
+```powershell
 Get-TriliumRootNote
+```
 
 Retrieves the root note details from the connected Trilium instance.
 
 ### EXAMPLE 2
 
+```powershell
 Get-TriliumRootNote -SkipCertCheck
+```
 
 Retrieves the root note details, skipping SSL certificate validation (for self-signed certs).
 
@@ -52,12 +55,6 @@ Retrieves the root note details, skipping SSL certificate validation (for self-s
 ### -SkipCertCheck
 
 If specified, SSL certificate errors will be ignored (useful for self-signed certs).
-
-Required?                    false
-Position?                    named
-Default value                false
-Accept pipeline input?       false
-Accept wildcard characters?  false
 
 ```yaml
 Type: System.Management.Automation.SwitchParameter
@@ -85,26 +82,24 @@ This cmdlet supports the common parameters: -Debug, -ErrorAction, -ErrorVariable
 
 ## INPUTS
 
-### None. You cannot pipe objects to Get-TriliumRootNote.
+### None
 
-{{ Fill in the Description }}
+You cannot pipe objects to Get-TriliumRootNote.
 
 ## OUTPUTS
 
 ### System.Management.Automation.PSCustomObject
-Returns the root note object from Trilium
 
-{{ Fill in the Description }}
+Returns the root note object from Trilium.
 
 ## NOTES
 
 - Requires authentication using Connect-TriliumAuth before use.
-- Author: P.
-Morris
+- Author: P. Morris
 - Module: TriliumNext-Powershell-Module
 
 
 ## RELATED LINKS
 
-- [Online version: https://github.com/ptmorris1/TriliumNext-Powershell-Module]()
+- [Online version: https://github.com/ptmorris1/TriliumNext-Powershell-Module](https://github.com/ptmorris1/TriliumNext-Powershell-Module)
 - [Connect-TriliumAuth]()
