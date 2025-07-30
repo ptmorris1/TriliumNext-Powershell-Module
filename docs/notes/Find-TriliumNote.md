@@ -17,6 +17,8 @@ Searches for TriliumNext notes by title, label, or other criteria.
 
 ## SYNTAX
 
+## SYNTAX
+
 ### Limit
 
 ```
@@ -34,8 +36,7 @@ Find-TriliumNote -Search <string> [-Label <string>] [-FastSearch] [-IncludeArchi
 
 ## ALIASES
 
-This cmdlet has the following aliases,
-  {{Insert list of aliases}}
+None
 
 ## DESCRIPTION
 
@@ -46,17 +47,26 @@ Requires authentication via Connect-TriliumAuth.
 
 ### EXAMPLE 1
 
+```powershell
 Find-TriliumNote -Search "meeting notes"
+```
+
 Searches for notes with the term "meeting notes".
 
 ### EXAMPLE 2
 
+```powershell
 Find-TriliumNote -Search "project" -Label "work" -FastSearch -IncludeArchivedNotes
+```
+
 Searches for notes with the term "project" and label "work", using fast search and including archived notes.
 
 ### EXAMPLE 3
 
+```powershell
 Find-TriliumNote -Search "api" -Limit 5 -OrderBy dateCreated
+```
+
 Searches for notes with the term "api", limits results to 5, and orders by creation date.
 
 ## PARAMETERS
@@ -363,11 +373,18 @@ This cmdlet supports the common parameters: -Debug, -ErrorAction, -ErrorVariable
 
 ## INPUTS
 
+None
+
 ## OUTPUTS
+
+System.Object[]
+
+Returns an array of note objects matching the search criteria.
 
 ## NOTES
 
-Requires authentication via Connect-TriliumAuth.
+!!! note
+    Requires authentication via Connect-TriliumAuth.
 
 
 ## RELATED LINKS

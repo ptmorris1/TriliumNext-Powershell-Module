@@ -25,8 +25,7 @@ Get-TriliumNoteContent [-NoteID] <string> [-SkipCertCheck] [<CommonParameters>]
 
 ## ALIASES
 
-This cmdlet has the following aliases,
-  {{Insert list of aliases}}
+None
 
 ## DESCRIPTION
 
@@ -36,7 +35,11 @@ This function retrieves the content of a specific Trilium note based on the prov
 
 ### EXAMPLE 1
 
+```powershell
 Get-TriliumNoteContent -NoteID "root"
+```
+
+Gets the content of the root note.
 
 ## PARAMETERS
 
@@ -103,11 +106,18 @@ This cmdlet supports the common parameters: -Debug, -ErrorAction, -ErrorVariable
 
 ## INPUTS
 
+None
+
 ## OUTPUTS
+
+System.String
+
+Returns the content of the specified note as a string.
 
 ## NOTES
 
-This function requires that the authentication has been set using Connect-TriliumAuth.
+!!! note
+    This function requires that the authentication has been set using Connect-TriliumAuth.
 
 
 ## RELATED LINKS

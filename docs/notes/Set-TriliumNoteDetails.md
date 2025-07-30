@@ -26,8 +26,7 @@ Set-TriliumNoteDetails [-NoteId] <string> [[-NoteType] <string>] [[-Title] <stri
 
 ## ALIASES
 
-This cmdlet has the following aliases,
-  {{Insert list of aliases}}
+None
 
 ## DESCRIPTION
 
@@ -41,17 +40,26 @@ If -NoteType is not specified, the note will default to type 'text' and mime 'te
 
 ### EXAMPLE 1
 
+```powershell
 Set-TriliumNoteDetails -NoteId "evnnmvHTCgIn" -NoteType PlainText -Title "New Note Title"
+```
+
 Updates the note with the specified ID, sets the type to 'code' and mime to 'text/plain', and updates the title.
 
 ### EXAMPLE 2
 
+```powershell
 Set-TriliumNoteDetails -NoteId "evnnmvHTCgIn" -Title "Updated Title Only"
+```
+
 Updates only the title of the note with the specified ID.
 
 ### EXAMPLE 3
 
+```powershell
 Set-TriliumNoteDetails -NoteId "evnnmvHTCgIn" -NoteType markdown
+```
+
 Updates only the type of the note with the specified ID to 'code' with mime 'text/x-markdown'.
 
 ## PARAMETERS
@@ -180,13 +188,21 @@ This cmdlet supports the common parameters: -Debug, -ErrorAction, -ErrorVariable
 
 ## INPUTS
 
+None
+
 ## OUTPUTS
+
+System.Object
+
+Returns the API response from Trilium containing information about the updated note.
 
 ## NOTES
 
-This function requires that authentication has been set using Connect-TriliumAuth.
-If -NoteType is not specified, the note will default to type 'text' and mime 'text/html'.
-If -Title is not specified, the title will not be changed.
+!!! note
+    This function requires that authentication has been set using Connect-TriliumAuth.
+    
+    - If -NoteType is not specified, the note will default to type 'text' and mime 'text/html'.
+    - If -Title is not specified, the title will not be changed.
 
 
 ## RELATED LINKS

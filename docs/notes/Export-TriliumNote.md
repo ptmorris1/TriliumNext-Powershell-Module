@@ -3,7 +3,9 @@ document type: cmdlet
 external help file: Trilium-Help.xml
 HelpUri: https://github.com/ptmorris1/TriliumNext-Powershell-Module
 Locale: en-US
-Module Name: Trilium
+Module Name: Tri## RELATED LINKS
+
+[TriliumNext PowerShell Module](https://github.com/ptmorris1/TriliumNext-Powershell-Module)m
 ms.date: 07/19/2025
 PlatyPS schema version: 2024-05-01
 title: Export-TriliumNote
@@ -26,8 +28,7 @@ Export-TriliumNote [-NoteID] <string> [[-Path] <string>] [-SkipCertCheck] [-Mark
 
 ## ALIASES
 
-This cmdlet has the following aliases,
-  {{Insert list of aliases}}
+None
 
 ## DESCRIPTION
 
@@ -37,13 +38,17 @@ This function exports a TriliumNext note to a zip file based on the provided not
 
 ### EXAMPLE 1
 
+```powershell
 Export-TriliumNote -NoteID "12345" -Path "C:\temp\export.zip"
+```
+
+Exports the note with ID "12345" to the specified zip file path.
 
 ## PARAMETERS
 
 ### -Markdown
 
-{{ Fill Markdown Description }}
+Exports the note in Markdown format instead of the default format.
 
 ```yaml
 Type: System.Management.Automation.SwitchParameter
@@ -156,8 +161,9 @@ This cmdlet supports the common parameters: -Debug, -ErrorAction, -ErrorVariable
 
 ## NOTES
 
-This function requires that the authentication has been set using Connect-TriliumAuth.
-Ensure that the provided path is valid and writable.
+!!! note
+    This function requires that the authentication has been set using Connect-TriliumAuth.
+    Ensure that the provided path is valid and writable.
 
 
 ## RELATED LINKS

@@ -26,8 +26,7 @@ New-TriliumNoteRevision [-NoteID] <string> [-SkipCertCheck] [-WhatIf] [-Confirm]
 
 ## ALIASES
 
-This cmdlet has the following aliases,
-  {{Insert list of aliases}}
+None
 
 ## DESCRIPTION
 
@@ -37,7 +36,11 @@ This function creates a new revision for a specific Trilium note based on the pr
 
 ### EXAMPLE 1
 
+```powershell
 New-TriliumNoteRevision -NoteID "12345"
+```
+
+Creates a new revision for the note with ID "12345".
 
 ## PARAMETERS
 
@@ -148,11 +151,18 @@ This cmdlet supports the common parameters: -Debug, -ErrorAction, -ErrorVariable
 
 ## INPUTS
 
+None
+
 ## OUTPUTS
+
+System.Object
+
+Returns the API response from Trilium containing information about the created revision.
 
 ## NOTES
 
-This function requires that the authentication has been set using Connect-TriliumAuth.
+!!! note
+    This function requires that the authentication has been set using Connect-TriliumAuth.
 
 
 ## RELATED LINKS

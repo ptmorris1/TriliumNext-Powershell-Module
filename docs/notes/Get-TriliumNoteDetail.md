@@ -25,8 +25,7 @@ Get-TriliumNoteDetail [-NoteID] <string> [-SkipCertCheck] [<CommonParameters>]
 
 ## ALIASES
 
-This cmdlet has the following aliases,
-  {{Insert list of aliases}}
+None
 
 ## DESCRIPTION
 
@@ -36,7 +35,11 @@ This function retrieves the details of a specific TriliumNext note based on the 
 
 ### EXAMPLE 1
 
-Get-TriliumNoteDetails -NoteID "12345"
+```powershell
+Get-TriliumNoteDetail -NoteID "12345"
+```
+
+Gets the details of the note with ID "12345".
 
 ## PARAMETERS
 
@@ -103,11 +106,18 @@ This cmdlet supports the common parameters: -Debug, -ErrorAction, -ErrorVariable
 
 ## INPUTS
 
+None
+
 ## OUTPUTS
+
+System.Object
+
+Returns a note object containing the details of the specified note.
 
 ## NOTES
 
-This function requires that the authentication has been set using Connect-TriliumAuth.
+!!! note
+    This function requires that the authentication has been set using Connect-TriliumAuth.
 
 
 ## RELATED LINKS

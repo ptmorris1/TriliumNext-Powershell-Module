@@ -26,20 +26,24 @@ Import-TriliumNoteZip [-NoteID] <string> [-ZipPath] <string> [-SkipCertCheck] [-
 
 ## ALIASES
 
-This cmdlet has the following aliases,
-  {{Insert list of aliases}}
+None
 
 ## DESCRIPTION
 
 This function uploads a zip file to a specific Trilium note based on the provided note ID and zip file path.
 The zip file is an export of a note from Trilium.
-You can use Export-TriliumNote to create this zip if needed or the Trilium GUI
+
+You can use `Export-TriliumNote` to create this zip if needed or the Trilium GUI.
 
 ## EXAMPLES
 
 ### EXAMPLE 1
 
+```powershell
 Import-TriliumNoteZip -NoteID "root" -ZipPath "C:\temp\import.zip"
+```
+
+Imports the zip file "import.zip" into the root note.
 
 ## PARAMETERS
 
@@ -177,12 +181,17 @@ This cmdlet supports the common parameters: -Debug, -ErrorAction, -ErrorVariable
 
 ## INPUTS
 
+None
+
 ## OUTPUTS
+
+None
 
 ## NOTES
 
-This function requires that the authentication has been set using Connect-TriliumAuth.
-Ensure that the provided path is valid and points to a zip file.
+!!! note
+    This function requires that the authentication has been set using Connect-TriliumAuth.
+    Ensure that the provided path is valid and points to a zip file.
 
 
 ## RELATED LINKS

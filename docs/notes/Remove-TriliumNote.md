@@ -25,8 +25,7 @@ Remove-TriliumNote [-NoteID] <string> [-SkipCertCheck] [-WhatIf] [-Confirm] [<Co
 
 ## ALIASES
 
-This cmdlet has the following aliases,
-  {{Insert list of aliases}}
+None
 
 ## DESCRIPTION
 
@@ -36,7 +35,11 @@ This function removes a Trilium note based on the provided note ID.
 
 ### EXAMPLE 1
 
+```powershell
 Remove-TriliumNote -NoteID "12345"
+```
+
+Removes the note with ID "12345".
 
 ## PARAMETERS
 
@@ -147,11 +150,19 @@ This cmdlet supports the common parameters: -Debug, -ErrorAction, -ErrorVariable
 
 ## INPUTS
 
+None
+
 ## OUTPUTS
+
+None
 
 ## NOTES
 
-This function requires that the authentication has been set using Connect-TriliumAuth.
+!!! warning
+    This function requires that the authentication has been set using Connect-TriliumAuth.
+    
+!!! danger "Important"
+    This operation permanently removes the note. Use with caution.
 
 
 ## RELATED LINKS

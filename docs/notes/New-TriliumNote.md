@@ -1,7 +1,7 @@
 ---
 document type: cmdlet
 external help file: Trilium-Help.xml
-HelpUri: ''
+HelpUri: https://github.com/ptmorris1/TriliumNext-Powershell-Module
 Locale: en-US
 Module Name: Trilium
 ms.date: 07/19/2025
@@ -27,8 +27,7 @@ New-TriliumNote [[-ParentNoteId] <string>] [[-Title] <string>] [-Content] <strin
 
 ## ALIASES
 
-This cmdlet has the following aliases,
-  {{Insert list of aliases}}
+None
 
 ## DESCRIPTION
 
@@ -42,28 +41,43 @@ Requires authentication via `Connect-TriliumAuth`.
 
 ### EXAMPLE 1
 
+```powershell
 New-TriliumNote -Title "My Note" -Content "This is the content of my note"
+```
+
 Creates a new text note with the specified title and content under the root.
 
 ### EXAMPLE 2
 
+```powershell
 New-TriliumNote -Title "Code Sample" -Content "Get-Process" -NoteType "powershell"
+```
+
 Creates a new PowerShell code note with syntax highlighting.
 
 ### EXAMPLE 3
 
+```powershell
 New-TriliumNote -Title "Markdown Note" -Content "# Header`n`nThis is *markdown* content" -Markdown
+```
+
 Creates a new note by converting the markdown content to HTML.
 
 ### EXAMPLE 4
 
+```powershell
 New-TriliumNote -Title "Math Example" -Content "When $a \ne 0$, there are two solutions to $ax^2 + bx + c = 0$" -Markdown -Math
+```
+
 Creates a note with markdown content that includes mathematical expressions.
 
 ### EXAMPLE 5
 
+```powershell
 $parentId = (Get-TriliumNotes -Title "My Folder").noteId
 New-TriliumNote -ParentNoteId $parentId -Title "Nested Note" -Content "This is a nested note"
+```
+
 Creates a new note inside an existing note folder by specifying its ID.
 
 ## PARAMETERS
@@ -353,27 +367,27 @@ This cmdlet supports the common parameters: -Debug, -ErrorAction, -ErrorVariable
 
 ## INPUTS
 
-### None. You cannot pipe objects to New-TriliumNote.
-
-{{ Fill in the Description }}
+None. You cannot pipe objects to New-TriliumNote.
 
 ## OUTPUTS
 
-### System.Management.Automation.PSCustomObject
-Returns the API response from Trilium
+System.Management.Automation.PSCustomObject
 
-{{ Fill in the Description }}
+Returns the API response from Trilium containing information about the created note.
 
 ## NOTES
 
-Requires authentication via Connect-TriliumAuth before use.
-Author: P.
-Morris
-Module: TriliumNext-Powershell-Module
+!!! note
+    Requires authentication via Connect-TriliumAuth before use.
+    
+    Author: P. Morris  
+    Module: TriliumNext-Powershell-Module
 
 
 ## RELATED LINKS
 
-- [Online version: https://github.com/ptmorris1/TriliumNext-Powershell-Module]()
-- [Connect-TriliumAuth]()
-- [Get-TriliumNotes]()
+[TriliumNext PowerShell Module](https://github.com/ptmorris1/TriliumNext-Powershell-Module)
+
+Connect-TriliumAuth
+
+Get-TriliumNotes
