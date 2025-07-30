@@ -1,12 +1,13 @@
 ---
-document type: cmdlet
-external help file: Trilium-Help.xml
-HelpUri: ''
-Locale: en-US
-Module Name: Trilium
-ms.date: 07/19/2025
-PlatyPS schema version: 2024-05-01
 title: New-TriliumAttribute
+description: Creates or updates a Trilium attribute (label or relation) for a note
+document_type: cmdlet
+external_help_file: Trilium-Help.xml
+help_uri: https://github.com/ptmorris1/TriliumNext-Powershell-Module
+locale: en-US
+module_name: Trilium
+date: 2025-07-19
+platyps_schema_version: 2024-05-01
 ---
 
 # New-TriliumAttribute
@@ -19,7 +20,7 @@ Creates or updates a Trilium attribute (label or relation) for a note.
 
 ### __AllParameterSets
 
-```
+```powershell
 New-TriliumAttribute [-NoteID] <string> [-Name] <string> [-Value] <string> [[-Type] <string>]
  [[-AttributeId] <string>] [-IsInheritable] [<CommonParameters>]
 ```
@@ -211,7 +212,8 @@ Returns the created or updated Trilium attribute object.
 
 ## NOTES
 
-Requires authentication via Connect-TriliumAuth.
+!!! note
+    Requires authentication via Connect-TriliumAuth.
 
 
 ## RELATED LINKS

@@ -1,12 +1,13 @@
 ---
-document type: cmdlet
-external help file: Trilium-Help.xml
-HelpUri: https://github.com/ptmorris1/TriliumNext-Powershell-Module
-Locale: en-US
-Module Name: Trilium
-ms.date: 07/19/2025
-PlatyPS schema version: 2024-05-01
 title: Get-TriliumAttribute
+description: Gets details of a specific Trilium attribute
+document_type: cmdlet
+external_help_file: Trilium-Help.xml
+help_uri: https://github.com/ptmorris1/TriliumNext-Powershell-Module
+locale: en-US
+module_name: Trilium
+date: 2025-07-19
+platyps_schema_version: 2024-05-01
 ---
 
 # Get-TriliumAttribute
@@ -19,7 +20,7 @@ Gets details of a specific Trilium attribute.
 
 ### __AllParameterSets
 
-```
+```powershell
 Get-TriliumAttribute [-AttributeID] <string> [-SkipCertCheck] [-WhatIf] [-Confirm]
  [<CommonParameters>]
 ```
@@ -151,7 +152,8 @@ Returns the Trilium attribute object with its details.
 
 ## NOTES
 
-This function requires that the authentication has been set using Connect-TriliumAuth.
+!!! note
+    This function requires that the authentication has been set using Connect-TriliumAuth.
 
 
 ## RELATED LINKS

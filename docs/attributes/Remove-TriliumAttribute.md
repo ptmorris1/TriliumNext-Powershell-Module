@@ -1,12 +1,13 @@
 ---
-document type: cmdlet
-external help file: Trilium-Help.xml
-HelpUri: https://github.com/ptmorris1/TriliumNext-Powershell-Module
-Locale: en-US
-Module Name: Trilium
-ms.date: 07/19/2025
-PlatyPS schema version: 2024-05-01
 title: Remove-TriliumAttribute
+description: Removes a specific Trilium attribute
+document_type: cmdlet
+external_help_file: Trilium-Help.xml
+help_uri: https://github.com/ptmorris1/TriliumNext-Powershell-Module
+locale: en-US
+module_name: Trilium
+date: 2025-07-19
+platyps_schema_version: 2024-05-01
 ---
 
 # Remove-TriliumAttribute
@@ -19,15 +20,14 @@ Removes a specific Trilium attribute.
 
 ### __AllParameterSets
 
-```
+```powershell
 Remove-TriliumAttribute [-AttributeID] <string> [-SkipCertCheck] [-WhatIf] [-Confirm]
  [<CommonParameters>]
 ```
 
 ## ALIASES
 
-This cmdlet has the following aliases,
-  {{Insert list of aliases}}
+None
 
 ## DESCRIPTION
 
@@ -37,19 +37,17 @@ This function removes a specific Trilium attribute based on the provided attribu
 
 ### EXAMPLE 1
 
+```powershell
 Remove-TriliumAttribute -AttributeID "12345"
+```
+
+This command removes the Trilium attribute with ID "12345".
 
 ## PARAMETERS
 
 ### -AttributeID
 
 The attribute ID to remove.
-
-    Required?                    true
-    Position?                    0
-    Default value                None
-    Accept pipeline input?       false
-    Accept wildcard characters?  false
 
 ```yaml
 Type: System.String
@@ -93,12 +91,6 @@ HelpMessage: ''
 ### -SkipCertCheck
 
 Option to skip certificate check.
-
-    Required?                    false
-    Position?                    Named
-    Default value                None
-    Accept pipeline input?       false
-    Accept wildcard characters?  false
 
 ```yaml
 Type: System.Management.Automation.SwitchParameter
@@ -148,13 +140,22 @@ This cmdlet supports the common parameters: -Debug, -ErrorAction, -ErrorVariable
 
 ## INPUTS
 
+### System.String
+
+The attribute ID as a string.
+
 ## OUTPUTS
+
+### System.Object
+
+Returns confirmation of the removed attribute.
 
 ## NOTES
 
-This function requires that the authentication has been set using Connect-TriliumAuth.
+!!! note
+    This function requires that the authentication has been set using Connect-TriliumAuth.
 
 
 ## RELATED LINKS
 
-- [](https://github.com/ptmorris1/TriliumNext-Powershell-Module)
+- [TriliumNext PowerShell Module](https://github.com/ptmorris1/TriliumNext-Powershell-Module)
