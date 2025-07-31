@@ -4,6 +4,19 @@ All notable changes to the **TriliumNext-Powershell-Module** will be documented 
 
 ---
 
+## [0.13.1] - 2025-07-31
+
+### Changed
+
+* Improved documentation for `Get-TriliumInbox` to clarify dual behavior: returns fixed #inbox labeled note when available, otherwise creates/retrieves day notes.
+* Updated examples in `Get-TriliumInbox` help documentation for better clarity.
+
+### Fixed
+
+* Fixed empty private folder causing error during module loading.
+
+---
+
 ## [0.13.0] - 2025-07-04
 
 ### Fixed

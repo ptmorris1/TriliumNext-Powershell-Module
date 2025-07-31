@@ -1,5 +1,5 @@
 @{
-    ModuleVersion   = '0.13.0'
+    ModuleVersion   = '0.13.1'
     Guid            = '5d0452a3-0c40-4681-b12c-070eccc905dc'
     CompanyName     = 'Patrick Morris '
     Copyright       = '2024-25 Patrick Morris'
@@ -20,6 +20,19 @@
 # 📅 Changelog
 
 All notable changes to the **TriliumNext-Powershell-Module** will be documented in this file.
+
+---
+
+## [0.13.1] - 2025-07-31
+
+### Changed
+
+* Improved documentation for `Get-TriliumInbox` to clarify dual behavior: returns fixed #inbox labeled note when available, otherwise creates/retrieves day notes.
+* Updated examples in `Get-TriliumInbox` help documentation for better clarity.
+
+### Fixed
+
+* Fixed empty private folder causing error during module loading.
 
 ---
 
@@ -180,7 +193,8 @@ All notable changes to the **TriliumNext-Powershell-Module** will be documented 
 
 ---
 
-> 📌 This changelog follows [Keep a Changelog](https://keepachangelog.com/en/1.0.0/) principles.
+> 📌 This changelog follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) principles.
+
 
 
 
@@ -189,6 +203,7 @@ All notable changes to the **TriliumNext-Powershell-Module** will be documented 
         }
     }
 }
+
 
 
 

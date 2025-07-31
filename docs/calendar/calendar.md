@@ -25,7 +25,15 @@ TriliumNext supports hierarchical calendar notes that can be used for journaling
 | [Get-TriliumWeekNote](Get-TriliumWeekNote.md) | Gets or creates a week note | Weekly |
 | [Get-TriliumMonthNote](Get-TriliumMonthNote.md) | Gets or creates a month note | Monthly |
 | [Get-TriliumYearNote](Get-TriliumYearNote.md) | Gets or creates a year note | Yearly |
-| [Get-TriliumInbox](Get-TriliumInbox.md) | Gets or creates an inbox note | Daily/Fixed |
+| [Get-TriliumInbox](Get-TriliumInbox.md) | Gets or creates an inbox note | Daily/Fixed† |
+
+!!! note "Inbox Behavior"
+    † `Get-TriliumInbox` has dual behavior based on the TriliumNext API:
+    
+    - **Fixed inbox**: If a note with `#inbox` label exists, returns that note regardless of date
+    - **Day note mode**: If no `#inbox` label is set, behaves like `Get-TriliumDayNote` for the specified date
+    
+    This behavior is determined by the TriliumNext `/inbox/{date}` API endpoint.
 
 ## Common Features
 
@@ -38,24 +46,6 @@ All calendar functions share these common characteristics:
 
 ## Usage Patterns
 
-### Basic Usage
-
-```powershell
-# Get today's day note
-$dayNote = Get-TriliumDayNote
-
-# Get a specific date
-$dayNote = Get-TriliumDayNote -Date "2022-02-22"
-
-# Get current week note
-$weekNote = Get-TriliumWeekNote
-
-# Get current month note
-$monthNote = Get-TriliumMonthNote
-
-# Get current year note
-$yearNote = Get-TriliumYearNote
-```
 
 ### Working with Different Time Periods
 
@@ -71,12 +61,18 @@ $yearNote = Get-TriliumYearNote -Year $date
 ### Inbox Management
 
 ```powershell
-# Get today's inbox
+# Get today's inbox (returns fixed #inbox note if it exists, otherwise creates/gets today's day note)
 $inbox = Get-TriliumInbox
 
-# Get inbox for a specific date
+# Get inbox for a specific date (only applies if no #inbox label is set)
 $inbox = Get-TriliumInbox -Date "2022-02-22"
 ```
+
+!!! tip "Inbox vs Day Note"
+    The key difference between `Get-TriliumInbox` and `Get-TriliumDayNote`:
+    
+    - **Get-TriliumInbox**: Checks for a fixed `#inbox` labeled note first, falls back to day note behavior if none exists
+    - **Get-TriliumDayNote**: Always creates/retrieves day-specific notes in the calendar structure
 
 ## Notes Structure
 

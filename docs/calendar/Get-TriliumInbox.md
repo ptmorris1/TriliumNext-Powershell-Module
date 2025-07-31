@@ -29,28 +29,35 @@ None
 
 ## DESCRIPTION
 
-This function retrieves the TriliumNext inbox note using the provided date.
-If the note does not exist, it will be created at #calendarRoot.
-The inbox may be a fixed note (with #inbox label) or a day note in a journal, depending on the date parameter.
+This function retrieves the TriliumNext inbox note. If a note with #inbox label exists, it returns that note regardless of the date parameter. If no #inbox label is set, it behaves like a day note function, creating or retrieving a note for the current date (or specified date) at #calendarRoot.
 
 ## EXAMPLES
 
 ### Example 1
 
 ```powershell
+Get-TriliumInbox
+```
+
+Gets the inbox note. If #inbox label exists, returns that note. Otherwise creates/gets today's day note.
+
+### Example 2
+
+```powershell
 Get-TriliumInbox -Date "2022-02-22"
 ```
 
-Gets the inbox note for February 22, 2022, or creates it if it doesn't exist.
+Gets the inbox note for February 22, 2022. Only applies if no #inbox label is set.
 
 ## PARAMETERS
 
 ### -Date
 
-The date for which to retrieve the inbox note.
+The date for which to retrieve the inbox note when no #inbox label exists.
 Accepts a [datetime] object.
 Format sent to API: yyyy-MM-dd.
 Defaults to today if not specified.
+Ignored if #inbox label is set.
 
 ```yaml
 Type: System.DateTime

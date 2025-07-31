@@ -38,6 +38,14 @@ The day note is typically used for journaling or daily entries.
 ### Example 1
 
 ```powershell
+$day = Get-TriliumDayNote
+```
+
+Gets the current day note, or creates it if it doesn't exist.
+
+### Example 2
+
+```powershell
 Get-TriliumDayNote -Date "2022-02-22"
 ```
 
