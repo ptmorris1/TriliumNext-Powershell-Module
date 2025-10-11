@@ -4,6 +4,14 @@ All notable changes to the **TriliumNext-Powershell-Module** will be documented 
 
 ---
 
+## [0.14.0] - 2025-10-11
+
+### Added
+
+* Added `Set-TriliumAttachment` function to update properties of existing attachments (role, mime, title, position).
+
+---
+
 ## [0.13.1] - 2025-07-31
 
 ### Changed

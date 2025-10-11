@@ -1,5 +1,5 @@
 @{
-    ModuleVersion   = '0.13.1'
+    ModuleVersion   = '0.14.0'
     Guid            = '5d0452a3-0c40-4681-b12c-070eccc905dc'
     CompanyName     = 'Patrick Morris '
     Copyright       = '2024-25 Patrick Morris'
@@ -20,6 +20,14 @@
 # 📅 Changelog
 
 All notable changes to the **TriliumNext-Powershell-Module** will be documented in this file.
+
+---
+
+## [0.14.0] - 2025-10-11
+
+### Added
+
+* Added `Set-TriliumAttachment` function to update properties of existing attachments (role, mime, title, position).
 
 ---
 
@@ -199,10 +207,12 @@ All notable changes to the **TriliumNext-Powershell-Module** will be documented 
 
 
 
+
 '@
         }
     }
 }
+
 
 
 

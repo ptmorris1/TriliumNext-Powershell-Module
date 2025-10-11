@@ -120,7 +120,7 @@ Connect-TriliumAuth -BaseUrl "https://trilium.myDomain.net" -Password $creds -Sk
 | DELETE | /branches/{branchId} | [Remove-TriliumBranch](/public/Remove-TriliumBranch.ps1) | Delete a branch |
 | POST   | /attachments | [New-TriliumAttachment](/public/New-TriliumAttachment.ps1) | Create a new attachment for a note |
 | GET    | /attachments/{attachmentId} | [Get-TriliumAttachment](/public/Get-TriliumAttachment.ps1) | Get attachment metadata |
-| PATCH  | /attachments/{attachmentId} |  | |
+| PATCH  | /attachments/{attachmentId} | [Set-TriliumAttachment](/public/Set-TriliumAttachment.ps1) | Update attachment properties (role, mime, title, position) |
 | DELETE | /attachments/{attachmentId} | [Remove-TriliumAttachment](/public/Remove-TriliumAttachment.ps1) | Delete an attachment |
 | GET    | /attachments/{attachmentId}/content | [Get-TriliumAttachmentContent](/public/Get-TriliumAttachmentContent.ps1) | Download attachment content |
 | PUT    | /attachments/{attachmentId}/content | [New-TriliumNoteFile](/public/New-TriliumNoteFile.ps1) | Create a new note from a local file (uploads file content) |

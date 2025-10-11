@@ -18,6 +18,7 @@ This section covers PowerShell cmdlets for managing attachments in TriliumNext. 
 ### File Management
 - **[`New-TriliumAttachment`](New-TriliumAttachment.md)** - Upload a file as an attachment to a note and append a reference link or image
 - **[`New-TriliumNoteFile`](New-TriliumNoteFile.md)** - Create a new note with binary file content
+- **[`Set-TriliumAttachment`](Set-TriliumAttachment.md)** - Update properties of an existing attachment (role, mime, title, position)
 - **[`Remove-TriliumAttachment`](Remove-TriliumAttachment.md)** - Delete a specific attachment by its ID
 
 ### Content Retrieval
@@ -49,6 +50,13 @@ New-TriliumNoteFile -ParentNoteId "abc123" -FilePath "C:\documents\manual.pdf"
 # Get attachment content and save to disk
 $content = Get-TriliumAttachmentContent -AttachmentID "evnnmvHTCgIn"
 [System.IO.File]::WriteAllBytes("C:\downloads\file.pdf", $content)
+```
+
+### Update Attachment Properties
+
+```powershell
+# Update the title and role of an attachment
+Set-TriliumAttachment -AttachmentId "evnnmvHTCgIn" -Title "Updated Title" -Role "image"
 ```
 
 ### List Note Attachments

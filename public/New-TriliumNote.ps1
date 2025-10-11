@@ -137,10 +137,13 @@ function New-TriliumNote {
             return $noteTypes | Where-Object { $_ -like "$wordToComplete*" }
         })]
         [string]$NoteType,
-        [Parameter()] [string]$Mime,        [Parameter()] [switch]$SkipCertCheck,
+        [Parameter()] [string]$Mime,
+        [Parameter()] [switch]$SkipCertCheck,
         [Parameter()] [switch]$Markdown,
         [Parameter()] [switch]$Math
-    )    begin {
+    )
+    
+    begin {
         if (!$global:TriliumCreds) { Write-Error -Message 'Need to run: Connect-TriliumAuth'; exit }
         
         # Load the MimeTypeMap JSON directly
@@ -164,7 +167,9 @@ function New-TriliumNote {
             $dllPath = Join-Path -Path $moduleRoot -ChildPath 'lib\Markdig.dll'
             if (-not ([AppDomain]::CurrentDomain.GetAssemblies() | Where-Object { $_.Location -eq (Resolve-Path $dllPath) })) {
                 Add-Type -Path $dllPath
-            }            $builder = [Markdig.MarkdownPipelineBuilder]::new()
+            }
+            
+            $builder = [Markdig.MarkdownPipelineBuilder]::new()
             [Markdig.MarkdownExtensions]::UseAdvancedExtensions($builder) | Out-Null
             if ($Math) {
                 [Markdig.MarkdownExtensions]::UseMathematics($builder) | Out-Null
@@ -174,7 +179,9 @@ function New-TriliumNote {
             if ($Math) {
                 $html = $html.Replace('<span class="math"', '<span class="math-tex"')
                 $html = $html.Replace('<div class="math"', '<span class="math-tex"')
-            }            # Format code blocks with proper mime types using our unified mapping
+            }
+            
+            # Format code blocks with proper mime types using our unified mapping
             $html = [regex]::Replace($html, '(?i)<pre><code class="language-([a-z0-9+\-]+)">', {
                 param($match)
                 $lang = $match.Groups[1].Value.ToLower()
@@ -188,7 +195,8 @@ function New-TriliumNote {
                     $formattedMime = "text-x-$lang"
                 } else {
                     $formattedMime = "application-x-$lang"
-                }                
+                }
+                
                 "<pre><code class=`"language-$formattedMime`">"
             })
             
@@ -201,13 +209,17 @@ function New-TriliumNote {
         try {
             if ($SkipCertCheck) {
                 $PSDefaultParameterValues = @{'Invoke-RestMethod:SkipCertificateCheck' = $true }
-            }            $TriliumHeaders = @{ Authorization = "$($TriliumCreds.Authorization)" }
+            }
+            
+            $TriliumHeaders = @{ Authorization = "$($TriliumCreds.Authorization)" }
             $uri = "$($TriliumCreds.URL)/create-note"
 
             $body = @{ parentNoteId = $ParentNoteId }
             if ($Title) { $body.title = $Title }
             if ($Content) { $body.content = $Content }
-            if ($Mime) { $body.mime = $Mime }            if ($NoteType) {
+            if ($Mime) { $body.mime = $Mime }
+            
+            if ($NoteType) {
                 $mimeObj = $mimeTypeMap | Where-Object { $_.Note -eq $NoteType }
                 if ($mimeObj) {
                     $body.type = $mimeObj.Type
