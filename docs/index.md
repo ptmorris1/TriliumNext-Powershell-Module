@@ -6,7 +6,7 @@ hide:
 
 # Trilium PowerShell Module Docs
 
-Welcome to the documentation for the Trilium PowerShell module. This module provides functions to interact with [Trilium ETAPI](https://github.com/TriliumNext/Trilium/blob/main/apps/server/src/assets/etapi.openapi.yaml) to automate tasks, and manage your notes.
+This module provides functions to interact with [Trilium ETAPI](https://github.com/TriliumNext/Trilium/blob/main/apps/server/etapi.openapi.yaml) to automate tasks, and manage your notes.
 
 Trilium is an advanced hierarchical note-taking application. Learn more at [Trilium on GitHub](https://github.com/TriliumNext/Trilium).
 
@@ -46,14 +46,14 @@ This module enables you to:
 | DELETE | /branches/{branchId} | [Remove-TriliumBranch](clone/Remove-TriliumBranch.md) | Delete a branch |
 | POST   | /attachments | [New-TriliumAttachment](attachments/New-TriliumAttachment.md) | Create a new attachment for a note |
 | GET    | /attachments/{attachmentId} | [Get-TriliumAttachment](attachments/Get-TriliumAttachment.md) | Get attachment metadata |
-| PATCH  | /attachments/{attachmentId} |  | |
+| PATCH  | /attachments/{attachmentId} | [Set-TriliumAttachment](attachments/Set-TriliumAttachment.md) | Update attachment properties (role, mime, title, position) |
 | DELETE | /attachments/{attachmentId} | [Remove-TriliumAttachment](attachments/Remove-TriliumAttachment.md) | Delete an attachment |
 | GET    | /attachments/{attachmentId}/content | [Get-TriliumAttachmentContent](attachments/Get-TriliumAttachmentContent.md) | Download attachment content |
 | PUT    | /attachments/{attachmentId}/content | [New-TriliumNoteFile](attachments/New-TriliumNoteFile.md) | Create a new note from a local file (uploads file content) |
 | N/A    | N/A | [Format-TriliumHtml](misc/Format-TriliumHtml.md) | Helper function to beautify HTML content with improved header spacing and code block formatting |
 | POST   | /attributes | [New-TriliumAttribute](attributes/New-TriliumAttribute.md) | Create a new attribute |
 | GET    | /attributes/{attributeId} | [Get-TriliumAttribute](attributes/Get-TriliumAttribute.md) | Get attribute details |
-| PATCH  | /attributes/{attributeId} |  | |
+| PATCH  | /attributes/{attributeId} | [Set-TriliumAttribute](attributes/Set-TriliumAttribute.md) | Update attribute properties |
 | DELETE | /attributes/{attributeId} | [Remove-TriliumAttribute](attributes/Remove-TriliumAttribute.md) | Delete an attribute |
 | POST   | /refresh-note-ordering/{parentNoteId} | [Update-TriliumNoteOrder](misc/Update-TriliumNoteOrder.md) | Refresh note ordering |
 | GET    | /inbox/{date} | [Get-TriliumInbox](calendar/Get-TriliumInbox.md) | Get or create inbox note for a date |

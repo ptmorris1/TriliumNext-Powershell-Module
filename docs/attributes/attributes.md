@@ -35,6 +35,7 @@ The module provides the following functions for attribute management:
 |----------|-------------|
 | [`Get-TriliumAttribute`](Get-TriliumAttribute.md) | Retrieves details of a specific Trilium attribute |
 | [`New-TriliumAttribute`](New-TriliumAttribute.md) | Creates or updates a Trilium attribute (label or relation) for a note |
+| [`Set-TriliumAttribute`](Set-TriliumAttribute.md) | Updates properties of an existing attribute (value for labels, position for both) |
 | [`Remove-TriliumAttribute`](Remove-TriliumAttribute.md) | Removes a specific Trilium attribute |
 
 ## Common Use Cases
@@ -61,6 +62,12 @@ New-TriliumAttribute -NoteID "abc123" -Name "relatedTo" -Value "def456" -Type "r
 ```powershell
 # Get attribute details
 Get-TriliumAttribute -AttributeID "attr123"
+
+# Update attribute value (labels only)
+Set-TriliumAttribute -AttributeId "attr123" -Value "new value"
+
+# Update attribute position
+Set-TriliumAttribute -AttributeId "attr123" -Position 5
 
 # Remove an attribute
 Remove-TriliumAttribute -AttributeID "attr123"

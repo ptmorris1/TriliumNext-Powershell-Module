@@ -15,7 +15,7 @@ function Copy-TriliumNote {
         Accept pipeline input?       false
         Accept wildcard characters?  false
 
-    .PARAMETER parentNoteID
+    .PARAMETER ParentNoteID
     The parent note ID to clone the note to.
 
         Required?                    true
@@ -52,7 +52,7 @@ function Copy-TriliumNote {
         Accept wildcard characters?  false
 
     .EXAMPLE
-    Copy-TriliumNote -NoteID "sxhoPPMkVIuO" -parentNoteID "A2PGuqZgT03z"
+    Copy-TriliumNote -NoteID "sxhoPPMkVIuO" -ParentNoteID "A2PGuqZgT03z"
 
     .NOTES
     This function requires that the authentication has been set using Connect-TriliumAuth.
@@ -63,7 +63,7 @@ function Copy-TriliumNote {
     [CmdletBinding(SupportsShouldProcess = $true)]
     param (
         [Parameter(Mandatory = $true)][ValidateNotNullOrEmpty()][string]$NoteID,
-        [Parameter(Mandatory = $true)][ValidateNotNullOrEmpty()][string]$parentNoteID,
+        [Parameter(Mandatory = $true)][ValidateNotNullOrEmpty()][string]$ParentNoteID,
         [Parameter(Mandatory = $false)][switch]$IsExpanded,
         [Parameter(Mandatory = $false)][ValidateNotNullOrEmpty()][string]$Prefix,
         [switch]$SkipCertCheck
@@ -82,7 +82,7 @@ function Copy-TriliumNote {
                 $uri = "$($TriliumCreds.URL)/branches"
                 $body = @{
                     noteId       = $NoteID
-                    parentNoteId = $parentNoteID
+                    ParentNoteID = $ParentNoteID
                     isExpanded   = if ($IsExpanded -match 'false') { $false } else { $true }
                     prefix       = $Prefix
                 }

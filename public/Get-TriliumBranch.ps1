@@ -1,10 +1,10 @@
 function Get-TriliumBranch {
     <#
     .SYNOPSIS
-    Gets details of a specific Trilium branch.
+    Gets details of a specific Trilium branch (clone).
 
     .DESCRIPTION
-    This function retrieves the details of a specific Trilium branch based on the provided branch ID.
+    This function retrieves the details of a specific Trilium branch (clone) based on the provided branch ID.
 
     .PARAMETER BranchID
     The branch ID to get details for.

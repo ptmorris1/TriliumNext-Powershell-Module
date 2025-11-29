@@ -4,6 +4,18 @@ All notable changes to the **TriliumNext-Powershell-Module** will be documented 
 
 ---
 
+## [1.0.0] - 2025-11-29
+
+### Added
+
+* Added `Set-TriliumAttribute` function to update properties of existing attributes (value for labels, position for both labels and relations).
+
+### Fixed
+
+* Fixed `Export-TriliumNote` now correctly exports to HTML or Markdown format.
+
+---
+
 ## [0.14.0] - 2025-10-11
 
 ### Added

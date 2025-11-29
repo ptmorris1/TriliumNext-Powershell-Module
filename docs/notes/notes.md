@@ -109,34 +109,3 @@ New-TriliumNote -Title "Python Script" -Content "print('Hello World')" -NoteType
 # JSON data note
 New-TriliumNote -Title "Config" -Content '{"setting": "value"}' -NoteType "json"
 ```
-
-## Best Practices
-
-### Note Organization
-
-!!! tip "Organizing Notes"
-    - Use descriptive titles for easy identification
-    - Leverage the hierarchical structure with parent notes
-    - Apply consistent labeling for better searchability
-    - Use appropriate note types for syntax highlighting and functionality
-
-### Content Management
-
-!!! warning "Content Considerations"
-    - Always backup important notes before bulk operations
-    - Use `New-TriliumNoteRevision` before major content changes
-    - Test search queries with small result sets first
-    - Validate note IDs before performing destructive operations
-
-### Performance Tips
-
-```powershell
-# Use FastSearch for better performance on large databases
-Find-TriliumNote -Search "term" -FastSearch
-
-# Limit results when exploring
-Find-TriliumNote -Search "term" -Limit 25
-
-# Use specific note IDs when possible instead of searching
-Get-TriliumNoteContent -NoteID "known-id"
-```

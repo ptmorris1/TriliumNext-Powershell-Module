@@ -1,5 +1,5 @@
 @{
-    ModuleVersion   = '0.14.0'
+    ModuleVersion   = '1.0.0'
     Guid            = '5d0452a3-0c40-4681-b12c-070eccc905dc'
     CompanyName     = 'Patrick Morris '
     Copyright       = '2024-25 Patrick Morris'
@@ -20,6 +20,18 @@
 # 📅 Changelog
 
 All notable changes to the **TriliumNext-Powershell-Module** will be documented in this file.
+
+---
+
+## [1.0.0] - 2025-11-29
+
+### Added
+
+* Added `Set-TriliumAttribute` function to update properties of existing attributes (value for labels, position for both labels and relations).
+
+### Fixed
+
+* Fixed `Export-TriliumNote` now correctly exports to HTML or Markdown format.
 
 ---
 
@@ -208,10 +220,14 @@ All notable changes to the **TriliumNext-Powershell-Module** will be documented 
 
 
 
+
+
 '@
         }
     }
 }
+
+
 
 
 

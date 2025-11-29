@@ -34,7 +34,14 @@ function Export-TriliumNote {
         Accept wildcard characters?  false
 
     .EXAMPLE
-    Export-TriliumNote -NoteID "12345" -Path "C:\temp\export.zip"
+    Export-TriliumNote -NoteID "yu2gu8M6nwUj" -Path "C:\temp\export.zip"
+    
+    Exports the note to HTML format (default) as a zip file.
+
+    .EXAMPLE
+    Export-TriliumNote -NoteID "yu2gu8M6nwUj" -Path "C:\temp\export.zip" -Markdown
+    
+    Exports the note to Markdown format as a zip file.
 
     .NOTES
     This function requires that the authentication has been set using Connect-TriliumAuth.
@@ -72,10 +79,10 @@ function Export-TriliumNote {
                 Write-Error 'Full path needed with filename and .zip extension:  C:\temp\export.zip'
             }
 
-            if ($Markdown = $true){
+            if ($Markdown){
                 $uri = "$($TriliumCreds.URL)/notes/$NoteID/export?format=markdown"
             } else {
-                $uri = "$($TriliumCreds.URL)/notes/$NoteID/export"
+                $uri = "$($TriliumCreds.URL)/notes/$NoteID/export?format=html"
             }
 
             # Set headers and make request to export note

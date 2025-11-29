@@ -84,7 +84,7 @@ function Connect-TriliumAuth {
         [Parameter(Mandatory = $True, ParameterSetName = 'Password', Position = 0)]
         [Parameter(Mandatory = $True, ParameterSetName = 'Token', Position = 0)]
         [ValidateNotNullOrEmpty()]
-        [string]$baseURL,
+        [string]$BaseUrl,
 
         [Parameter(Mandatory = $True, ParameterSetName = 'Password', Position = 1)]
         [PSCredential]$Password,
@@ -108,11 +108,11 @@ function Connect-TriliumAuth {
                 $PSDefaultParameterValues = @{'Invoke-RestMethod:SkipCertificateCheck' = $true
                 }
             }
-            # Ensure baseURL doesn't have a trailing slash
-            if ($baseURL.EndsWith('/')) {
-                $baseURL = $baseURL.TrimEnd('/')
+            # Ensure BaseUrl doesn't have a trailing slash
+            if ($BaseUrl.EndsWith('/')) {
+                $BaseUrl = $BaseUrl.TrimEnd('/')
             }
-            $baseURL = $baseURL + '/etapi'
+            $BaseUrl = $BaseUrl + '/etapi'
 
             if ($PSCmdlet.ParameterSetName -eq 'Password') {
                 $headersLogin = @{ }
@@ -120,16 +120,16 @@ function Connect-TriliumAuth {
                 $headersLogin.Add('Content-Type', 'application/json')
                 $pass = $Password.GetNetworkCredential().Password
                 $body = @{'password' = $Pass } | ConvertTo-Json
-                $login = Invoke-RestMethod -Uri "$baseURL/auth/login" -Method Post -Headers $headersLogin -Body $body
+                $login = Invoke-RestMethod -Uri "$BaseUrl/auth/login" -Method Post -Headers $headersLogin -Body $body
                 $Global:TriliumCreds = @{ }
                 $Global:TriliumCreds.Add('Authorization', "$($login.authToken)")
-                $Global:TriliumCreds.Add('URL', "$baseURL")
+                $Global:TriliumCreds.Add('URL', "$BaseUrl")
                 $Global:TriliumCreds.Add('Token', 'pass')
             } if ($PSCmdlet.ParameterSetName -eq 'Token') {
                 $Global:TriliumCreds = @{ }
                 $Token = $EtapiToken.GetNetworkCredential().Password
                 $Global:TriliumCreds.Add('Authorization', "Bearer $Token")
-                $Global:TriliumCreds.Add('URL', "$baseURL")
+                $Global:TriliumCreds.Add('URL', "$BaseUrl")
                 $Global:TriliumCreds.Add('Token', 'etapi')
             }
             Get-TriliumInfo
